@@ -7,15 +7,17 @@ namespace Project.Scripts.Characters.CubeGuy.Movement
     {
         public event Action<Vector3> DirectionChanged;
         public event Action<Vector3> VelocityChanged;
-        public event Action Moved;
+        public event Action<bool> IsMovingChanged;
         
         public Vector3 CurrentDirection {get; private set;}
+        public bool IsMoving { get; private set; }
         
         private readonly CharacterController _characterController;
         private readonly float _movementSpeed;
         
         private Vector3 _lastDirection = Vector3.zero; 
         private Vector3 _lastVelocity = Vector3.zero;
+        private bool _lastMoving = false;
 
         public CharacterDirectionalMovement(CharacterController characterController, float movementSpeed)
         {
@@ -33,9 +35,13 @@ namespace Project.Scripts.Characters.CubeGuy.Movement
         {
             CheckDirectionChange();
             CheckVelocityChange();
-            
+            CheckMovingChange();
+
             if (CurrentDirection.magnitude < 0.05f)
+            {
+                IsMoving = false;
                 return;
+            }
 
             Move(deltaTime);
         }
@@ -43,7 +49,7 @@ namespace Project.Scripts.Characters.CubeGuy.Movement
         private void Move(float deltaTime)
         {
             _characterController.Move(CurrentVelocity * deltaTime);
-            Moved?.Invoke();
+            IsMoving = true;
         }
 
         private void CheckDirectionChange()
@@ -54,13 +60,22 @@ namespace Project.Scripts.Characters.CubeGuy.Movement
                 _lastDirection = CurrentDirection;
             }
         }
-        
+
         private void CheckVelocityChange()
         {
             if (Vector3.Distance(_lastVelocity, CurrentVelocity) > 0.01f)
             {
                 VelocityChanged?.Invoke(CurrentVelocity);
                 _lastVelocity = CurrentVelocity;
+            }
+        }
+
+        private void CheckMovingChange()
+        {
+            if (_lastMoving != IsMoving)
+            {
+                IsMovingChanged?.Invoke(IsMoving);
+                _lastMoving = IsMoving;
             }
         }
     }

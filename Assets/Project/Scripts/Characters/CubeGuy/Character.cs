@@ -30,7 +30,7 @@ namespace Project.Scripts.Characters.CubeGuy
         
         public event Action<Vector3> MovementDirectionChanged;
         public event Action<Vector3> HorizontalVelocityChanged;
-        public event Action Moved;
+        public event Action<bool> MovingChanged;
         
         public event Action<Quaternion> RotationChanged;
         
@@ -62,7 +62,7 @@ namespace Project.Scripts.Characters.CubeGuy
         {
             _directionalMovement.DirectionChanged += OnDirectionChanged;
             _directionalMovement.VelocityChanged += OnHorizontalVelocityChanged;
-            _directionalMovement.Moved += OnMoved;
+            _directionalMovement.IsMovingChanged += OnMovingChanged;
 
             _rotation.RotationChanged += OnRotationChanged;
 
@@ -75,7 +75,7 @@ namespace Project.Scripts.Characters.CubeGuy
         {
             _directionalMovement.DirectionChanged -= OnDirectionChanged;
             _directionalMovement.VelocityChanged -= OnHorizontalVelocityChanged;
-            _directionalMovement.Moved -= OnMoved;
+            _directionalMovement.IsMovingChanged -= OnMovingChanged;
 
             _rotation.RotationChanged -= OnRotationChanged;
 
@@ -95,7 +95,7 @@ namespace Project.Scripts.Characters.CubeGuy
         
         private void OnDirectionChanged(Vector3 direction) => MovementDirectionChanged?.Invoke(direction);
         private void OnHorizontalVelocityChanged(Vector3 velocity) => HorizontalVelocityChanged?.Invoke(velocity);
-        private void OnMoved() => Moved?.Invoke();
+        private void OnMovingChanged(bool isMoving) => MovingChanged?.Invoke(isMoving);
         private void OnRotationChanged(Quaternion rotation) => RotationChanged?.Invoke(rotation);
         private void OnGroundedChanged(bool isGrounded) => GroundedChanged?.Invoke(isGrounded);
         private void OnVerticalVelocityChanged(float velocity) => VerticalVelocityChanged?.Invoke(velocity);

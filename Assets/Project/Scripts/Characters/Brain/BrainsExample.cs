@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Scripts.Characters.CubeGuy.Brain
+namespace Project.Scripts.Characters.Brain
 {
     public class BrainsExample : MonoBehaviour
     {

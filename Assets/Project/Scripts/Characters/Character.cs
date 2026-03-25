@@ -1,8 +1,8 @@
 ﻿using System;
-using Project.Scripts.Characters.CubeGuy.Movement;
+using Project.Scripts.Characters.Movement;
 using UnityEngine;
 
-namespace Project.Scripts.Characters.CubeGuy
+namespace Project.Scripts.Characters
 {
     [RequireComponent(typeof(CharacterController))]
     public class Character : MonoBehaviour
@@ -38,17 +38,18 @@ namespace Project.Scripts.Characters.CubeGuy
         public event Action<float> VerticalVelocityChanged;
         public event Action Jumped;
         
+        private CharacterController _controller;
         private CharacterDirectionalMovement _directionalMovement;
         private DirectionalRotation _rotation;
         private CharacterVerticalMovement _verticalMovement;
-        
+        private int _playerID;
+
         private void Awake()
         {
-            var controller = GetComponent<CharacterController>();
-            
-            _directionalMovement = new CharacterDirectionalMovement(controller, _movementSpeed);
+            _controller = GetComponent<CharacterController>();
+            _directionalMovement = new CharacterDirectionalMovement(_controller, _movementSpeed);
             _rotation = new DirectionalRotation(transform, _rotationSpeed);
-            _verticalMovement = new CharacterVerticalMovement(controller, _gravity, _groundDownForce, _jumpHeight);
+            _verticalMovement = new CharacterVerticalMovement(_controller, _gravity, _groundDownForce, _jumpHeight);
         }
 
         private void FixedUpdate()

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Project.Scripts.Characters.CubeGuy.Movement
+namespace Project.Scripts.Characters.Movement
 {
     public class CharacterDirectionalMovement
     {

@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using Project.Scripts.Characters.CombatSystems;
+using UnityEngine;
 
-namespace Project.Scripts.Characters.CubeGuy.Brain
+namespace Project.Scripts.Characters.Brain
 {
     public class PlayerCharacterBrain : CharacterBrain
     {
@@ -10,16 +13,20 @@ namespace Project.Scripts.Characters.CubeGuy.Brain
         
         private readonly Character _character;
         private readonly Camera _camera;
+        private readonly Death _characterDeath;
 
         public PlayerCharacterBrain(Character character, Camera camera)
         {
             _character = character;
             _camera = camera;
+            
+            _characterDeath = _character.GetComponent<Death>();
+            _characterDeath.Happened += OnCharacterDeath;
         }
-        
+
         public Vector3 Axis() => 
             new Vector3(Input.GetAxis(HORIZONTAL_AXIS_NAME), 0, Input.GetAxis(VERTICAL_AXIS_NAME));
-        
+
         public bool IsJumpButtonDown() =>
             Input.GetButtonDown(JUMP);
 
@@ -35,7 +42,7 @@ namespace Project.Scripts.Characters.CubeGuy.Brain
             if (IsJumpButtonDown())
                 _character.Jump();
         }
-        
+
         private Vector3 GetRelativeInput(Vector3 inputDirection)
         {
             Vector3 cameraForward = _camera.transform.forward;
@@ -48,7 +55,7 @@ namespace Project.Scripts.Characters.CubeGuy.Brain
             Vector3 relativeInput = (cameraForward * inputDirection.z) + (cameraRight * inputDirection.x);
             return relativeInput;
         }
-        
+
         private Vector3 GetDirectionToMouse()
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
@@ -63,6 +70,18 @@ namespace Project.Scripts.Characters.CubeGuy.Brain
             }
 
             return directionToMouse;
+        }
+
+        private void OnCharacterDeath()
+        {
+            Disable();
+            _character.StartCoroutine(StopMovementAfterDelay(0.5f));
+        }
+
+        private IEnumerator StopMovementAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            _character.SetMoveDirection(Vector3.zero);
         }
     }
 }

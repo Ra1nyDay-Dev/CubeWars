@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Project.Scripts.Characters.CombatSystems
+namespace Project.Scripts.Characters.HealthSystems
 {
-    public class Health : MonoBehaviour, IHealth
+    public class HealthTest : MonoBehaviour, IHealth, IDamageable
     {
         [field: SerializeField] public float Current { get; private set; }
         [field: SerializeField] public float Max { get; private set; }
@@ -12,10 +12,10 @@ namespace Project.Scripts.Characters.CombatSystems
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F)) 
+            if (Input.GetKeyDown(KeyCode.X)) 
                 TakeDamage(10);
             
-            if (Input.GetKeyDown(KeyCode.H)) 
+            if (Input.GetKeyDown(KeyCode.C)) 
                 Heal(10);
         }
 
@@ -38,6 +38,7 @@ namespace Project.Scripts.Characters.CombatSystems
         private void ChangeHealth(float value)
         {
             Current = Mathf.Clamp(Current + value, 0, Max);
+            Debug.Log($"Health changed: {Current} / {Max}");
             HealthChanged?.Invoke();
         }
     }

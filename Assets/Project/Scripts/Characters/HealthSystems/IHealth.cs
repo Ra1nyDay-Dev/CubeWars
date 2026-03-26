@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Project.Scripts.Characters.CombatSystems
+namespace Project.Scripts.Characters.HealthSystems
 {
     public interface IHealth
     {
         float Current { get; }
         float Max { get; }
         event Action HealthChanged;
-        void TakeDamage(float damage);
+        public void TakeDamage(float damage);
         void Heal(float heal);
     }
 }

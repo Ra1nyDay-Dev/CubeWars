@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Project.Scripts.Characters.CombatSystems;
+using Project.Scripts.Characters.HealthSystems;
 using UnityEngine;
 
 namespace Project.Scripts.Characters.Brain

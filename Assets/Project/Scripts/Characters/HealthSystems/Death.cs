@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
-using Project.Scripts.Characters.Brain;
 using UnityEngine;
 
-namespace Project.Scripts.Characters.CombatSystems
+namespace Project.Scripts.Characters.HealthSystems
 {
     public class Death : MonoBehaviour
     {

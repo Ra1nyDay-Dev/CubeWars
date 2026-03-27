@@ -1,5 +1,5 @@
 ﻿using System;
-using Project.Scripts.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Characters.HealthSystems;
 using UnityEngine;
 
 namespace Project.Scripts.UI.Elements

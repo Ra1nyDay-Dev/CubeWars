@@ -1,33 +1,45 @@
 ﻿using System.Collections;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Weapons;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Characters.Brain
 {
     public class PlayerCharacterBrain : CharacterBrain
     {
-        private const string HORIZONTAL_AXIS_NAME = "Horizontal";
-        private const string VERTICAL_AXIS_NAME = "Vertical";
-        private const string JUMP = "Jump";
+        private const string HORIZONTAL_AXIS = "Horizontal";
+        private const string VERTICAL_AXIS = "Vertical";
+        private const string JUMP_AXIS = "Jump";
+        private const string PRIMARY_ATTACK_AXIS = "Fire1";
+        private const string SECONDARY_ATTACK_AXIS = "Fire2";
         
-        private readonly Character _character;
         private readonly Camera _camera;
+        private readonly Character _character;
+        private readonly WeaponArsenal _weaponArsenal;
         private readonly Death _characterDeath;
 
         public PlayerCharacterBrain(Character character, Camera camera)
         {
-            _character = character;
             _camera = camera;
+            _character = character;
             
             _characterDeath = _character.GetComponent<Death>();
             _characterDeath.Happened += OnCharacterDeath;
+
+            _weaponArsenal = _character.GetComponent<WeaponArsenal>();
         }
 
         public Vector3 Axis() => 
-            new Vector3(Input.GetAxis(HORIZONTAL_AXIS_NAME), 0, Input.GetAxis(VERTICAL_AXIS_NAME));
+            new Vector3(Input.GetAxis(HORIZONTAL_AXIS), 0, Input.GetAxis(VERTICAL_AXIS));
 
-        public bool IsJumpButtonDown() =>
-            Input.GetButtonDown(JUMP);
+        private bool IsJumpButtonDown() =>
+            Input.GetButtonDown(JUMP_AXIS);
+
+        public bool IsPrimaryAttackButtonDown() => 
+            Input.GetButtonDown(PRIMARY_ATTACK_AXIS);
+        
+        public bool IsSecondaryAttackButtonDown() => 
+            Input.GetButtonDown(SECONDARY_ATTACK_AXIS);
 
         protected override void UpdateLogic(float deltaTime)
         {
@@ -40,7 +52,19 @@ namespace Project.Scripts.Gameplay.Characters.Brain
             
             if (IsJumpButtonDown())
                 _character.Jump();
+
+            if (IsPrimaryAttackButtonDown())
+                PerformPrimaryAttack();
+            
+            if (IsSecondaryAttackButtonDown())
+                PerformSecondaryAttack();
         }
+
+        private void PerformPrimaryAttack() => 
+            _weaponArsenal.CurrentWeapon?.PerformPrimaryAttack();
+
+        private void PerformSecondaryAttack() => 
+            _weaponArsenal.CurrentWeapon?.PerformPrimaryAttack();
 
         private Vector3 GetRelativeInput(Vector3 inputDirection)
         {

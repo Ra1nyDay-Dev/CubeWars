@@ -648,6 +648,7 @@ GameObject:
   - component: {fileID: 1785537955421874399}
   - component: {fileID: 1331258266150335023}
   - component: {fileID: 7633125715107327431}
+  - component: {fileID: 8245235235332408090}
   m_Layer: 0
   m_Name: CubeGuy
   m_TagString: Untagged
@@ -805,6 +806,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Weapons.WeaponArsenal
   _weaponSlot: {fileID: 1174719635641344057}
   _overlapAttackStartPoint: {fileID: 8811326981135413612}
+  _handsSkinMaterial: {fileID: 2100000, guid: d75ad2cbb0fc9f74c820dc3c24fea5e8, type: 2}
+  _selfHitbox: {fileID: 3133059519000722611}
+  _death: {fileID: 1331258266150335023}
+--- !u!114 &8245235235332408090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724456649089160340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d013345b92d4a6c9dabeea0856bf63b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.AttackSystems.Debug.OverlapAttackDebugDrawer
+  _weaponConfig: {fileID: 11400000, guid: 1769cc34a49775e4388ae1e1aaf396a2, type: 2}
+  _overlapStartPoint: {fileID: 8740759010776093842}
+  _showPrimaryGizmos: 0
+  _showSecondaryGizmos: 0
 --- !u!1 &1799767827916068226
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,7 +1858,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7432090408344405217, guid: 6594904127a2ca647bc2079d08360d32, type: 3}
       propertyPath: m_Name
-      value: Knife
+      value: Knife_manual
+      objectReference: {fileID: 0}
+    - target: {fileID: 7432090408344405217, guid: 6594904127a2ca647bc2079d08360d32, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

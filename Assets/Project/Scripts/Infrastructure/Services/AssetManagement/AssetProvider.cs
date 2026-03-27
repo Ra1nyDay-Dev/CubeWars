@@ -11,6 +11,9 @@ namespace Project.Scripts.Infrastructure.Services.AssetManagement
             var prefab = LoadPrefab(path);
             return Object.Instantiate(prefab);
         }
+        
+        public GameObject Instantiate(GameObject prefab) => 
+            Object.Instantiate(prefab);
 
         public GameObject Instantiate(string path, Vector3 place)
         {

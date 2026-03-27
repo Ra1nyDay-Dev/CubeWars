@@ -2,9 +2,8 @@
 
 namespace Project.Scripts.Gameplay.AttackSystems
 {
-    public abstract class AttackBehaviour
+    public abstract class AttackBehaviourMB : MonoBehaviour
     {
-        protected float _damage;
         public abstract void PerformAttack();
     }
 }

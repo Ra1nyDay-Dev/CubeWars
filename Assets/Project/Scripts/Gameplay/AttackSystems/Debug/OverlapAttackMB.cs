@@ -3,9 +3,9 @@ using Project.Scripts.Gameplay.Characters.HealthSystems;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
-namespace Project.Scripts.Gameplay.AttackSystems.OverlapAttack
+namespace Project.Scripts.Gameplay.AttackSystems.Overlap
 {
-    public class OverlapAttack : AttackBehaviour
+    public class OverlapAttackMB : AttackBehaviourMB
     {
         [SerializeField, Min(0f)] protected float _damage;
         [SerializeField] protected OverlapAttackTargetMode _targetMode = OverlapAttackTargetMode.All;

@@ -1,4 +1,8 @@
-﻿using Project.Scripts.Gameplay.Data.Enums;
+﻿using System;
+using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Data.Enums;
+using Project.Scripts.Gameplay.Services.Fabrics.Weapon;
+using Project.Scripts.Infrastructure.Services.ServiceLocator;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Weapons
@@ -7,7 +11,25 @@ namespace Project.Scripts.Gameplay.Weapons
     {
         [SerializeField] private GameObject _weaponSlot;
         [SerializeField] private GameObject _overlapAttackStartPoint;
+        [SerializeField] Material _handsSkinMaterial;
+        [SerializeField] private GameObject _selfHitbox;
+        [SerializeField] private Death _death;
         
+        private IWeaponFabric _weaponFabric;
+
+        private void Start() => 
+            _death.Happened += UnequipWeapon;
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.O)) 
+                UnequipWeapon();
+        }
+
+        private void OnDestroy() => 
+            _death.Happened -= UnequipWeapon;
+
+        public GameObject CurrentWeaponGameObject { get; private set; }
         public IWeapon CurrentWeapon { get; private set; }
 
         public void ChangeWeapon(WeaponType weaponType)
@@ -19,19 +41,27 @@ namespace Project.Scripts.Gameplay.Weapons
         
         private void EquipWeapon(WeaponType weaponType)
         {
-            // toDo: create WeaponFabric and inject it
+            //toDo: rewrite to inject in Characters Fabric
+            _weaponFabric = SceneServices.Container.Get<IWeaponFabric>();
+            
+            CurrentWeaponGameObject = _weaponFabric.CreateWeaponInHands(
+                weaponType,
+                _weaponSlot.transform,
+                _overlapAttackStartPoint.transform,
+                _handsSkinMaterial,
+                _selfHitbox);
+            
+            CurrentWeapon = CurrentWeaponGameObject.GetComponent<IWeapon>();
         }
 
         private void UnequipWeapon()
         {
-            foreach (Transform child in GetComponentsInChildren<Transform>(true))
+            if (CurrentWeaponGameObject != null)
             {
-                IWeapon weapon = child.GetComponent<IWeapon>();
-                if (weapon != null)
-                    Destroy(child.gameObject);
+                Destroy(CurrentWeaponGameObject);
+                CurrentWeaponGameObject = null;
+                CurrentWeapon = null;
             }
-
-            CurrentWeapon = null;
         }
     }
 }

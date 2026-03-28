@@ -27,7 +27,9 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
 
         public OverlapAttack(OverlapAttackConfig config, Transform startPoint, GameObject selfHitbox)
         {
-            _damage = config.Damage;
+            Damage = config.Damage;
+            AttackCooldown = config.AttackCooldown;
+            AttackDelay = config.AttackDelay;
             _targetMode = config.TargetMode;
             _maxTargetsPerAttack = config.MaxTargetsPerAttack;
             _searchLayerMask = config.SearchLayerMask;
@@ -52,7 +54,7 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
                         : _maxTargetsPerAttack;
                     
                     for (int i = 0; i < targetsToAttack; i++) 
-                        ApplyDamage(_validTargets[i].damageable, _damage);
+                        ApplyDamage(_validTargets[i].damageable, Damage);
                 }
             }
         }

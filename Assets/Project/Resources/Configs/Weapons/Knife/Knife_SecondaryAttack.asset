@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e292e1051d460e86c768c0ae5c6d2c, type: 3}
   m_Name: Knife_SecondaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.OverlapAttackConfig
-  Damage: 30
+  Damage: 40
+  AttackDelay: 0.2
+  AttackCooldown: 0.8
   TargetMode: 0
   MaxTargetsPerAttack: 1
   SearchLayerMask:

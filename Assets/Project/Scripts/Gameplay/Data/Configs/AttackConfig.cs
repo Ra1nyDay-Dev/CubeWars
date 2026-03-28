@@ -6,5 +6,7 @@ namespace Project.Scripts.Gameplay.Data.Configs
     {
         [Header("Common")] 
         [Min(0f)] public float Damage;
+        [Min(0)] public float AttackDelay = 0f;
+        [Min(0)] public float AttackCooldown = 0f;
     }
 }

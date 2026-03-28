@@ -38,9 +38,6 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _character.VerticalVelocityChanged += OnVerticalVelocityChanged;
         }
 
-        private void OnVerticalVelocityChanged(float verticalVelocity) => 
-            _animator.SetFloat(VerticalVelocityHash, verticalVelocity);
-
         private void OnDisable()
         {
             _character.MovingChanged -= OnMovingChanged;
@@ -49,6 +46,9 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _character.Jumped -= OnJumped;
             _character.RotationChanged -= OnRotationChanged;
         }
+
+        private void OnVerticalVelocityChanged(float verticalVelocity) => 
+            _animator.SetFloat(VerticalVelocityHash, verticalVelocity);
 
         private void OnHorizontalVelocityChanged(Vector3 velocity)
         {

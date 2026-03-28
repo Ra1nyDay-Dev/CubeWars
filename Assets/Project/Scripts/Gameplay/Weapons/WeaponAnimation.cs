@@ -15,6 +15,7 @@ namespace Project.Scripts.Gameplay.Weapons
         private static readonly int HorizontalSpeedZHash = Animator.StringToHash("HorizontalSpeedZ");
         private static readonly int JumpedHash = Animator.StringToHash("Jumped");
         private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
+        private static readonly int VerticalVelocityHash = Animator.StringToHash("VerticalVelocity");
         
         private Animator _animator;
         private IWeapon _weapon;
@@ -27,12 +28,15 @@ namespace Project.Scripts.Gameplay.Weapons
             _weapon = weapon;
             _owner = owner;
             
-            _weapon.PrimaryAttackHappened += OnPrimaryAttackHappened;
-            _weapon.SecondaryAttackHappened += OnSecondaryAttackHappened;
+            _weapon.PrimaryAttackStarted += OnPrimaryAttackStarted;
+            _weapon.SecondaryAttackStarted += OnSecondaryAttackStarted;
             _owner.MovingChanged += OnMovingChanged;
             _owner.HorizontalVelocityChanged += OnHorizontalVelocityChanged;
             _owner.GroundedChanged += OnGroundedChanged;
             _owner.Jumped += OnJumped;
+            _owner.VerticalVelocityChanged += OnVerticalVelocityChanged;
+            
+            _animator.SetBool(IsGroundedHash, _owner.IsGrounded);
         }
 
         private void Awake()
@@ -42,25 +46,29 @@ namespace Project.Scripts.Gameplay.Weapons
 
         private void OnDestroy()
         {
-            _weapon.PrimaryAttackHappened -= OnPrimaryAttackHappened;
-            _weapon.SecondaryAttackHappened -= OnSecondaryAttackHappened;
+            _weapon.PrimaryAttackEnded -= OnPrimaryAttackStarted;
+            _weapon.SecondaryAttackEnded -= OnSecondaryAttackStarted;
             _owner.MovingChanged -= OnMovingChanged;
             _owner.HorizontalVelocityChanged -= OnHorizontalVelocityChanged;
             _owner.GroundedChanged -= OnGroundedChanged;
             _owner.Jumped -= OnJumped;
+            _owner.VerticalVelocityChanged -= OnVerticalVelocityChanged;
         }
 
         private void OnJumped() => 
             _animator.SetTrigger(JumpedHash);
 
-        private void OnPrimaryAttackHappened() => 
+        private void OnPrimaryAttackStarted() => 
             _animator.SetTrigger(PrimaryAttack);
 
-        private void OnSecondaryAttackHappened() =>
+        private void OnSecondaryAttackStarted() =>
             _animator.SetTrigger(SecondaryAttack);
 
         private void OnMovingChanged(bool isMoving) => 
             _animator.SetBool(IsMovingHash, isMoving);
+
+        private void OnVerticalVelocityChanged(float verticalVelocity) => 
+            _animator.SetFloat(VerticalVelocityHash, verticalVelocity);
 
         private void OnHorizontalVelocityChanged(Vector3 velocity)
         {

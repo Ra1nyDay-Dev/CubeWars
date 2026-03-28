@@ -7,11 +7,13 @@ namespace Project.Scripts.Gameplay.Weapons
 {
     public interface IWeapon
     {
-        void Construct(AttackBehaviour primaryAttack, AttackBehaviour secondaryAttack, Character Owner,
+        void Construct(AttackBehaviour primaryAttack, AttackBehaviour secondaryAttack, Character owner,
             Material handsSkinMaterial);
-        void PerformPrimaryAttack();
-        void PerformSecondaryAttack();
-        event Action PrimaryAttackHappened;
-        event Action SecondaryAttackHappened;
+        event Action PrimaryAttackEnded;
+        event Action SecondaryAttackEnded;
+        event Action PrimaryAttackStarted;
+        event Action SecondaryAttackStarted;
+        Awaitable PerformPrimaryAttack();
+        Awaitable PerformSecondaryAttack();
     }
 }

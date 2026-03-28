@@ -93,8 +93,8 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         {
             _animator.SetBool(IsGroundedHash, isGrounded);
 
-            if (isGrounded) 
-                _animator.SetTrigger(GroundedHash);
+            // if (isGrounded) 
+            //     _animator.SetTrigger(GroundedHash);
         }
     }
 }

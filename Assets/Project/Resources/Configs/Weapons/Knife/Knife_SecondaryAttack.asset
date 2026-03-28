@@ -21,8 +21,8 @@ MonoBehaviour:
   ObstacleLayerMask:
     serializedVersion: 2
     m_Bits: 192
-  Offset: {x: 0, y: 0, z: 1}
-  SphereRadius: 1.5
+  Offset: {x: 0, y: 0, z: 1.5}
+  SphereRadius: 1.75
   ConsiderObstacles: 1
   DrawGizmosType: 0
   GizmosColor: {r: 0.82104325, g: 1, b: 0, a: 1}

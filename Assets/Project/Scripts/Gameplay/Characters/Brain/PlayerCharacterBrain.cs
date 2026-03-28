@@ -64,7 +64,7 @@ namespace Project.Scripts.Gameplay.Characters.Brain
             _weaponArsenal.CurrentWeapon?.PerformPrimaryAttack();
 
         private void PerformSecondaryAttack() => 
-            _weaponArsenal.CurrentWeapon?.PerformPrimaryAttack();
+            _weaponArsenal.CurrentWeapon?.PerformSecondaryAttack();
 
         private Vector3 GetRelativeInput(Vector3 inputDirection)
         {

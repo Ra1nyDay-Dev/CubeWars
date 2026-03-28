@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Services.Fabrics.Weapon;
@@ -16,6 +17,12 @@ namespace Project.Scripts.Gameplay.Weapons
         [SerializeField] private Death _death;
         
         private IWeaponFabric _weaponFabric;
+        private Character _owner;
+
+        private void Awake()
+        {
+            _owner = GetComponent<Character>();
+        }
 
         private void Start() => 
             _death.Happened += UnequipWeapon;
@@ -49,7 +56,8 @@ namespace Project.Scripts.Gameplay.Weapons
                 _weaponSlot.transform,
                 _overlapAttackStartPoint.transform,
                 _handsSkinMaterial,
-                _selfHitbox);
+                _selfHitbox,
+                _owner);
             
             CurrentWeapon = CurrentWeaponGameObject.GetComponent<IWeapon>();
         }

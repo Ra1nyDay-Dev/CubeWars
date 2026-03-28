@@ -1,5 +1,6 @@
 ﻿using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.AttackSystems.Overlap;
+using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Data.Configs;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Weapons;
@@ -23,16 +24,18 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
         public GameObject CreateWeaponInHands(WeaponType weaponType,
             Transform weaponSlot,
             Transform overlapAttackStartPoint,
-            Material handsSkinMaterial, 
-            GameObject selfHitbox)
+            Material handsSkinMaterial,
+            GameObject selfHitbox, 
+            Character owner)
         {
             WeaponConfig config = _configProvider.GetWeaponConfig(weaponType);
             GameObject weaponGameObject = _assetProvider.Instantiate(config.WeaponPrefab);
             IWeapon weapon = weaponGameObject.GetComponent<IWeapon>();
             AttackBehaviour primaryAttack = CreateAttack(config.PrimaryAttackBehaviourConfig, config.PrimaryAttackType, overlapAttackStartPoint, selfHitbox);
             AttackBehaviour secondaryAttack = CreateAttack(config.SecondaryAttackBehaviourConfig, config.SecondaryAttackType, overlapAttackStartPoint, selfHitbox);
-            weapon.Construct(primaryAttack, secondaryAttack, handsSkinMaterial);
+            weapon.Construct(primaryAttack, secondaryAttack, owner, handsSkinMaterial);
             weaponGameObject.transform.SetParent(weaponSlot.transform, false);
+            weaponGameObject.GetComponent<WeaponAnimation>().Construct(weapon, owner);
             
             return weaponGameObject;
         }

@@ -10,8 +10,10 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
     public class CubeGuyEyesAnimations : MonoBehaviour
     {
         [SerializeField] private Transform _leftEye;
-        [SerializeField] private Transform _leftPupil;
         [SerializeField] private Transform _rightEye;
+        [SerializeField] private Transform _leftEyeDead;
+        [SerializeField] private Transform _rightEyeDead;
+        [SerializeField] private Transform _leftPupil;
         [SerializeField] private Transform _rightPupil;
 
         [SerializeField] private float _minBlinkInterval = 1.5f;
@@ -29,11 +31,13 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private Tween _blinkTween;
         private Tween _pupilTween;
         private Sequence _hitSequence;
+        private Death _death;
 
         private void Awake()
         {
             _character = GetComponentInParent<Character>();
             _damageable = _character.GetComponent<IDamageable>();
+            _death = _character.GetComponent<Death>();
             _pupilDefaultLocalPosition = _leftPupil.localPosition;
 
             SetUpBlinkTween();
@@ -43,23 +47,22 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private void Start() => 
             SetIdleAnimation();
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.J))
-                OnHit();
-        }
-        
         private void OnEnable()
         {
             _damageable.Damaged += OnHit;
+            _death.Happened += OnDie;
         }
 
         private void OnDisable()
         {
             _damageable.Damaged -= OnHit;
+            _death.Happened -= OnDie;
         }
 
-        private void OnDestroy()
+        private void OnDestroy() => 
+            StopAllTweens();
+
+        private void StopAllTweens()
         {
             _blinkTween.Kill();
             _pupilTween.Kill();
@@ -142,7 +145,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
                 MovePupils(pupilPosition);
             }
         }
-        
+
         private void MovePupils(Vector3 target)
         {
             _pupilTween?.Kill();
@@ -164,6 +167,16 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             StopAllCoroutines();
             MovePupils(_pupilDefaultLocalPosition);
             _hitSequence.Restart();
+        }
+
+        private void OnDie()
+        {
+            StopAllCoroutines();
+            StopAllTweens();
+            _leftEye.gameObject.SetActive(false);
+            _rightEye.gameObject.SetActive(false);
+            _leftEyeDead.gameObject.SetActive(true);
+            _rightEyeDead.gameObject.SetActive(true);
         }
     }
 }

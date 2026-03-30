@@ -10,10 +10,12 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
     [RequireComponent(typeof(Animator))]
     public class CubeGuyAnimations : MonoBehaviour
     {
-        [SerializeField] private GameObject _animatedMesh;
+        [SerializeField] private GameObject _animatorMesh;
+        [SerializeField] private GameObject _tweensMesh;
         
         private static readonly int JumpedHash = Animator.StringToHash("Jumped");
         private static readonly int IsMovingHash = Animator.StringToHash("IsMoving");
+        private static readonly int Grounded = Animator.StringToHash("Grounded");
         private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
         private static readonly int HorizontalSpeedHash = Animator.StringToHash("HorizontalSpeed");
         private static readonly int HorizontalSpeedXHash = Animator.StringToHash("HorizontalSpeedX");
@@ -21,12 +23,16 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private static readonly int FlipXHash = Animator.StringToHash("FlipX");
         private static readonly int FlipZHash = Animator.StringToHash("FlipZ");
         private static readonly int VerticalVelocityHash = Animator.StringToHash("VerticalVelocity");
+        private static readonly int DeadHash = Animator.StringToHash("Dead");
+        private static readonly int IsDeadHash = Animator.StringToHash("IsDead");
+        
         
         private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
 
         private Animator _animator;
         private Character _character;
         private IDamageable _damageable;
+        private Death _death;
         private Renderer _renderer;
         private MaterialPropertyBlock _materialPropertyBlock;
         private Sequence _hitSequence;
@@ -38,7 +44,8 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _animator = GetComponent<Animator>();
             _character = GetComponent<Character>();
             _damageable = _character.GetComponent<IDamageable>();
-            _renderer = _animatedMesh.GetComponent<Renderer>();
+            _death = _character.GetComponent<Death>();
+            _renderer = _tweensMesh.GetComponent<Renderer>();
             _materialPropertyBlock = new MaterialPropertyBlock();
             SetTweens();
         }
@@ -52,6 +59,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _character.RotationChanged += OnRotationChanged;
             _character.VerticalVelocityChanged += OnVerticalVelocityChanged;
             _damageable.Damaged += OnHit;
+            _death.Happened += OnDie;
         }
 
         private void OnDisable()
@@ -62,10 +70,17 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _character.Jumped -= OnJumped;
             _character.RotationChanged -= OnRotationChanged;
             _damageable.Damaged -= OnHit;
+            _death.Happened -= OnDie;
         }
 
         private void OnDestroy() => 
             _hitSequence.Kill();
+
+        private void OnDie()
+        {
+            _animator.SetBool(IsDeadHash, true);
+            _animator.SetTrigger(DeadHash);
+        }
 
         private void OnVerticalVelocityChanged(float verticalVelocity) => 
             _animator.SetFloat(VerticalVelocityHash, verticalVelocity);
@@ -109,8 +124,15 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private void OnMovingChanged(bool isMoving) => 
             _animator.SetBool(IsMovingHash, isMoving);
 
-        private void OnGroundedChanged(bool isGrounded) => 
+        private void OnGroundedChanged(bool isGrounded)
+        {
             _animator.SetBool(IsGroundedHash, isGrounded);
+
+            if (isGrounded)
+            {
+                _animator.SetTrigger(Grounded);
+            }
+        }
 
         private void SetTweens()
         {
@@ -132,9 +154,9 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
                     ).SetLoops(2, LoopType.Yoyo)
                     .SetEase(Ease.OutQuad)
             ).Join(
-                _animatedMesh.transform.DOPunchPosition(Vector3.forward * 0.5f, 0.4f, 10, 1)
+                _tweensMesh.transform.DOPunchPosition(Vector3.forward * 0.5f, 0.4f, 10, 1)
             ).Join(
-                _animatedMesh.transform.DOPunchScale(Vector3.one * 0.3f, 0.2f, 10, 1)
+                _tweensMesh.transform.DOPunchScale(Vector3.one * 0.3f, 0.2f, 10, 1)
             );
         }
         
@@ -147,5 +169,6 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
 
         private void OnHit() => 
             _hitSequence.Restart();
+        
     }
 }

@@ -102,7 +102,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503524476339201737}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -751,6 +751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e704351c3db4039aa78de975eaf742c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Characters.CubeGuy.Animations.CubeGuyAnimations
+  _animatedMesh: {fileID: 8006585385433643982}
 --- !u!114 &1720069135644177650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1523,6 +1524,7 @@ GameObject:
   - component: {fileID: 7905305494189273838}
   - component: {fileID: 8779007897360878740}
   - component: {fileID: 2680283113942208000}
+  - component: {fileID: 7216440467937798669}
   m_Layer: 0
   m_Name: SoftCube
   m_TagString: Untagged
@@ -1579,7 +1581,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d75ad2cbb0fc9f74c820dc3c24fea5e8, type: 2}
+  - {fileID: 2100000, guid: 8d58edfc5d2f48d4381ec01d5bf18f68, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1602,6 +1604,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7216440467937798669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8006585385433643982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4732575c525f0c1448593ba0935da11e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Characters.CubeGuy.Animations.HitTest
 --- !u!1 &8086753396465083964
 GameObject:
   m_ObjectHideFlags: 0

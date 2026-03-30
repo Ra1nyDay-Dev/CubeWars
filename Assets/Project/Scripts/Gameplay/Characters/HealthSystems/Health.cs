@@ -9,7 +9,8 @@ namespace Project.Scripts.Gameplay.Characters.HealthSystems
         [field: SerializeField] public float Max { get; private set; }
         
         public event Action HealthChanged;
-
+        public event Action Damaged;
+        
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.F)) 
@@ -24,6 +25,10 @@ namespace Project.Scripts.Gameplay.Characters.HealthSystems
             if (damage < 0)
                 throw new ArgumentOutOfRangeException(nameof(damage));
 
+            if (Current <= 0)
+                return;
+            
+            Damaged?.Invoke();
             ChangeHealth(-damage);
         }
 

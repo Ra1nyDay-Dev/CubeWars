@@ -9,6 +9,7 @@ namespace Project.Scripts.Gameplay.Characters.HealthSystems
         [field: SerializeField] public float Max { get; private set; }
         
         public event Action HealthChanged;
+        public event Action Damaged;
 
         private void Update()
         {

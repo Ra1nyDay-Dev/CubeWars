@@ -131,13 +131,9 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
                         0.1f
                     ).SetLoops(2, LoopType.Yoyo)
                     .SetEase(Ease.OutQuad)
-            );
-            
-            _hitSequence.Join(
+            ).Join(
                 _animatedMesh.transform.DOPunchPosition(Vector3.forward * 0.5f, 0.4f, 10, 1)
-            );
-            
-            _hitSequence.Join(
+            ).Join(
                 _animatedMesh.transform.DOPunchScale(Vector3.one * 0.3f, 0.2f, 10, 1)
             );
         }
@@ -149,9 +145,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _renderer.SetPropertyBlock(_materialPropertyBlock);
         }
 
-        private void OnHit()
-        {
+        private void OnHit() => 
             _hitSequence.Restart();
-        }
     }
 }

@@ -42,12 +42,18 @@ namespace Project.Scripts.Gameplay.Weapons
         private void Awake()
         {
             _animator = GetComponent<Animator>();
+
+            // if (_weapon == null)
+            //     _weapon = GetComponent<IWeapon>();
+            //
+            // if (_owner == null)
+            //     _owner = GetComponentInParent<Character>();
         }
 
         private void OnDestroy()
         {
-            _weapon.PrimaryAttackEnded -= OnPrimaryAttackStarted;
-            _weapon.SecondaryAttackEnded -= OnSecondaryAttackStarted;
+            _weapon.PrimaryAttackStarted -= OnPrimaryAttackStarted;
+            _weapon.SecondaryAttackStarted -= OnSecondaryAttackStarted;
             _owner.MovingChanged -= OnMovingChanged;
             _owner.HorizontalVelocityChanged -= OnHorizontalVelocityChanged;
             _owner.GroundedChanged -= OnGroundedChanged;

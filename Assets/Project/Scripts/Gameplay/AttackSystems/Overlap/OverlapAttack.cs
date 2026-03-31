@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
 using Project.Scripts.Gameplay.Data.Configs;
 using Project.Scripts.Gameplay.Data.Enums;
@@ -17,9 +18,9 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
         private readonly Transform _overlapStartPoint;
         private readonly Vector3 _offset;
         private readonly float _sphereRadius;
-        
+
         private readonly bool _considerObstacles;
-        
+
         private int _overlapResultsCount;
         private readonly Collider[] _overlapResults = new Collider[32];
         private readonly List<(IDamageable damageable, Transform transform, float distanceToTarget)> _validTargets = new();
@@ -30,6 +31,8 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
             Damage = config.Damage;
             AttackCooldown = config.AttackCooldown;
             AttackDelay = config.AttackDelay;
+            HorizontalForceOnHit = config.HorizontalForceOnHit;
+            VerticalForceOnHit = config.VerticalForceOnHit;
             _targetMode = config.TargetMode;
             _maxTargetsPerAttack = config.MaxTargetsPerAttack;
             _searchLayerMask = config.SearchLayerMask;
@@ -53,8 +56,11 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
                         ? _validTargets.Count
                         : Mathf.Min(_maxTargetsPerAttack, _validTargets.Count);
 
-                    for (int i = 0; i < targetsToAttack; i++) 
-                        ApplyDamage(_validTargets[i].damageable, _validTargets[i].transform, Damage);
+                    for (int i = 0; i < targetsToAttack; i++)
+                    {
+                        ApplyDamage(_validTargets[i].damageable);
+                        ApplyHitReactionToTarget(_validTargets[i].transform);
+                    }
                 }
             }
         }
@@ -103,8 +109,19 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
                 a.distanceToTarget.CompareTo(b.distanceToTarget));
         }
 
-        private void ApplyDamage(IDamageable target, Transform targetTransform, float damage) => 
-            target.TakeDamage(damage, GetHitDirection(targetTransform));
+        private void ApplyDamage(IDamageable target) => 
+            target.TakeDamage(Damage);
+        
+        private void ApplyHitReactionToTarget(Transform targetTransform)
+        {
+            IReactable reactable = targetTransform.GetComponent<IReactable>();
+
+            if (reactable != null)
+            {
+                Vector3 hitDirection = GetHitDirection(targetTransform);
+                reactable.GetHitForce(hitDirection, HorizontalForceOnHit, VerticalForceOnHit);
+            }
+        }
 
         private Vector3 GetHitDirection(Transform targetTransform) => 
             (targetTransform.position - _overlapStartPoint.transform.position).normalized;

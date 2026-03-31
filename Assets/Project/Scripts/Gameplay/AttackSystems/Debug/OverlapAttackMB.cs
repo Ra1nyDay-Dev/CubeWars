@@ -91,7 +91,7 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
         }
 
         protected virtual void ApplyDamage(IDamageable target, float damage) => 
-            target.TakeDamage(damage, Vector3.forward);
+            target.TakeDamage(damage);
 
 #if UNITY_EDITOR
 

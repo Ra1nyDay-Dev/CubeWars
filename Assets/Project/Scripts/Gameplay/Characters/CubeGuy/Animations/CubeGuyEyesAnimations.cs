@@ -49,13 +49,13 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
 
         private void OnEnable()
         {
-            _damageable.Damaged += OnHit;
+            _damageable.Damaged += OnDamaged;
             _death.Happened += OnDie;
         }
 
         private void OnDisable()
         {
-            _damageable.Damaged -= OnHit;
+            _damageable.Damaged -= OnDamaged;
             _death.Happened -= OnDie;
         }
 
@@ -162,7 +162,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
                 .Play();
         }
 
-        private void OnHit(Vector3 hitDirection)
+        private void OnDamaged()
         {
             StopAllCoroutines();
             MovePupils(_pupilDefaultLocalPosition);

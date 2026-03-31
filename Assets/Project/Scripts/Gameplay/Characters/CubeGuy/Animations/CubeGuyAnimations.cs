@@ -34,7 +34,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private Death _death;
         private Renderer _renderer;
         private MaterialPropertyBlock _materialPropertyBlock;
-        private Sequence _hitSequence;
+        private Sequence _damagedSequence;
         
         private Vector3 _lastHorizontalVelocity;
         private Vector3 _jumpDirection;
@@ -58,7 +58,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _character.Jumped += OnJumped;
             _character.RotationChanged += OnRotationChanged;
             _character.VerticalVelocityChanged += OnVerticalVelocityChanged;
-            _damageable.Damaged += OnHit;
+            _damageable.Damaged += OnDamaged;
             _death.Happened += OnDie;
         }
 
@@ -69,12 +69,12 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _character.GroundedChanged -= OnGroundedChanged;
             _character.Jumped -= OnJumped;
             _character.RotationChanged -= OnRotationChanged;
-            _damageable.Damaged -= OnHit;
+            _damageable.Damaged -= OnDamaged;
             _death.Happened -= OnDie;
         }
 
         private void OnDestroy() => 
-            _hitSequence.Kill();
+            _damagedSequence.Kill();
 
         private void OnDie()
         {
@@ -136,13 +136,13 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
 
         private void SetTweens()
         {
-            _hitSequence = DOTween.Sequence()
+            _damagedSequence = DOTween.Sequence()
                 .SetAutoKill(false)
                 .SetUpdate(UpdateType.Late);
                 
             float flash = 0;
             
-            _hitSequence.Append(
+            _damagedSequence.Append(
                 DOTween.To(
                         () => flash,
                         x => {
@@ -167,8 +167,8 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _renderer.SetPropertyBlock(_materialPropertyBlock);
         }
 
-        private void OnHit(Vector3 hitDirection) => 
-            _hitSequence.Restart();
+        private void OnDamaged() => 
+            _damagedSequence.Restart();
         
     }
 }

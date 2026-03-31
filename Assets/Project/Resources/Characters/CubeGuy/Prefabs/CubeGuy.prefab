@@ -764,6 +764,7 @@ GameObject:
   - component: {fileID: 1785537955421874399}
   - component: {fileID: 1331258266150335023}
   - component: {fileID: 7633125715107327431}
+  - component: {fileID: 4881187661058655429}
   - component: {fileID: 8245235235332408090}
   m_Layer: 0
   m_Name: CubeGuy
@@ -852,10 +853,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Characters.CubeGuy.Character
   _movementSpeed: 10
+  _acceleration: 100
+  _groundDeceleration: 50
+  _airDeceleration: 10
   _rotationSpeed: 20
   _gravity: -29.43
   _groundDownForce: -2
   _jumpHeight: 3
+  _backwardForceTest: 0
+  _upwardForceTest: 0
 --- !u!114 &8015432753243293538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -927,6 +933,18 @@ MonoBehaviour:
   _handsSkinMaterial: {fileID: 2100000, guid: d75ad2cbb0fc9f74c820dc3c24fea5e8, type: 2}
   _selfHitbox: {fileID: 3133059519000722611}
   _death: {fileID: 1331258266150335023}
+--- !u!114 &4881187661058655429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724456649089160340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b15bb1029442a48d7b920553266009, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Characters.CharacterReactions
 --- !u!114 &8245235235332408090
 MonoBehaviour:
   m_ObjectHideFlags: 0

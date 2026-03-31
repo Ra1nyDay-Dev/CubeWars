@@ -47,6 +47,9 @@ namespace Project.Scripts.Gameplay.Characters.Movement
                 Jumped?.Invoke();
             }
         }
+        
+        public void AddForce(float force) => 
+            CurrentVelocity += force;
 
         private void ApplyGroundForce()
         {
@@ -54,11 +57,8 @@ namespace Project.Scripts.Gameplay.Characters.Movement
                 CurrentVelocity = _groundDownForce;
         }
 
-        private void ApplyGravity(float deltaTime)
-        {
+        private void ApplyGravity(float deltaTime) => 
             CurrentVelocity += _gravity * deltaTime;
-            _controller.Move(Vector3.up * (CurrentVelocity * deltaTime));
-        }
 
         private void CheckGroundedChange()
         {

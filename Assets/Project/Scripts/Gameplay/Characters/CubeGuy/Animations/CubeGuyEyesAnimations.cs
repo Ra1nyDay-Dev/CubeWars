@@ -162,7 +162,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
                 .Play();
         }
 
-        private void OnHit()
+        private void OnHit(Vector3 hitDirection)
         {
             StopAllCoroutines();
             MovePupils(_pupilDefaultLocalPosition);

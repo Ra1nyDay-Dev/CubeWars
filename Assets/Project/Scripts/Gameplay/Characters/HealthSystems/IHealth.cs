@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Characters.HealthSystems
 {
@@ -7,7 +8,8 @@ namespace Project.Scripts.Gameplay.Characters.HealthSystems
         float Current { get; }
         float Max { get; }
         event Action HealthChanged;
-        public void TakeDamage(float damage);
         void Heal(float heal);
+        public void TakeDamage(float damage, Vector3 hitDirection);
+        public event Action<Vector3> Damaged;
     }
 }

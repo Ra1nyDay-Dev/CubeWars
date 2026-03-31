@@ -22,7 +22,7 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
         
         private int _overlapResultsCount;
         private readonly Collider[] _overlapResults = new Collider[32];
-        private readonly List<(IDamageable damageable, float distanceToTarget)> _validTargets = new();
+        private readonly List<(IDamageable damageable, Transform transform, float distanceToTarget)> _validTargets = new();
         private readonly GameObject _selfHitbox;
 
         public OverlapAttack(OverlapAttackConfig config, Transform startPoint, GameObject selfHitbox)
@@ -51,10 +51,10 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
 
                     int targetsToAttack = _targetMode == OverlapAttackTargetMode.All
                         ? _validTargets.Count
-                        : _maxTargetsPerAttack;
-                    
+                        : Mathf.Min(_maxTargetsPerAttack, _validTargets.Count);
+
                     for (int i = 0; i < targetsToAttack; i++) 
-                        ApplyDamage(_validTargets[i].damageable, Damage);
+                        ApplyDamage(_validTargets[i].damageable, _validTargets[i].transform, Damage);
                 }
             }
         }
@@ -72,30 +72,27 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
             
             for (int i = 0; i < _overlapResultsCount; i++)
             {
-                if (_selfHitbox ==_overlapResults[i].gameObject)
+                Collider hitbox = _overlapResults[i];
+                
+                if (_selfHitbox == hitbox.gameObject)
                     continue;
-                    
-                Transform target = _overlapResults[i].transform.parent;
+                
+                Transform target = hitbox.transform.parent;
                 
                 if (target == null || target.TryGetComponent(out IDamageable damageable) == false)
                     continue;
             
-                if (_considerObstacles)
-                {
-                    if (HasObstacleOnTheWay(_overlapResults[i].transform.position))
-                        continue;
-                }
+                if (_considerObstacles && HasObstacleOnTheWay(hitbox.transform.position))
+                    continue;
 
-                _validTargets.Add((damageable, DistanceToTarget(target)));
+                _validTargets.Add((damageable, target, DistanceToTarget(target)));
             }
             
             return _validTargets.Count > 0;
         }
 
-        private float DistanceToTarget(Transform target)
-        {
-            return Vector3.Distance(_overlapStartPoint.position, target.position);
-        }
+        private float DistanceToTarget(Transform target) => 
+            Vector3.Distance(_overlapStartPoint.position, target.position);
 
         private bool HasObstacleOnTheWay(Vector3 targetPosition) => 
             Physics.Linecast(_overlapStartPoint.position, targetPosition, _obstacleLayerMask.value);
@@ -106,8 +103,10 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
                 a.distanceToTarget.CompareTo(b.distanceToTarget));
         }
 
-        private void ApplyDamage(IDamageable target, float damage) => 
-            target.TakeDamage(damage);
-        
+        private void ApplyDamage(IDamageable target, Transform targetTransform, float damage) => 
+            target.TakeDamage(damage, GetHitDirection(targetTransform));
+
+        private Vector3 GetHitDirection(Transform targetTransform) => 
+            (targetTransform.position - _overlapStartPoint.transform.position).normalized;
     }
 }

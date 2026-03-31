@@ -26,7 +26,6 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private static readonly int DeadHash = Animator.StringToHash("Dead");
         private static readonly int IsDeadHash = Animator.StringToHash("IsDead");
         
-        
         private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
 
         private Animator _animator;
@@ -38,6 +37,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private Sequence _hitSequence;
         
         private Vector3 _lastHorizontalVelocity;
+        private Vector3 _jumpDirection;
 
         private void Awake()
         {
@@ -96,6 +96,9 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
 
         private void UpdateMovementAnimation(Vector3 worldVelocity)
         {
+            if (!_character.IsGrounded)
+                return;
+            
             Vector3 localVelocity = Quaternion.Inverse(_character.CurrentRotation) * worldVelocity;
             _animator.SetFloat(HorizontalSpeedHash, worldVelocity.magnitude);
             _animator.SetFloat(HorizontalSpeedXHash, localVelocity.x);
@@ -104,20 +107,17 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
 
         private void OnJumped()
         {
-            Vector3 moveDirection = _character.CurrentMovementDirection;
-    
+            Vector3 moveDirection = _character.CurrentHorizontalVelocity;
+
             if (moveDirection.magnitude > 0.1f)
-            {
-                Vector3 localMoveDir = Quaternion.Inverse(_character.CurrentRotation) * moveDirection.normalized;
-                _animator.SetFloat(FlipXHash, localMoveDir.x);
-                _animator.SetFloat(FlipZHash, localMoveDir.z);
-            }
+                _jumpDirection = moveDirection.normalized;
             else
-            {
-                _animator.SetFloat(FlipXHash, 0f);
-                _animator.SetFloat(FlipZHash, 0f);
-            }
-    
+                _jumpDirection = Vector3.zero;
+
+            Vector3 localMoveDir = Quaternion.Inverse(_character.CurrentRotation) * _jumpDirection;
+
+            _animator.SetFloat(FlipXHash, localMoveDir.x);
+            _animator.SetFloat(FlipZHash, localMoveDir.z);
             _animator.SetTrigger(JumpedHash);
         }
 
@@ -167,7 +167,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _renderer.SetPropertyBlock(_materialPropertyBlock);
         }
 
-        private void OnHit() => 
+        private void OnHit(Vector3 hitDirection) => 
             _hitSequence.Restart();
         
     }

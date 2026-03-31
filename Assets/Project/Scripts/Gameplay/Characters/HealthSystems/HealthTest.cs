@@ -9,18 +9,18 @@ namespace Project.Scripts.Gameplay.Characters.HealthSystems
         [field: SerializeField] public float Max { get; private set; }
         
         public event Action HealthChanged;
-        public event Action Damaged;
+        public event Action<Vector3> Damaged;
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.X)) 
-                TakeDamage(10);
+                TakeDamage(10, Vector3.forward);
             
             if (Input.GetKeyDown(KeyCode.C)) 
                 Heal(10);
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Vector3 hitDirection)
         {
             if (damage < 0)
                 throw new ArgumentOutOfRangeException(nameof(damage));

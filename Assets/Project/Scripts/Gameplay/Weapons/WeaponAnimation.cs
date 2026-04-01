@@ -1,5 +1,4 @@
-﻿using System;
-using Project.Scripts.Gameplay.Characters;
+﻿using Project.Scripts.Gameplay.Characters;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Weapons
@@ -7,7 +6,6 @@ namespace Project.Scripts.Gameplay.Weapons
     [RequireComponent(typeof(Animator))]
     public class WeaponAnimation : MonoBehaviour
     {
-        private static readonly int PrimaryAttack = Animator.StringToHash("PrimaryAttack");
         private static readonly int SecondaryAttack = Animator.StringToHash("SecondaryAttack");
         private static readonly int IsMovingHash = Animator.StringToHash("IsMoving");
         private static readonly int HorizontalSpeedHash = Animator.StringToHash("HorizontalSpeed");
@@ -22,6 +20,7 @@ namespace Project.Scripts.Gameplay.Weapons
         private Character _owner;
         
         private Vector3 _lastHorizontalVelocity;
+        private int _lastPrimaryAttackIndex = 1;
 
         public void Construct(IWeapon weapon, Character owner)
         {
@@ -64,8 +63,14 @@ namespace Project.Scripts.Gameplay.Weapons
         private void OnJumped() => 
             _animator.SetTrigger(JumpedHash);
 
-        private void OnPrimaryAttackStarted() => 
-            _animator.SetTrigger(PrimaryAttack);
+        private void OnPrimaryAttackStarted()
+        {
+            int primaryAttack = Animator.StringToHash($"PrimaryAttack{_lastPrimaryAttackIndex}");
+            _animator.SetTrigger(primaryAttack);
+            
+            if (_weapon.PrimaryAttack.AttackAnimationsCount > 1)
+                _lastPrimaryAttackIndex = _lastPrimaryAttackIndex == 1 ? 2 : 1;
+        }
 
         private void OnSecondaryAttackStarted() =>
             _animator.SetTrigger(SecondaryAttack);

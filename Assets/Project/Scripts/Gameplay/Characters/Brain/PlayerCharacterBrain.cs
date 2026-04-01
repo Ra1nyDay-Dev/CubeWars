@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Weapons;
 using UnityEngine;
 
@@ -95,7 +96,7 @@ namespace Project.Scripts.Gameplay.Characters.Brain
             return directionToMouse;
         }
 
-        private void OnCharacterDeath()
+        private void OnCharacterDeath(DamageData damageData)
         {
             Disable();
             _character.StartCoroutine(StopMovementAfterDelay(0.5f));

@@ -2,6 +2,7 @@
 using System.Collections;
 using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.Characters;
+using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Weapons
@@ -11,47 +12,51 @@ namespace Project.Scripts.Gameplay.Weapons
         [SerializeField] private GameObject[] _hands;
         
         public Character Owner {get; private set;}
-        
+        public int PrimaryAttackAnimationsCount { get; private set; }
+        public WeaponType WeaponType {get; private set;}
+
         public event Action PrimaryAttackStarted;
         public event Action PrimaryAttackEnded;
         public event Action SecondaryAttackStarted;
         public event Action SecondaryAttackEnded;
-        
-        private AttackBehaviour _primaryAttack;
-        private AttackBehaviour _secondaryAttack;
+
+        public AttackBehaviour PrimaryAttack { get; protected set; }
+        public AttackBehaviour SecondaryAttack { get; protected set; }
 
         private bool _isAttacking = false;
 
-        public void Construct(
-            AttackBehaviour primaryAttack, 
-            AttackBehaviour secondaryAttack, 
+        public void Construct(AttackBehaviour primaryAttack,
+            AttackBehaviour secondaryAttack,
             Character owner,
-            Material handsSkinMaterial)
+            WeaponType weaponType,
+            Material handsSkinMaterial
+            )
         {
-            _primaryAttack = primaryAttack;
-            _secondaryAttack = secondaryAttack;
+            PrimaryAttack = primaryAttack;
+            SecondaryAttack = secondaryAttack;
             Owner = owner;
+            WeaponType = weaponType;
             ApplyHandsSkinMaterial(handsSkinMaterial);
         }
 
         public async Awaitable PerformPrimaryAttack()
         {
-            if (_primaryAttack != null && !_isAttacking)
+            if (PrimaryAttack != null && !_isAttacking)
             {
                 _isAttacking = true;
                 PrimaryAttackStarted?.Invoke();
-                await PerformAttack(_primaryAttack, _primaryAttack.AttackDelay, _primaryAttack.AttackCooldown);
+                await PerformAttack(PrimaryAttack, PrimaryAttack.AttackDelay, PrimaryAttack.AttackCooldown);
                 PrimaryAttackEnded?.Invoke();
             }
         }
 
         public async Awaitable PerformSecondaryAttack()
         {
-            if (_secondaryAttack != null && !_isAttacking)
+            if (SecondaryAttack != null && !_isAttacking)
             {
                 _isAttacking = true;
                 SecondaryAttackStarted?.Invoke();
-                await PerformAttack(_secondaryAttack, _secondaryAttack.AttackDelay, _secondaryAttack.AttackCooldown);
+                await PerformAttack(SecondaryAttack, SecondaryAttack.AttackDelay, SecondaryAttack.AttackCooldown);
                 SecondaryAttackEnded?.Invoke();
             }
         }

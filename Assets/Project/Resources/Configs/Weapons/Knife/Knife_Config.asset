@@ -15,5 +15,6 @@ MonoBehaviour:
   WeaponPrefab: {fileID: 7432090408344405217, guid: 6594904127a2ca647bc2079d08360d32, type: 3}
   PrimaryAttackType: 0
   PrimaryAttackBehaviourConfig: {fileID: 11400000, guid: 1e9af3b8b53d979439ac8376c2ca095a, type: 2}
+  PrimaryAttackAnimationsCount: 1
   SecondaryAttackType: 0
   SecondaryAttackBehaviourConfig: {fileID: 11400000, guid: 7a201e9d99a6a3f47838a42b8bb764ad, type: 2}

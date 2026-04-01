@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e292e1051d460e86c768c0ae5c6d2c, type: 3}
   m_Name: Hammer_PrimaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.OverlapAttackConfig
-  Damage: 15
-  AttackDelay: 0.7
+  Damage: 35
+  AttackDelay: 0.75
   AttackCooldown: 0.5
   HorizontalForceOnHit: 18
   VerticalForceOnHit: 8
+  AttackAnimationsCount: 2
   TargetMode: 1
   MaxTargetsPerAttack: 1
   SearchLayerMask:

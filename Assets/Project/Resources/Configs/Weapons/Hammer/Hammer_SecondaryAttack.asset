@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e292e1051d460e86c768c0ae5c6d2c, type: 3}
   m_Name: Hammer_SecondaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.OverlapAttackConfig
-  Damage: 40
-  AttackDelay: 0.7
-  AttackCooldown: 0.5
-  HorizontalForceOnHit: 18
-  VerticalForceOnHit: 8
+  Damage: 999
+  AttackDelay: 1.15
+  AttackCooldown: 1.8
+  HorizontalForceOnHit: 0
+  VerticalForceOnHit: 0
+  AttackAnimationsCount: 1
+  AnimationOnDeath: 1
   TargetMode: 0
   MaxTargetsPerAttack: 1
   SearchLayerMask:
@@ -25,8 +27,8 @@ MonoBehaviour:
   ObstacleLayerMask:
     serializedVersion: 2
     m_Bits: 192
-  Offset: {x: 0, y: 0, z: 4}
-  SphereRadius: 4
+  Offset: {x: 0, y: 0, z: 7}
+  SphereRadius: 1.2
   ConsiderObstacles: 1
   DrawGizmosType: 0
   GizmosColor: {r: 0.82104325, g: 1, b: 0, a: 1}

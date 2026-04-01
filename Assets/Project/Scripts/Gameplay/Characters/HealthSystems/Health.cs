@@ -1,4 +1,6 @@
 ﻿using System;
+using Project.Scripts.Gameplay.Data;
+using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Characters.HealthSystems
@@ -9,27 +11,27 @@ namespace Project.Scripts.Gameplay.Characters.HealthSystems
         [field: SerializeField] public float Max { get; private set; }
         
         public event Action HealthChanged;
-        public event Action Damaged;
+        public event Action<DamageData> Damaged;
         
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.F)) 
-                TakeDamage(10);
+                TakeDamage(new(10, DamageSource.Environment));
             
             if (Input.GetKeyDown(KeyCode.H)) 
                 Heal(10);
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(DamageData damageData)
         {
-            if (damage < 0)
-                throw new ArgumentOutOfRangeException(nameof(damage));
+            if (damageData.Damage < 0)
+                throw new ArgumentOutOfRangeException(nameof(damageData.Damage));
 
             if (Current <= 0)
                 return;
             
-            Damaged?.Invoke();
-            ChangeHealth(-damage);
+            ChangeHealth(-damageData.Damage);
+            Damaged?.Invoke(damageData);
         }
 
         public void Heal(float heal)

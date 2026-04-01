@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Configs;
 using Project.Scripts.Gameplay.Data.Enums;
+using Project.Scripts.Gameplay.Weapons;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.AttackSystems.Overlap
@@ -26,13 +28,16 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
         private readonly List<(IDamageable damageable, Transform transform, float distanceToTarget)> _validTargets = new();
         private readonly GameObject _selfHitbox;
 
-        public OverlapAttack(OverlapAttackConfig config, Transform startPoint, GameObject selfHitbox)
+        public OverlapAttack(OverlapAttackConfig config, Transform startPoint, GameObject selfHitbox, WeaponType weaponType)
         {
+            AttackAnimationsCount = config.AttackAnimationsCount;
             Damage = config.Damage;
             AttackCooldown = config.AttackCooldown;
             AttackDelay = config.AttackDelay;
             HorizontalForceOnHit = config.HorizontalForceOnHit;
             VerticalForceOnHit = config.VerticalForceOnHit;
+            AttackDeathType = config.AnimationOnDeath;
+            WeaponType = weaponType;
             _targetMode = config.TargetMode;
             _maxTargetsPerAttack = config.MaxTargetsPerAttack;
             _searchLayerMask = config.SearchLayerMask;
@@ -56,10 +61,13 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
                         ? _validTargets.Count
                         : Mathf.Min(_maxTargetsPerAttack, _validTargets.Count);
 
+                    
+                    
                     for (int i = 0; i < targetsToAttack; i++)
                     {
-                        ApplyDamage(_validTargets[i].damageable);
-                        ApplyHitReactionToTarget(_validTargets[i].transform);
+                        
+                        
+                        ApplyDamage(_validTargets[i].damageable, _validTargets[i].transform);
                     }
                 }
             }
@@ -109,21 +117,34 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
                 a.distanceToTarget.CompareTo(b.distanceToTarget));
         }
 
-        private void ApplyDamage(IDamageable target) => 
-            target.TakeDamage(Damage);
-        
-        private void ApplyHitReactionToTarget(Transform targetTransform)
+        private void ApplyDamage(IDamageable target, Transform targetTransform)
         {
-            IReactable reactable = targetTransform.GetComponent<IReactable>();
-
-            if (reactable != null)
-            {
-                Vector3 hitDirection = GetHitDirection(targetTransform);
-                reactable.GetHitForce(hitDirection, HorizontalForceOnHit, VerticalForceOnHit);
-            }
+            DamageData damageData = new DamageData(
+                Damage,
+                DamageSource.Weapon,
+                AttackDeathType,
+                WeaponType,
+                GetHitDirection(targetTransform),
+                HorizontalForceOnHit,
+                VerticalForceOnHit
+            );
+            target.TakeDamage(damageData);
         }
-
+        
         private Vector3 GetHitDirection(Transform targetTransform) => 
             (targetTransform.position - _overlapStartPoint.transform.position).normalized;
+
+        // private void ApplyHitReactionToTarget(Transform targetTransform)
+        // {
+        //     IReactable reactable = targetTransform.GetComponent<IReactable>();
+        //
+        //     if (reactable != null)
+        //     {
+        //         Vector3 hitDirection = GetHitDirection(targetTransform);
+        //         reactable.GetHitForce(hitDirection, HorizontalForceOnHit, VerticalForceOnHit);
+        //     }
+        // }
+
+        
     }
 }

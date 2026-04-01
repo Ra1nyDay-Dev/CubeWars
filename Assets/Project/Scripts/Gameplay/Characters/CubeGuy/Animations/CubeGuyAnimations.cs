@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Data;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private static readonly int VerticalVelocityHash = Animator.StringToHash("VerticalVelocity");
         private static readonly int DeadHash = Animator.StringToHash("Dead");
         private static readonly int IsDeadHash = Animator.StringToHash("IsDead");
+        private static readonly int DeathType = Animator.StringToHash("DeathType");
         
         private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
 
@@ -76,8 +78,9 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private void OnDestroy() => 
             _damagedSequence.Kill();
 
-        private void OnDie()
+        private void OnDie(DamageData damageData)
         {
+            _animator.SetInteger(DeathType, (int)damageData.DeathType);  
             _animator.SetBool(IsDeadHash, true);
             _animator.SetTrigger(DeadHash);
         }
@@ -167,7 +170,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
             _renderer.SetPropertyBlock(_materialPropertyBlock);
         }
 
-        private void OnDamaged() => 
+        private void OnDamaged(DamageData damageData) => 
             _damagedSequence.Restart();
         
     }

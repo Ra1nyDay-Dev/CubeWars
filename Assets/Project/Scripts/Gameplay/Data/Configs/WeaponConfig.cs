@@ -7,6 +7,7 @@ namespace Project.Scripts.Gameplay.Data.Configs
     [CreateAssetMenu(fileName = "WeaponConfig", menuName = "Configs/Weapon/WeaponConfig")]
     public class WeaponConfig : ScriptableObject
     {
+        public WeaponType WeaponType;
         public GameObject WeaponPrefab;
 
         [Header("Primary Attack")] 

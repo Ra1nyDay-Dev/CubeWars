@@ -1,5 +1,6 @@
 ﻿using System;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Data;
 using UnityEngine;
 
 namespace Project.Scripts.UI.Elements
@@ -36,7 +37,7 @@ namespace Project.Scripts.UI.Elements
         private void UpdateHealthBar() => 
             _healthBar.SetValue(_health.Current, _health.Max);
 
-        private void OnDie() => 
+        private void OnDie(DamageData damageData) => 
             _healthBar.gameObject.SetActive(false);
     }
 }

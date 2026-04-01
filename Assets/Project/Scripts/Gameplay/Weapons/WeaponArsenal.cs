@@ -1,6 +1,7 @@
 ﻿using System;
 using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Services.Fabrics.Weapon;
 using Project.Scripts.Infrastructure.Services.ServiceLocator;
@@ -25,7 +26,7 @@ namespace Project.Scripts.Gameplay.Weapons
         }
 
         private void Start() => 
-            _death.Happened += UnequipWeapon;
+            _death.Happened += OnDie;
 
         private void Update()
         {
@@ -34,9 +35,10 @@ namespace Project.Scripts.Gameplay.Weapons
         }
 
         private void OnDestroy() => 
-            _death.Happened -= UnequipWeapon;
+            _death.Happened -= OnDie;
 
         public GameObject CurrentWeaponGameObject { get; private set; }
+
         public IWeapon CurrentWeapon { get; private set; }
 
         public void ChangeWeapon(WeaponType weaponType)
@@ -44,8 +46,8 @@ namespace Project.Scripts.Gameplay.Weapons
             UnequipWeapon();
             EquipWeapon(weaponType);
         }
-        
-        
+
+
         private void EquipWeapon(WeaponType weaponType)
         {
             //toDo: rewrite to inject in Characters Fabric
@@ -71,5 +73,8 @@ namespace Project.Scripts.Gameplay.Weapons
                 CurrentWeapon = null;
             }
         }
+
+        private void OnDie(DamageData damageData) => 
+            UnequipWeapon();
     }
 }

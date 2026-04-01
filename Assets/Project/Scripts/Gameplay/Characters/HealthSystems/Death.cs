@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Project.Scripts.Gameplay.Data;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Characters.HealthSystems
@@ -8,28 +9,28 @@ namespace Project.Scripts.Gameplay.Characters.HealthSystems
     {
         [SerializeField] private Health _health;
         
-        public event Action Happened;
+        public event Action <DamageData> Happened;
         
         private bool _isDead;
         
         private void Start() => 
-            _health.HealthChanged += HealthChanged;
+            _health.Damaged += OnDamaged;
 
         private void OnDestroy() => 
-            _health.HealthChanged -= HealthChanged;
-        
-        private void HealthChanged()
+            _health.Damaged -= OnDamaged;
+
+        private void OnDamaged(DamageData damageData)
         {
             if (!_isDead && _health.Current <= 0)
-                Die();
+                Die(damageData);
         }
         
-        private void Die()
+        private void Die(DamageData damageData)
         {
             _isDead = true;
-            _health.HealthChanged -= HealthChanged;
+            _health.Damaged -= OnDamaged;
             StartCoroutine(DestroyTimer());
-            Happened?.Invoke();
+            Happened?.Invoke(damageData);
         }
         
         private IEnumerator DestroyTimer()

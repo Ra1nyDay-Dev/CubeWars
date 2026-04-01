@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8f8da5ce6842beabe05f4e6b58e3b0, type: 3}
   m_Name: Hammer_Config
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.WeaponConfig
+  WeaponType: 1
   WeaponPrefab: {fileID: 6026874955678029843, guid: 08bad08671ace6b439ad101c121e0d7e, type: 3}
   PrimaryAttackType: 0
   PrimaryAttackBehaviourConfig: {fileID: 11400000, guid: 844b8228297cd054697d6440d119d9b7, type: 2}

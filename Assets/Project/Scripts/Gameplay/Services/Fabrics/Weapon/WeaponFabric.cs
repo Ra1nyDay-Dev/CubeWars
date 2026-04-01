@@ -31,9 +31,9 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
             WeaponConfig config = _configProvider.GetWeaponConfig(weaponType);
             GameObject weaponGameObject = _assetProvider.Instantiate(config.WeaponPrefab);
             IWeapon weapon = weaponGameObject.GetComponent<IWeapon>();
-            AttackBehaviour primaryAttack = CreateAttack(config.PrimaryAttackBehaviourConfig, config.PrimaryAttackType, overlapAttackStartPoint, selfHitbox);
-            AttackBehaviour secondaryAttack = CreateAttack(config.SecondaryAttackBehaviourConfig, config.SecondaryAttackType, overlapAttackStartPoint, selfHitbox);
-            weapon.Construct(primaryAttack, secondaryAttack, owner, handsSkinMaterial);
+            AttackBehaviour primaryAttack = CreateAttack(config.PrimaryAttackBehaviourConfig, config.PrimaryAttackType, overlapAttackStartPoint, selfHitbox, config.WeaponType);
+            AttackBehaviour secondaryAttack = CreateAttack(config.SecondaryAttackBehaviourConfig, config.SecondaryAttackType, overlapAttackStartPoint, selfHitbox, config.WeaponType);
+            weapon.Construct(primaryAttack, secondaryAttack, owner, weaponType, handsSkinMaterial);
             weaponGameObject.transform.SetParent(weaponSlot.transform, false);
             weaponGameObject.GetComponent<WeaponAnimation>().Construct(weapon, owner);
             
@@ -41,7 +41,7 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
         }
 
         private AttackBehaviour CreateAttack(AttackConfig config, AttackType attackType,
-            Transform overlapAttackStartPoint, GameObject selfHitbox)
+            Transform overlapAttackStartPoint, GameObject selfHitbox, WeaponType weaponType)
         {
             if (!config)
                 return null;
@@ -50,7 +50,7 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
             {
                 case AttackType.Overlap:
                     if (config is OverlapAttackConfig overlapConfig)
-                        return new OverlapAttack(overlapConfig, overlapAttackStartPoint, selfHitbox);
+                        return new OverlapAttack(overlapConfig, overlapAttackStartPoint, selfHitbox, weaponType);
                     break;
             }
             return null;

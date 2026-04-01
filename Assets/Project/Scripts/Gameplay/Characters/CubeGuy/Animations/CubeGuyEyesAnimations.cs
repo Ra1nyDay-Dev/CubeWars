@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Data;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -162,14 +163,14 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
                 .Play();
         }
 
-        private void OnDamaged()
+        private void OnDamaged(DamageData damageData)
         {
             StopAllCoroutines();
             MovePupils(_pupilDefaultLocalPosition);
             _hitSequence.Restart();
         }
 
-        private void OnDie()
+        private void OnDie(DamageData damageData)
         {
             StopAllCoroutines();
             StopAllTweens();

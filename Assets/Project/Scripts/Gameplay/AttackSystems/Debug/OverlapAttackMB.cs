@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
@@ -91,7 +92,7 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
         }
 
         protected virtual void ApplyDamage(IDamageable target, float damage) => 
-            target.TakeDamage(damage);
+            target.TakeDamage(new DamageData(damage, DamageSource.Weapon));
 
 #if UNITY_EDITOR
 

@@ -18,7 +18,7 @@ namespace Project.Scripts.Gameplay.AttackSystems.Debug
         private void OnDrawGizmos()
         {
             _primaryAttackConfig = _weaponConfig.PrimaryAttackBehaviourConfig as OverlapAttackConfig;
-            _secondaryAttackConfig = _weaponConfig.PrimaryAttackBehaviourConfig as OverlapAttackConfig;
+            _secondaryAttackConfig = _weaponConfig.SecondaryAttackBehaviourConfig as OverlapAttackConfig;
             
             if (_showPrimaryGizmos)
                 TryDrawGizmos(DrawGizmosType.Always, _primaryAttackConfig);

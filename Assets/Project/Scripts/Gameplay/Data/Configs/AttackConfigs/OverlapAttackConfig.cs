@@ -1,7 +1,7 @@
 ﻿using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
-namespace Project.Scripts.Gameplay.Data.Configs
+namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
 {
     [CreateAssetMenu(fileName = "OverlapAttackConfig", menuName = "Configs/AttacksBehaviour/OverlapAttack")]
     public class OverlapAttackConfig : AttackConfig

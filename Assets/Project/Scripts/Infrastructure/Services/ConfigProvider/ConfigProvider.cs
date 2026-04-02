@@ -1,4 +1,5 @@
 ﻿using Project.Scripts.Gameplay.Data.Configs;
+using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using TMPro;
 using UnityEngine;

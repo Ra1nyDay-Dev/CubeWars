@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2285563649297563083}
   - component: {fileID: 1386583460666211150}
   - component: {fileID: 20042497010844205}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 601161895309740906}
   - component: {fileID: 1693671361408608957}
   - component: {fileID: 8473702120489247213}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 5017063505594812398}
   - component: {fileID: 585160052138357740}
   - component: {fileID: 7456814716076234814}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StatsCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,7 +399,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4926211766767036470}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -431,7 +431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 48202550004894652}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WeaponSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 9013816422205381650}
   - component: {fileID: 8309872429736550742}
   - component: {fileID: 4469489767792957533}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Pupil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -648,7 +648,7 @@ GameObject:
   - component: {fileID: 19765723450692132}
   - component: {fileID: 3080386112532438019}
   - component: {fileID: 8771883326282170505}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Glare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -765,8 +765,7 @@ GameObject:
   - component: {fileID: 1331258266150335023}
   - component: {fileID: 7633125715107327431}
   - component: {fileID: 4881187661058655429}
-  - component: {fileID: 8245235235332408090}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CubeGuy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -929,7 +928,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Weapons.WeaponArsenal
   _weaponSlot: {fileID: 1174719635641344057}
-  _overlapAttackStartPoint: {fileID: 8811326981135413612}
+  _attackStartPoint: {fileID: 8811326981135413612}
   _handsSkinMaterial: {fileID: 2100000, guid: d75ad2cbb0fc9f74c820dc3c24fea5e8, type: 2}
   _selfHitbox: {fileID: 3133059519000722611}
   _death: {fileID: 1331258266150335023}
@@ -945,22 +944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b15bb1029442a48d7b920553266009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Characters.CharacterReactions
---- !u!114 &8245235235332408090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1724456649089160340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d013345b92d4a6c9dabeea0856bf63b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.AttackSystems.Debug.OverlapAttackDebugDrawer
-  _weaponConfig: {fileID: 11400000, guid: 1769cc34a49775e4388ae1e1aaf396a2, type: 2}
-  _overlapStartPoint: {fileID: 8740759010776093842}
-  _showPrimaryGizmos: 0
-  _showSecondaryGizmos: 0
 --- !u!1 &1799767827916068226
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,7 +956,7 @@ GameObject:
   - component: {fileID: 3955680045471749200}
   - component: {fileID: 2909405878017341693}
   - component: {fileID: 2837501539141965685}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1084,7 +1067,7 @@ GameObject:
   - component: {fileID: 7160554567620673035}
   - component: {fileID: 4618324653559746126}
   - component: {fileID: 660531910936123966}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TweensMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1228,7 +1211,7 @@ GameObject:
   - component: {fileID: 8810833098921768709}
   - component: {fileID: 4402006976594047995}
   - component: {fileID: 8237968677647458765}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1340,7 +1323,7 @@ GameObject:
   - component: {fileID: 1249287232700592020}
   - component: {fileID: 4109650819108921311}
   - component: {fileID: 4968677179742138004}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1452,7 +1435,7 @@ GameObject:
   - component: {fileID: 5045404554124484998}
   - component: {fileID: 5190558109304100392}
   - component: {fileID: 7095508859880059950}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Pupil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1561,7 +1544,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3489782016668407893}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RightEyeDead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1597,7 +1580,7 @@ GameObject:
   - component: {fileID: 2493228677235990894}
   - component: {fileID: 950151743441640040}
   - component: {fileID: 1272931474833384356}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1708,7 +1691,7 @@ GameObject:
   - component: {fileID: 6840107638673455988}
   - component: {fileID: 3769475999804411005}
   - component: {fileID: 8965282376888670896}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1819,7 +1802,7 @@ GameObject:
   - component: {fileID: 724717060714309620}
   - component: {fileID: 820141002432708390}
   - component: {fileID: 358144113233543232}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2006,7 +1989,7 @@ GameObject:
   - component: {fileID: 6434060574316950906}
   - component: {fileID: 5268498177084925393}
   - component: {fileID: 2499667871719129510}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2114,7 +2097,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7905305494189273838}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SoftCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2146,7 +2129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3641836860963237463}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LeftEyeDead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2182,7 +2165,7 @@ GameObject:
   - component: {fileID: 4962391869254235773}
   - component: {fileID: 644093028920138959}
   - component: {fileID: 6109540969384078174}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Glare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2353,8 +2336,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8740759010776093842}
-  m_Layer: 0
-  m_Name: OverlapAttackStartPoint
+  - component: {fileID: 7946114759419421852}
+  - component: {fileID: 7783251299072585444}
+  m_Layer: 2
+  m_Name: AttackStartPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2375,3 +2360,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8627788700149613054}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7946114759419421852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8811326981135413612}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d013345b92d4a6c9dabeea0856bf63b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.AttackSystems.DebugSystems.OverlapAttackDebugDrawer
+  _weaponConfig: {fileID: 11400000, guid: d306dd7a7853eca428282f48d33a817e, type: 2}
+  _overlapStartPoint: {fileID: 8740759010776093842}
+  _showPrimaryGizmos: 0
+  _showSecondaryGizmos: 0
+--- !u!114 &7783251299072585444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8811326981135413612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abe1c737743d40199c7c1eab6265ef14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.AttackSystems.DebugSystems.RaycastAttackDebugDrawer
+  _weaponConfig: {fileID: 11400000, guid: 512deb8c7327c0946927edddbe31de6b, type: 2}
+  _startPoint: {fileID: 8740759010776093842}
+  _showPrimaryGizmos: 0
+  _showSecondaryGizmos: 0

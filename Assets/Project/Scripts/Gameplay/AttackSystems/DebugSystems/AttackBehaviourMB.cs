@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Scripts.Gameplay.AttackSystems
+namespace Project.Scripts.Gameplay.AttackSystems.DebugSystems
 {
     public abstract class AttackBehaviourMB : MonoBehaviour
     {

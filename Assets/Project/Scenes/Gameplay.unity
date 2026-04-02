@@ -151,6 +151,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2747031948251015139, guid: 882f410702dca1143b264a7f647f743a, type: 3}
       propertyPath: m_Name
       value: CubeGuyEnemy Variant (1)
@@ -199,7 +203,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -365,7 +370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8245235235332408090, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
       propertyPath: _showSecondaryGizmos
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8627788700149613054, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -407,6 +412,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8811326981135413612, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
+      propertyPath: m_Name
+      value: AttackAimPoint
+      objectReference: {fileID: 0}
     - target: {fileID: 9019203110749931664, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
       propertyPath: _upwardForceTest
       value: 6
@@ -422,7 +431,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8811326981135413612, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 187596610}
   m_SourcePrefab: {fileID: 100100000, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
 --- !u!114 &90245338 stripped
 MonoBehaviour:
@@ -584,6 +596,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2039248910}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &187596607 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8811326981135413612, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
+  m_PrefabInstance: {fileID: 90245337}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &187596608 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8740759010776093842, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
+  m_PrefabInstance: {fileID: 90245337}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &187596610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187596607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abe1c737743d40199c7c1eab6265ef14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.AttackSystems.DebugSystems.RaycastAttackDebugDrawer
+  _weaponConfig: {fileID: 11400000, guid: 512deb8c7327c0946927edddbe31de6b, type: 2}
+  _startPoint: {fileID: 187596608}
+  _showPrimaryGizmos: 0
+  _showSecondaryGizmos: 0
 --- !u!1 &199980994
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,6 +1593,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2747031948251015139, guid: 882f410702dca1143b264a7f647f743a, type: 3}
       propertyPath: m_Name
       value: CubeGuyEnemy Variant
@@ -1565,7 +1607,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a97b0ccd04509d044b5889815c1a1060, type: 2}
     - target: {fileID: 5065981354272862857, guid: 882f410702dca1143b264a7f647f743a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.06
+      value: -7.06
       objectReference: {fileID: 0}
     - target: {fileID: 5065981354272862857, guid: 882f410702dca1143b264a7f647f743a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1573,7 +1615,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5065981354272862857, guid: 882f410702dca1143b264a7f647f743a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.6
+      value: -14.44
       objectReference: {fileID: 0}
     - target: {fileID: 5065981354272862857, guid: 882f410702dca1143b264a7f647f743a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1603,7 +1645,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2346,6 +2389,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2747031948251015139, guid: 882f410702dca1143b264a7f647f743a, type: 3}
       propertyPath: m_Name
       value: CubeGuyEnemy Variant (3)
@@ -2394,7 +2441,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2642,7 +2690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Weapons.WeaponArsenalTest
   _character: {fileID: 90245338}
-  _spawnedWeaponType: 1
+  _spawnedWeaponType: 2
 --- !u!4 &994798081
 Transform:
   m_ObjectHideFlags: 0
@@ -3443,6 +3491,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2747031948251015139, guid: 882f410702dca1143b264a7f647f743a, type: 3}
       propertyPath: m_Name
       value: CubeGuyEnemy Variant (2)
@@ -3491,7 +3543,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3892,6 +3945,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2747031948251015139, guid: 882f410702dca1143b264a7f647f743a, type: 3}
       propertyPath: m_Name
       value: CubeGuyEnemy Variant (5)
@@ -3940,7 +3997,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3975,6 +4033,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1198888550574090976, guid: 882f410702dca1143b264a7f647f743a, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2747031948251015139, guid: 882f410702dca1143b264a7f647f743a, type: 3}
@@ -4025,7 +4087,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2419309424951968019, guid: 882f410702dca1143b264a7f647f743a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8f8da5ce6842beabe05f4e6b58e3b0, type: 3}
+  m_Script: {fileID: 11500000, guid: e83aa7ac21724967b1b2b401474a3c1f, type: 3}
   m_Name: Knife_Config
-  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.WeaponConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.WeaponConfigs.MeleeWeaponConfig
+  WeaponType: 0
   WeaponPrefab: {fileID: 7432090408344405217, guid: 6594904127a2ca647bc2079d08360d32, type: 3}
   PrimaryAttackType: 0
   PrimaryAttackBehaviourConfig: {fileID: 11400000, guid: 1e9af3b8b53d979439ac8376c2ca095a, type: 2}
-  PrimaryAttackAnimationsCount: 1
   SecondaryAttackType: 0
   SecondaryAttackBehaviourConfig: {fileID: 11400000, guid: 7a201e9d99a6a3f47838a42b8bb764ad, type: 2}

@@ -26,7 +26,7 @@ MonoBehaviour:
     m_Bits: 256
   ObstacleLayerMask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 193
   Offset: {x: 0, y: 0, z: 7}
   SphereRadius: 1.2
   ConsiderObstacles: 1

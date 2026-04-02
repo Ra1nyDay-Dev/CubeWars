@@ -1,6 +1,7 @@
 using System;
 using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.Characters;
+using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
@@ -9,10 +10,10 @@ namespace Project.Scripts.Gameplay.Weapons
     public interface IWeapon
     {
         void Construct(
+            WeaponConfig config,
             AttackBehaviour primaryAttack,
             AttackBehaviour secondaryAttack,
             Character owner,
-            WeaponType weaponType,
             Material handsSkinMaterial
             );
 

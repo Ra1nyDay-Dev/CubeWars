@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4115048348704394480}
-  - component: {fileID: 6533246581988216588}
   - component: {fileID: 8597678972599464321}
+  - component: {fileID: 8904180492114666942}
   - component: {fileID: 8770186069867348959}
   m_Layer: 0
   m_Name: Knife
@@ -35,20 +35,6 @@ Transform:
   - {fileID: 5316794343942171939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6533246581988216588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7432090408344405217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50a2a36d12a4423593a9c247d633e4a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Weapons.Weapon
-  _hands:
-  - {fileID: 8445506810030704431}
 --- !u!95 &8597678972599464321
 Animator:
   serializedVersion: 7
@@ -71,6 +57,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8904180492114666942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7432090408344405217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91c33015020e46aaaf3e67df3008548b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Weapons.MeleeWeapon
+  _hands:
+  - {fileID: 8445506810030704431}
 --- !u!114 &8770186069867348959
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Configs;
+using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Weapons;
 using UnityEngine;
@@ -133,18 +134,5 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
         
         private Vector3 GetHitDirection(Transform targetTransform) => 
             (targetTransform.position - _overlapStartPoint.transform.position).normalized;
-
-        // private void ApplyHitReactionToTarget(Transform targetTransform)
-        // {
-        //     IReactable reactable = targetTransform.GetComponent<IReactable>();
-        //
-        //     if (reactable != null)
-        //     {
-        //         Vector3 hitDirection = GetHitDirection(targetTransform);
-        //         reactable.GetHitForce(hitDirection, HorizontalForceOnHit, VerticalForceOnHit);
-        //     }
-        // }
-
-        
     }
 }

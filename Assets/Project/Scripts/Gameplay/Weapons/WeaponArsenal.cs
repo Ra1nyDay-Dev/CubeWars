@@ -12,7 +12,7 @@ namespace Project.Scripts.Gameplay.Weapons
     public class WeaponArsenal : MonoBehaviour
     {
         [SerializeField] private GameObject _weaponSlot;
-        [SerializeField] private GameObject _overlapAttackStartPoint;
+        [SerializeField] private GameObject _attackStartPoint;
         [SerializeField] Material _handsSkinMaterial;
         [SerializeField] private GameObject _selfHitbox;
         [SerializeField] private Death _death;
@@ -56,7 +56,7 @@ namespace Project.Scripts.Gameplay.Weapons
             CurrentWeaponGameObject = _weaponFabric.CreateWeaponInHands(
                 weaponType,
                 _weaponSlot.transform,
-                _overlapAttackStartPoint.transform,
+                _attackStartPoint.transform,
                 _handsSkinMaterial,
                 _selfHitbox,
                 _owner);

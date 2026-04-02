@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Scripts.Gameplay.AttackSystems
+namespace Project.Scripts.Gameplay.AttackSystems.DebugSystems
 {
     public class InvokeAttackByInput : MonoBehaviour
     {

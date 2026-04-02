@@ -4,7 +4,7 @@ using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
-namespace Project.Scripts.Gameplay.AttackSystems.Overlap
+namespace Project.Scripts.Gameplay.AttackSystems.DebugSystems
 {
     public class OverlapAttackMB : AttackBehaviourMB
     {

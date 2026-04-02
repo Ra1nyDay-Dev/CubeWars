@@ -1,7 +1,7 @@
 ﻿using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
-namespace Project.Scripts.Gameplay.Data.Configs
+namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
 {
     public abstract class AttackConfig : ScriptableObject
     {

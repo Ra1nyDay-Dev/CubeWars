@@ -1,11 +1,10 @@
-﻿using Project.Scripts.Gameplay.AttackSystems;
+﻿using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
-namespace Project.Scripts.Gameplay.Data.Configs
+namespace Project.Scripts.Gameplay.Data.Configs.WeaponConfigs
 {
-    [CreateAssetMenu(fileName = "WeaponConfig", menuName = "Configs/Weapon/WeaponConfig")]
-    public class WeaponConfig : ScriptableObject
+    public abstract class WeaponConfig : ScriptableObject
     {
         public WeaponType WeaponType;
         public GameObject WeaponPrefab;

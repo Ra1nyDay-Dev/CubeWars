@@ -1,8 +1,10 @@
 ﻿using Project.Scripts.Gameplay.Data.Configs;
+using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;
+using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
-namespace Project.Scripts.Gameplay.AttackSystems.Debug
+namespace Project.Scripts.Gameplay.AttackSystems.DebugSystems
 {
     public class OverlapAttackDebugDrawer : MonoBehaviour
     {

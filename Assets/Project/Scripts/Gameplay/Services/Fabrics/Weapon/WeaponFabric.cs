@@ -1,7 +1,10 @@
 ﻿using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.AttackSystems.Overlap;
+using Project.Scripts.Gameplay.AttackSystems.Raycast;
 using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Data.Configs;
+using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;
+using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Weapons;
 using Project.Scripts.Infrastructure.Services.AssetManagement;
@@ -23,7 +26,7 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
 
         public GameObject CreateWeaponInHands(WeaponType weaponType,
             Transform weaponSlot,
-            Transform overlapAttackStartPoint,
+            Transform attackStartPoint,
             Material handsSkinMaterial,
             GameObject selfHitbox, 
             Character owner)
@@ -31,17 +34,17 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
             WeaponConfig config = _configProvider.GetWeaponConfig(weaponType);
             GameObject weaponGameObject = _assetProvider.Instantiate(config.WeaponPrefab);
             IWeapon weapon = weaponGameObject.GetComponent<IWeapon>();
-            AttackBehaviour primaryAttack = CreateAttack(config.PrimaryAttackBehaviourConfig, config.PrimaryAttackType, overlapAttackStartPoint, selfHitbox, config.WeaponType);
-            AttackBehaviour secondaryAttack = CreateAttack(config.SecondaryAttackBehaviourConfig, config.SecondaryAttackType, overlapAttackStartPoint, selfHitbox, config.WeaponType);
-            weapon.Construct(primaryAttack, secondaryAttack, owner, weaponType, handsSkinMaterial);
+            AttackBehaviour primaryAttack = CreateAttack(config.PrimaryAttackBehaviourConfig, config.PrimaryAttackType, attackStartPoint, selfHitbox, config.WeaponType);
+            AttackBehaviour secondaryAttack = CreateAttack(config.SecondaryAttackBehaviourConfig, config.SecondaryAttackType, attackStartPoint, selfHitbox, config.WeaponType);
+            weapon.Construct(config, primaryAttack, secondaryAttack, owner, handsSkinMaterial);
             weaponGameObject.transform.SetParent(weaponSlot.transform, false);
-            weaponGameObject.GetComponent<WeaponAnimation>().Construct(weapon, owner);
+            weaponGameObject.GetComponent<WeaponAnimation>()?.Construct(weapon, owner);
             
             return weaponGameObject;
         }
 
         private AttackBehaviour CreateAttack(AttackConfig config, AttackType attackType,
-            Transform overlapAttackStartPoint, GameObject selfHitbox, WeaponType weaponType)
+            Transform attackStartPoint, GameObject selfHitbox, WeaponType weaponType)
         {
             if (!config)
                 return null;
@@ -50,7 +53,11 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
             {
                 case AttackType.Overlap:
                     if (config is OverlapAttackConfig overlapConfig)
-                        return new OverlapAttack(overlapConfig, overlapAttackStartPoint, selfHitbox, weaponType);
+                        return new OverlapAttack(overlapConfig, attackStartPoint, selfHitbox, weaponType);
+                    break;
+                case AttackType.Raycast:
+                    if (config is RaycastAttackConfig raycastConfig)
+                        return new RaycastAttack(raycastConfig, attackStartPoint, weaponType);
                     break;
             }
             return null;

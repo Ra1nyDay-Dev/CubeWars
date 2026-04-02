@@ -9,7 +9,7 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
     {
         GameObject CreateWeaponInHands(WeaponType weaponType,
             Transform weaponSlot,
-            Transform overlapAttackStartPoint,
+            Transform attackStartPoint,
             Material handsSkinMaterial,
             GameObject selfHitbox, 
             Character owner);

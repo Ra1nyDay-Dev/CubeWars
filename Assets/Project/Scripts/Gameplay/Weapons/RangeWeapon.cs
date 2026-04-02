@@ -14,12 +14,12 @@ namespace Project.Scripts.Gameplay.Weapons
         private float _reloadTime;
         private bool _infiniteAmmo;
         private int _maxAmmo;
+        private int _ammoPerPrimaryShot;
+        private int _ammoPerSecondaryShot;
         
         private int _currentAmmoInMagazine;
         private int _currentAmmo;
         private bool _isReloading;
-        private int _ammoPerPrimaryShot;
-        private int _ammoPerSecondaryShot;
 
         public override void Construct(
             WeaponConfig config,
@@ -42,9 +42,15 @@ namespace Project.Scripts.Gameplay.Weapons
             _maxAmmo = rangeConfig.MaxAmmo;
             _ammoPerPrimaryShot = rangeConfig.AmmoPerPrimaryShot;
             _ammoPerSecondaryShot = rangeConfig.AmmoPerSecondaryShot;
+
+            _currentAmmoInMagazine = _maxAmmoInMagazine;
+            _currentAmmo = _maxAmmo;
+
+            Debug.Log($"Weapon {WeaponType} constructed. " +
+                      $"Ammo {_currentAmmoInMagazine}/" +
+                      $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
         }
-        
-        
+
         public virtual async Awaitable Reload()
         {
             if (!_isReloadable)
@@ -64,6 +70,52 @@ namespace Project.Scripts.Gameplay.Weapons
                 : Mathf.Min(_currentAmmo, _maxAmmoInMagazine);
             
             _isReloading = false;
+            
+            Debug.Log($"Weapon {WeaponType} reloaded. " +
+                      $"Ammo {_currentAmmoInMagazine}/" +
+                      $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
         }
+
+        protected override bool CheckAttackPossibility(AttackBehaviour attack) => 
+            base.CheckAttackPossibility(attack) && CanShoot(_ammoPerPrimaryShot);
+
+        protected override void OnAttackPerformed(AttackBehaviour attack)
+        {
+            if (attack == PrimaryAttack)
+                ConsumeAmmo(_ammoPerPrimaryShot);
+            else
+                ConsumeAmmo(_ammoPerSecondaryShot);
+            
+            Debug.Log($"Weapon {WeaponType} shoot. " +
+                      $"Ammo {_currentAmmoInMagazine}/" +
+                      $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
+        }
+
+        protected virtual bool CanShoot(int ammoRequired)
+        {
+            return _currentAmmoInMagazine >= ammoRequired || !_isReloadable;
+        }
+        
+        protected virtual void ConsumeAmmo(int amount)
+        {
+            if (_isReloadable)
+                _currentAmmoInMagazine -= amount;
+            
+            if (!_infiniteAmmo)
+                _currentAmmo -= amount;
+
+            if (_isReloadable && _currentAmmoInMagazine == 0)
+                Reload();
+        }
+        
+        protected override void OnAttackEnded(AttackBehaviour attack)
+        {
+            base.OnAttackEnded(attack);
+            
+            if (_isReloadable && _currentAmmoInMagazine == 0)
+                Reload();
+        }
+
+
     }
 }

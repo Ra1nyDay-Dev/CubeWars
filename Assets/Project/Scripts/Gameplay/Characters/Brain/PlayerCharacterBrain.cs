@@ -42,6 +42,9 @@ namespace Project.Scripts.Gameplay.Characters.Brain
         public bool IsSecondaryAttackButtonDown() => 
             Input.GetButtonDown(SECONDARY_ATTACK_AXIS);
 
+        public bool IsReloadButtonDown() => 
+            Input.GetKeyDown(KeyCode.R);
+
         protected override void UpdateLogic(float deltaTime)
         {
             Vector3 inputDirection = Axis();
@@ -59,6 +62,15 @@ namespace Project.Scripts.Gameplay.Characters.Brain
             
             if (IsSecondaryAttackButtonDown())
                 PerformSecondaryAttack();
+
+            if (IsReloadButtonDown() && IsReloadableWeapon(out IReloadable reloadable))
+                reloadable.Reload();
+        }
+
+        private bool IsReloadableWeapon(out IReloadable reloadable)
+        {
+            reloadable = _weaponArsenal.CurrentWeapon as IReloadable;
+            return reloadable != null;
         }
 
         private void PerformPrimaryAttack() => 

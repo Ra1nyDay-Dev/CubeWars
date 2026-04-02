@@ -11,10 +11,10 @@ namespace Project.Scripts.Gameplay.Weapons
     public abstract class Weapon : MonoBehaviour, IWeapon
     {
         [SerializeField] private GameObject[] _hands;
-        
-        public Character Owner {get; private set;}
+
+        public Character Owner { get; private set; }
         public int PrimaryAttackAnimationsCount { get; private set; }
-        public WeaponType WeaponType {get; private set;}
+        public WeaponType WeaponType { get; private set; }
 
         public event Action PrimaryAttackStarted;
         public event Action PrimaryAttackEnded;
@@ -24,7 +24,7 @@ namespace Project.Scripts.Gameplay.Weapons
         public AttackBehaviour PrimaryAttack { get; protected set; }
         public AttackBehaviour SecondaryAttack { get; protected set; }
 
-        private bool _isAttacking = false;
+        protected bool _isAttacking = false;
 
         public virtual void Construct(
             WeaponConfig config,
@@ -32,7 +32,7 @@ namespace Project.Scripts.Gameplay.Weapons
             AttackBehaviour secondaryAttack,
             Character owner,
             Material handsSkinMaterial
-            )
+        )
         {
             PrimaryAttack = primaryAttack;
             SecondaryAttack = secondaryAttack;
@@ -41,40 +41,59 @@ namespace Project.Scripts.Gameplay.Weapons
             ApplyHandsSkinMaterial(handsSkinMaterial);
         }
 
-        public virtual async Awaitable PerformPrimaryAttack()
-        {
-            if (PrimaryAttack != null && !_isAttacking)
-            {
-                _isAttacking = true;
-                PrimaryAttackStarted?.Invoke();
-                await PerformAttack(PrimaryAttack, PrimaryAttack.AttackDelay, PrimaryAttack.AttackCooldown);
-                PrimaryAttackEnded?.Invoke();
-            }
-        }
+        public virtual async Awaitable PerformPrimaryAttack() => 
+            await PerformAttack(PrimaryAttack);
 
-        public virtual async Awaitable PerformSecondaryAttack()
-        {
-            if (SecondaryAttack != null && !_isAttacking)
-            {
-                _isAttacking = true;
-                SecondaryAttackStarted?.Invoke();
-                await PerformAttack(SecondaryAttack, SecondaryAttack.AttackDelay, SecondaryAttack.AttackCooldown);
-                SecondaryAttackEnded?.Invoke();
-            }
-        }
+        public virtual async Awaitable PerformSecondaryAttack() => 
+            await PerformAttack(SecondaryAttack);
 
-        protected virtual async Awaitable PerformAttack(AttackBehaviour attack, float delay, float cooldown)
+        protected virtual async Awaitable PerformAttack(AttackBehaviour attack)
         {
-            await Awaitable.WaitForSecondsAsync(delay);
+            if (!CheckAttackPossibility(attack)) 
+                return;
+            
+            OnAttackStarted(attack);
+            await ApplyAttackDelay(attack);
             attack.PerformAttack();
-            await Awaitable.WaitForSecondsAsync(cooldown);
+            OnAttackPerformed(attack);
+            await ApplyAttackCooldown(attack);
+            OnAttackEnded(attack);
+        }
+        
+        protected virtual bool CheckAttackPossibility(AttackBehaviour attack) => 
+            attack != null && !_isAttacking;
 
+        protected virtual void OnAttackStarted(AttackBehaviour attack)
+        {
+            _isAttacking = true;
+            
+            if (attack == PrimaryAttack)
+                PrimaryAttackStarted?.Invoke();
+            else
+                SecondaryAttackStarted?.Invoke();
+        }
+
+        protected virtual Awaitable ApplyAttackDelay(AttackBehaviour attack) => 
+            Awaitable.WaitForSecondsAsync(attack.AttackDelay);
+
+        protected virtual void OnAttackPerformed(AttackBehaviour attack) {}
+
+        private static Awaitable ApplyAttackCooldown(AttackBehaviour attack) => 
+            Awaitable.WaitForSecondsAsync(attack.AttackCooldown);
+
+        protected virtual void OnAttackEnded(AttackBehaviour attack)
+        {
             _isAttacking = false;
+            
+            if (attack == PrimaryAttack)
+                PrimaryAttackEnded?.Invoke();
+            else
+                SecondaryAttackEnded?.Invoke();
         }
 
         private void ApplyHandsSkinMaterial(Material material)
         {
-            foreach (GameObject hand in _hands) 
+            foreach (GameObject hand in _hands)
                 hand.GetComponent<Renderer>().material = material;
         }
     }

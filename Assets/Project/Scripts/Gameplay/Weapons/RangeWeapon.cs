@@ -7,9 +7,12 @@ using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Weapons
 {
-    public class RangeWeapon : Weapon, IReloadable
+    public class RangeWeapon : Weapon
     {
-        private bool _isReloadable;
+        public bool IsReloadable { get; protected set; }
+        
+        public event Action ReloadStarted;
+        
         private int _maxAmmoInMagazine;
         private float _reloadTime;
         private bool _infiniteAmmo;
@@ -35,7 +38,7 @@ namespace Project.Scripts.Gameplay.Weapons
             if (rangeConfig == null)
                 throw new ArgumentException($"{config.WeaponType}: Wrong config type for RangeWeapon: {config.GetType()}");
             
-            _isReloadable = rangeConfig.IsReloadable;
+            IsReloadable = rangeConfig.IsReloadable;
             _maxAmmoInMagazine = rangeConfig.MaxAmmoInMagazine;
             _reloadTime =  rangeConfig.ReloadTime;
             _infiniteAmmo = rangeConfig.InfiniteAmmo;
@@ -53,16 +56,14 @@ namespace Project.Scripts.Gameplay.Weapons
 
         public virtual async Awaitable Reload()
         {
-            if (!_isReloadable)
-                return;
-            if(_isReloading)
-                return;
-            if (_maxAmmoInMagazine == _currentAmmoInMagazine)
-                return;
-            if (!_infiniteAmmo && _currentAmmo == _currentAmmoInMagazine)
+            if (!IsReloadable 
+                || _isReloading 
+                || _maxAmmoInMagazine == _currentAmmoInMagazine
+                ||(!_infiniteAmmo && _currentAmmo == _currentAmmoInMagazine))
                 return;
 
             _isReloading = true;
+            ReloadStarted?.Invoke();
             await Awaitable.WaitForSecondsAsync(_reloadTime);
 
             _currentAmmoInMagazine = _infiniteAmmo ? 
@@ -91,29 +92,24 @@ namespace Project.Scripts.Gameplay.Weapons
                       $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
         }
 
-        protected virtual bool CanShoot(int ammoRequired)
-        {
-            return _currentAmmoInMagazine >= ammoRequired || !_isReloadable;
-        }
-        
+        protected virtual bool CanShoot(int ammoRequired) => 
+            (_currentAmmoInMagazine >= ammoRequired && !_isReloading) || !IsReloadable;
+
         protected virtual void ConsumeAmmo(int amount)
         {
-            if (_isReloadable)
+            if (IsReloadable)
                 _currentAmmoInMagazine -= amount;
             
             if (!_infiniteAmmo)
                 _currentAmmo -= amount;
-
-            if (_isReloadable && _currentAmmoInMagazine == 0)
-                Reload();
         }
         
         protected override void OnAttackEnded(AttackBehaviour attack)
         {
             base.OnAttackEnded(attack);
             
-            if (_isReloadable && _currentAmmoInMagazine == 0)
-                Reload();
+            if (IsReloadable && _currentAmmoInMagazine == 0)
+                _ = Reload();
         }
 
 

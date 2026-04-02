@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Gameplay.Characters;
+﻿using System;
+using Project.Scripts.Gameplay.Characters;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Weapons
@@ -14,7 +15,8 @@ namespace Project.Scripts.Gameplay.Weapons
         private static readonly int JumpedHash = Animator.StringToHash("Jumped");
         private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
         private static readonly int VerticalVelocityHash = Animator.StringToHash("VerticalVelocity");
-        
+        private static readonly int Reload = Animator.StringToHash("Reload");
+
         private Animator _animator;
         private IWeapon _weapon;
         private Character _owner;
@@ -34,6 +36,12 @@ namespace Project.Scripts.Gameplay.Weapons
             _owner.GroundedChanged += OnGroundedChanged;
             _owner.Jumped += OnJumped;
             _owner.VerticalVelocityChanged += OnVerticalVelocityChanged;
+
+            if (_weapon is RangeWeapon rangeWeapon)
+            {
+                if (rangeWeapon.IsReloadable) 
+                    rangeWeapon.ReloadStarted += OnReload;
+            }
             
             _animator.SetBool(IsGroundedHash, _owner.IsGrounded);
         }
@@ -58,6 +66,12 @@ namespace Project.Scripts.Gameplay.Weapons
             _owner.GroundedChanged -= OnGroundedChanged;
             _owner.Jumped -= OnJumped;
             _owner.VerticalVelocityChanged -= OnVerticalVelocityChanged;
+            
+            if (_weapon is RangeWeapon rangeWeapon)
+            {
+                if (rangeWeapon.IsReloadable) 
+                    rangeWeapon.ReloadStarted -= OnReload;
+            }
         }
 
         private void OnJumped() => 
@@ -97,5 +111,8 @@ namespace Project.Scripts.Gameplay.Weapons
 
         private void OnGroundedChanged(bool isGrounded) => 
             _animator.SetBool(IsGroundedHash, isGrounded);
+
+        private void OnReload() => 
+            _animator.SetTrigger(Reload);
     }
 }

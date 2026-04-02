@@ -21,7 +21,7 @@ MonoBehaviour:
   AutomaticAttack: 0
   IsReloadable: 1
   MaxAmmoInMagazine: 8
-  ReloadTime: 2
+  ReloadTime: 3
   InfiniteAmmo: 1
   MaxAmmo: 24
   AmmoPerPrimaryShot: 1

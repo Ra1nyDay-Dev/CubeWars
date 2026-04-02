@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2395982262411513615}
   - component: {fileID: 1051786216835118257}
+  - component: {fileID: 4588506910084487905}
+  - component: {fileID: 1355640953337816515}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -48,6 +50,40 @@ MonoBehaviour:
   _hands:
   - {fileID: 5343569155423136965}
   - {fileID: 830485686705571725}
+--- !u!95 &4588506910084487905
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959682953274269692}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1d0697b4d5da73e4aaaf73a58fdc70e8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1355640953337816515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959682953274269692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bf0d746ae584758aa90d64b285e57fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Weapons.WeaponAnimation
 --- !u!1 &6709893407513903648
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +178,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: -7168836159865544488, guid: 03b4f66bae622a44795b028bebca6eb7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5171639034091676970, guid: 03b4f66bae622a44795b028bebca6eb7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1946770137281214848, guid: 03b4f66bae622a44795b028bebca6eb7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0225
+      objectReference: {fileID: 0}
+    - target: {fileID: -1946770137281214848, guid: 03b4f66bae622a44795b028bebca6eb7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0141
+      objectReference: {fileID: 0}
+    - target: {fileID: -1946770137281214848, guid: 03b4f66bae622a44795b028bebca6eb7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0414
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 03b4f66bae622a44795b028bebca6eb7, type: 3}
       propertyPath: m_Name
       value: Pistol
@@ -170,15 +226,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6362170311516462918, guid: 4424f83a1d4fe52489bab16b0c6c7c24, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.03
+      value: 0.085
       objectReference: {fileID: 0}
     - target: {fileID: 6362170311516462918, guid: 4424f83a1d4fe52489bab16b0c6c7c24, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.08
+      value: 0.101
       objectReference: {fileID: 0}
     - target: {fileID: 6362170311516462918, guid: 4424f83a1d4fe52489bab16b0c6c7c24, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.3
+      value: 0.167
       objectReference: {fileID: 0}
     - target: {fileID: 6362170311516462918, guid: 4424f83a1d4fe52489bab16b0c6c7c24, type: 3}
       propertyPath: m_LocalRotation.w
@@ -237,15 +293,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6362170311516462918, guid: 4424f83a1d4fe52489bab16b0c6c7c24, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.06
+      value: -0.043
       objectReference: {fileID: 0}
     - target: {fileID: 6362170311516462918, guid: 4424f83a1d4fe52489bab16b0c6c7c24, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.39
+      value: -0.306
       objectReference: {fileID: 0}
     - target: {fileID: 6362170311516462918, guid: 4424f83a1d4fe52489bab16b0c6c7c24, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.1
+      value: -0.118
       objectReference: {fileID: 0}
     - target: {fileID: 6362170311516462918, guid: 4424f83a1d4fe52489bab16b0c6c7c24, type: 3}
       propertyPath: m_LocalRotation.w

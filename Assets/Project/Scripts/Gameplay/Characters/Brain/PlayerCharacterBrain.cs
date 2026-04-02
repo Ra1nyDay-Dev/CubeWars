@@ -63,14 +63,14 @@ namespace Project.Scripts.Gameplay.Characters.Brain
             if (IsSecondaryAttackButtonDown())
                 PerformSecondaryAttack();
 
-            if (IsReloadButtonDown() && IsReloadableWeapon(out IReloadable reloadable))
-                reloadable.Reload();
+            if (IsReloadButtonDown() && IsReloadableWeapon(out RangeWeapon reloadable))
+                _ = reloadable.Reload();
         }
 
-        private bool IsReloadableWeapon(out IReloadable reloadable)
+        private bool IsReloadableWeapon(out RangeWeapon reloadable)
         {
-            reloadable = _weaponArsenal.CurrentWeapon as IReloadable;
-            return reloadable != null;
+            reloadable = _weaponArsenal.CurrentWeapon as RangeWeapon;
+            return reloadable != null && reloadable.IsReloadable;
         }
 
         private void PerformPrimaryAttack() => 

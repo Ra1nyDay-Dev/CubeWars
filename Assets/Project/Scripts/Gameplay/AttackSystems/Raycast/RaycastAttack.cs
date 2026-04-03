@@ -16,7 +16,11 @@ namespace Project.Scripts.Gameplay.AttackSystems.Raycast
         
         private readonly bool _useSpread;
         private readonly float _spreadFactor;
-
+        
+        private ParticleSystem _hitEffectPrefab;
+        private ParticleSystem _missEffectPrefab;
+        private float _hitEffectDestroyDelay;
+        
         private readonly Transform _startPoint;
 
         public RaycastAttack(RaycastAttackConfig config, Transform startPoint, WeaponType weaponType)
@@ -35,6 +39,9 @@ namespace Project.Scripts.Gameplay.AttackSystems.Raycast
             _shotCount = config.ShotCount;
             _useSpread = config.UseSpread;
             _spreadFactor = config.SpreadFactor;
+            _hitEffectPrefab = config.HitEffectPrefab;
+            _missEffectPrefab = config.MissEffectPrefab;
+            _hitEffectDestroyDelay = config.HitEffectDestroyDelay;
         }
         
         public override void PerformAttack()
@@ -54,11 +61,12 @@ namespace Project.Scripts.Gameplay.AttackSystems.Raycast
                 Transform target = hitCollider.transform.parent;
 
                 if (target != null && target.TryGetComponent(out IDamageable damageable))
-                    ApplyDamage(damageable, target.transform);
-                else
                 {
-                    // hit something not damageable
+                    SpawnParticleEffectOnHit(hitInfo, _hitEffectPrefab);
+                    ApplyDamage(damageable, target.transform);
                 }
+                else
+                    SpawnParticleEffectOnHit(hitInfo, _missEffectPrefab);
             }
         }
 
@@ -87,6 +95,17 @@ namespace Project.Scripts.Gameplay.AttackSystems.Raycast
                 y = Random.Range(-_spreadFactor, _spreadFactor),
                 z = Random.Range(-_spreadFactor, _spreadFactor)
             };
+        }
+        
+        private void SpawnParticleEffectOnHit(RaycastHit hitInfo, ParticleSystem hitEffectPrefab)
+        {
+            if (hitEffectPrefab != null)
+            {
+                var hitEffectRotation = Quaternion.LookRotation(hitInfo.normal);
+                var hitEffect = Object.Instantiate(hitEffectPrefab, hitInfo.point, hitEffectRotation);
+                    
+                Object.Destroy(hitEffect.gameObject, _hitEffectDestroyDelay);
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Project.Scripts.Infrastructure.EntryPoints
         private IAssetProvider _assetProvider;
         private IConfigProvider _configProvider;
         
+        
         public override void Run(GameUI gameUI)
         {
             base.Run(gameUI);

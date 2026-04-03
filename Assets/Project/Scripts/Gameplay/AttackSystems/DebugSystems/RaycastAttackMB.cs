@@ -17,9 +17,19 @@ namespace Project.Scripts.Gameplay.AttackSystems.DebugSystems
         [SerializeField] private bool _useSpread;
         [SerializeField, Min(0)] private float _spreadFactor = 1f;
 
+        [Header("Particle System")]
+        [SerializeField] private ParticleSystem _muzzleEffect;
+        [SerializeField] private ParticleSystem _hitEffectPrefab;
+        [SerializeField] private ParticleSystem _missEffectPrefab;
+        [SerializeField, Min(0f)] private float _hitEffectDestroyDelay = 2f;
+        
+        [Header("Audio")]
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _audioClip;
+        
         private void Update()
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 Debug.Log("Fire1");
                 PerformAttack();
@@ -34,6 +44,8 @@ namespace Project.Scripts.Gameplay.AttackSystems.DebugSystems
             {
                 PerformRaycast();
             }
+
+            PerformEffects();
         }
 
         private void PerformRaycast()
@@ -49,13 +61,49 @@ namespace Project.Scripts.Gameplay.AttackSystems.DebugSystems
                 if (target != null && target.TryGetComponent(out IDamageable damageable))
                 {
                     damageable.TakeDamage(new(_damage, DamageSource.Weapon));
+                    SpawnParticleEffectOnHit(hitInfo);
                 }
                 else
                 {
-                    // hit something not damageable
+                    SpawnParticleEffectOnMiss(hitInfo);
                 }
             }
             
+        }
+        
+        private void PerformEffects()
+        {
+            if (_muzzleEffect != null)
+            {
+                _muzzleEffect.Play();
+            }
+
+            if (_audioSource != null && _audioClip != null)
+            {
+                _audioSource.PlayOneShot(_audioClip);
+            }
+        }
+        
+        private void SpawnParticleEffectOnHit(RaycastHit hitInfo)
+        {
+            if (_hitEffectPrefab != null)
+            {
+                var hitEffectRotation = Quaternion.LookRotation(hitInfo.normal);
+                var hitEffect = Instantiate(_hitEffectPrefab, hitInfo.point, hitEffectRotation);
+                    
+                Destroy(hitEffect.gameObject, _hitEffectDestroyDelay);
+            }
+        }
+        
+        private void SpawnParticleEffectOnMiss(RaycastHit hitInfo)
+        {
+            if (_hitEffectPrefab != null)
+            {
+                var hitEffectRotation = Quaternion.LookRotation(hitInfo.normal);
+                var hitEffect = Instantiate(_missEffectPrefab, hitInfo.point, hitEffectRotation);
+                    
+                Destroy(hitEffect.gameObject, _hitEffectDestroyDelay);
+            }
         }
 
         private Vector3 CalculateSpread()

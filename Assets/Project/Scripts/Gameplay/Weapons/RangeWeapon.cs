@@ -1,6 +1,5 @@
 ﻿using System;
 using Project.Scripts.Gameplay.AttackSystems;
-using Project.Scripts.Gameplay.AttackSystems.Raycast;
 using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using UnityEngine;
@@ -10,6 +9,8 @@ namespace Project.Scripts.Gameplay.Weapons
     public class RangeWeapon : Weapon
     {
         public bool IsReloadable { get; protected set; }
+
+        [SerializeField] protected ParticleSystem _muzzleEffect;
         
         public event Action ReloadStarted;
         
@@ -86,10 +87,18 @@ namespace Project.Scripts.Gameplay.Weapons
                 ConsumeAmmo(_ammoPerPrimaryShot);
             else
                 ConsumeAmmo(_ammoPerSecondaryShot);
+
+            PerformEffects();
             
             Debug.Log($"Weapon {WeaponType} shoot. " +
                       $"Ammo {_currentAmmoInMagazine}/" +
                       $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
+        }
+
+        private void PerformEffects()
+        {
+            if (_muzzleEffect != null) 
+                _muzzleEffect.Play();
         }
 
         protected virtual bool CanShoot(int ammoRequired) => 
@@ -111,7 +120,5 @@ namespace Project.Scripts.Gameplay.Weapons
             if (IsReloadable && _currentAmmoInMagazine == 0)
                 _ = Reload();
         }
-
-
     }
 }

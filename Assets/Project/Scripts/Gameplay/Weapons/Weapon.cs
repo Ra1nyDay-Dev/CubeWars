@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;

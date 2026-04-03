@@ -1,6 +1,5 @@
 ﻿using Project.Scripts.Gameplay.Characters.HealthSystems;
 using Project.Scripts.Gameplay.Data;
-using Project.Scripts.Gameplay.Data.Configs;
 using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
@@ -10,16 +9,16 @@ namespace Project.Scripts.Gameplay.AttackSystems.Raycast
 {
     public class RaycastAttack : AttackBehaviour
     {
-        private LayerMask _layerMask;
+        private readonly LayerMask _layerMask;
         private readonly float _distance;
         private readonly int _shotCount;
         
         private readonly bool _useSpread;
         private readonly float _spreadFactor;
         
-        private ParticleSystem _hitEffectPrefab;
-        private ParticleSystem _missEffectPrefab;
-        private float _hitEffectDestroyDelay;
+        private readonly ParticleSystem _hitEffectPrefab; // toDo: move to ParticleService
+        private readonly ParticleSystem _missEffectPrefab;
+        private readonly float _hitEffectDestroyDelay;
         
         private readonly Transform _startPoint;
 
@@ -27,12 +26,14 @@ namespace Project.Scripts.Gameplay.AttackSystems.Raycast
         {
             AttackAnimationsCount = config.AttackAnimationsCount;
             Damage = config.Damage;
-            AttackCooldown = config.AttackCooldown;
+            AttackInterval = config.AttackInterval;
             AttackDelay = config.AttackDelay;
             HorizontalForceOnHit = config.HorizontalForceOnHit;
             VerticalForceOnHit = config.VerticalForceOnHit;
             AttackDeathType = config.AnimationOnDeath;
             WeaponType = weaponType;
+            HoldingButtonContinuesAttack = config.HoldingButtonContinuesAttack;
+            
             _startPoint = startPoint;
             _layerMask = config.LayerMask;
             _distance = config.Distance;

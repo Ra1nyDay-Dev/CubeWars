@@ -25,8 +25,10 @@ namespace Project.Scripts.Gameplay.Weapons
         event Action PrimaryAttackEnded;
         event Action SecondaryAttackStarted;
         event Action SecondaryAttackEnded;
-        
-        Awaitable PerformPrimaryAttack();
-        Awaitable PerformSecondaryAttack();
+
+        Awaitable StartPrimaryAttack();
+        Awaitable StartSecondaryAttack();
+        void StopPrimaryAttack();
+        void StopSecondaryAttack();
     }
 }

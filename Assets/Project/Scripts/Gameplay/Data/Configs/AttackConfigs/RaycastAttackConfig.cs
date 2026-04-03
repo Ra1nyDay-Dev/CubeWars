@@ -10,6 +10,10 @@ namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
         [Min(0)] public float Distance = 30f;
         [Min(1)] public int ShotCount = 1;
         
+        [Header("FireRate")]
+        [Min(1f)] public float RoundsPerMinute = 600f;
+        public override float AttackInterval => 60f / RoundsPerMinute;
+        
         [Header("Spread")]
         public bool UseSpread = false;
         [Min(0)] public float SpreadFactor = 1f;

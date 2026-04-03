@@ -33,12 +33,14 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
         {
             AttackAnimationsCount = config.AttackAnimationsCount;
             Damage = config.Damage;
-            AttackCooldown = config.AttackCooldown;
+            AttackInterval = config.AttackInterval;
             AttackDelay = config.AttackDelay;
             HorizontalForceOnHit = config.HorizontalForceOnHit;
             VerticalForceOnHit = config.VerticalForceOnHit;
             AttackDeathType = config.AnimationOnDeath;
             WeaponType = weaponType;
+            HoldingButtonContinuesAttack = config.HoldingButtonContinuesAttack;
+            
             _targetMode = config.TargetMode;
             _maxTargetsPerAttack = config.MaxTargetsPerAttack;
             _searchLayerMask = config.SearchLayerMask;

@@ -39,8 +39,14 @@ namespace Project.Scripts.Gameplay.Characters.Brain
         public bool IsPrimaryAttackButtonDown() => 
             Input.GetButtonDown(PRIMARY_ATTACK_AXIS);
         
+        public bool IsPrimaryAttackButtonUp() => 
+            Input.GetButtonUp(PRIMARY_ATTACK_AXIS);
+
         public bool IsSecondaryAttackButtonDown() => 
             Input.GetButtonDown(SECONDARY_ATTACK_AXIS);
+        
+        public bool IsSecondaryAttackButtonUp() => 
+            Input.GetButtonUp(SECONDARY_ATTACK_AXIS);
 
         public bool IsReloadButtonDown() => 
             Input.GetKeyDown(KeyCode.R);
@@ -60,8 +66,14 @@ namespace Project.Scripts.Gameplay.Characters.Brain
             if (IsPrimaryAttackButtonDown())
                 PerformPrimaryAttack();
             
+            if (IsPrimaryAttackButtonUp())
+                StopPrimaryAttack();
+            
             if (IsSecondaryAttackButtonDown())
                 PerformSecondaryAttack();
+            
+            if (IsSecondaryAttackButtonUp())
+                StopSecondaryAttack();
 
             if (IsReloadButtonDown() && IsReloadableWeapon(out RangeWeapon reloadable))
                 _ = reloadable.Reload();
@@ -74,10 +86,15 @@ namespace Project.Scripts.Gameplay.Characters.Brain
         }
 
         private void PerformPrimaryAttack() => 
-            _weaponArsenal.CurrentWeapon?.PerformPrimaryAttack();
+            _weaponArsenal.CurrentWeapon?.StartPrimaryAttack();
 
         private void PerformSecondaryAttack() => 
-            _weaponArsenal.CurrentWeapon?.PerformSecondaryAttack();
+            _weaponArsenal.CurrentWeapon?.StartSecondaryAttack();
+
+        private void StopPrimaryAttack() => 
+            _weaponArsenal.CurrentWeapon?.StopPrimaryAttack();
+        private void StopSecondaryAttack() => 
+            _weaponArsenal.CurrentWeapon?.StopSecondaryAttack();
 
         private Vector3 GetRelativeInput(Vector3 inputDirection)
         {

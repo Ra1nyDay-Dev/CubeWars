@@ -10,7 +10,7 @@ namespace Project.Scripts.Gameplay.Weapons
     {
         public bool IsReloadable { get; protected set; }
 
-        [SerializeField] protected ParticleSystem _muzzleEffect;
+        [SerializeField] protected ParticleSystem _muzzleEffect; // toDo: move to WeaponEffects?
         
         public event Action ReloadStarted;
         
@@ -78,8 +78,14 @@ namespace Project.Scripts.Gameplay.Weapons
                       $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
         }
 
-        protected override bool CheckAttackPossibility(AttackBehaviour attack) => 
-            base.CheckAttackPossibility(attack) && CanShoot(_ammoPerPrimaryShot);
+        protected override bool CanAttack(AttackBehaviour attack)
+        {
+            if (!base.CanAttack(attack))
+                return false;
+            
+            int ammoRequired = attack == PrimaryAttack ? _ammoPerPrimaryShot : _ammoPerSecondaryShot;
+            return (_currentAmmoInMagazine >= ammoRequired && !_isReloading) || !IsReloadable;
+        }
 
         protected override void OnAttackPerformed(AttackBehaviour attack)
         {
@@ -100,9 +106,6 @@ namespace Project.Scripts.Gameplay.Weapons
             if (_muzzleEffect != null) 
                 _muzzleEffect.Play();
         }
-
-        protected virtual bool CanShoot(int ammoRequired) => 
-            (_currentAmmoInMagazine >= ammoRequired && !_isReloading) || !IsReloadable;
 
         protected virtual void ConsumeAmmo(int amount)
         {

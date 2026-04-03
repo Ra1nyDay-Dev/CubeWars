@@ -18,7 +18,6 @@ MonoBehaviour:
   PrimaryAttackBehaviourConfig: {fileID: 11400000, guid: 5527a0c9fa6f3b141a52e4c2d88155af, type: 2}
   SecondaryAttackType: 1
   SecondaryAttackBehaviourConfig: {fileID: 0}
-  AutomaticAttack: 0
   IsReloadable: 1
   MaxAmmoInMagazine: 8
   ReloadTime: 3

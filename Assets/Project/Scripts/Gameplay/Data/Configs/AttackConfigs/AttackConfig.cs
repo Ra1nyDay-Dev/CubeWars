@@ -8,10 +8,12 @@ namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
         [Header("Common")] 
         [Min(0f)] public float Damage = 10f;
         [Min(0)] public float AttackDelay = 0.5f;
-        [Min(0)] public float AttackCooldown = 0.5f;
         [Min(0)] public float HorizontalForceOnHit = 0f;
         [Min(0)] public float VerticalForceOnHit = 0f;
         [Range(1, 2)] public int AttackAnimationsCount = 1;
         public DeathType AnimationOnDeath = DeathType.Default;
+        public bool HoldingButtonContinuesAttack = false;
+        
+        public virtual float AttackInterval { get; }
     }
 }

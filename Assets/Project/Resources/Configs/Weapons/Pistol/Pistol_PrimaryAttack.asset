@@ -14,16 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.AttackConfigs.RaycastAttackConfig
   Damage: 15
   AttackDelay: 0
-  AttackCooldown: 0
-  HorizontalForceOnHit: 6
+  HorizontalForceOnHit: 3
   VerticalForceOnHit: 0
   AttackAnimationsCount: 1
   AnimationOnDeath: 0
+  HoldingButtonContinuesAttack: 0
   LayerMask:
     serializedVersion: 2
     m_Bits: 449
   Distance: 30
   ShotCount: 1
+  RoundsPerMinute: 300
   UseSpread: 1
   SpreadFactor: 0.03
   HitEffectPrefab: {fileID: 4271093393614929224, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}

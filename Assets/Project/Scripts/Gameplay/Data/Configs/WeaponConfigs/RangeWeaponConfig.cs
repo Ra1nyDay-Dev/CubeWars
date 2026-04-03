@@ -5,8 +5,6 @@ namespace Project.Scripts.Gameplay.Data.Configs.WeaponConfigs
     [CreateAssetMenu(fileName = "RangeWeaponConfig", menuName = "Configs/Weapon/RangeWeaponConfig")]
     public class RangeWeaponConfig : WeaponConfig
     {
-        public bool AutomaticAttack = false;
-        
         [Header("Magazine")]
         public bool IsReloadable = true;
         [Min(1)] public int MaxAmmoInMagazine = 1;

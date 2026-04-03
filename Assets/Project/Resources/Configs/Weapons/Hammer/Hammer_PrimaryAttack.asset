@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.OverlapAttackConfig
   Damage: 35
   AttackDelay: 0.75
-  AttackCooldown: 0.5
   HorizontalForceOnHit: 18
   VerticalForceOnHit: 8
   AttackAnimationsCount: 2
   AnimationOnDeath: 0
+  HoldingButtonContinuesAttack: 0
   TargetMode: 1
   MaxTargetsPerAttack: 1
+  AttackCooldown: 0.5
   SearchLayerMask:
     serializedVersion: 2
     m_Bits: 256

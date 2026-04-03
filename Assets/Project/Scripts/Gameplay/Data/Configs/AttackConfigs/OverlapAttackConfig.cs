@@ -10,6 +10,10 @@ namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
         public OverlapAttackTargetMode TargetMode = OverlapAttackTargetMode.All;
         [Min(1)] public int MaxTargetsPerAttack = 1;
         
+        [Header("Attack speed")]
+        [Min(0)] public float AttackCooldown = 0.5f;
+        public override float AttackInterval => AttackCooldown;
+        
         [Header("Masks")]
         public LayerMask SearchLayerMask;
         public LayerMask ObstacleLayerMask;

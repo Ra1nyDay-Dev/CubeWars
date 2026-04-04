@@ -5,5 +5,6 @@ namespace Project.Scripts.Gameplay.Data.Enums
         Knife,
         Hammer,
         Pistol,
+        AK47,
     }
 }

@@ -18,7 +18,7 @@ MonoBehaviour:
   VerticalForceOnHit: 6
   AttackAnimationsCount: 1
   AnimationOnDeath: 0
-  HoldingButtonContinuesAttack: 0
+  HoldingButtonContinuesAttack: 1
   TargetMode: 0
   MaxTargetsPerAttack: 1
   AttackCooldown: 0.3

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dbceec4dca4808af480ac9d11f728c, type: 3}
+  m_Name: AK47_Config
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.WeaponConfigs.RangeWeaponConfig
+  WeaponType: 2
+  WeaponPrefab: {fileID: 2451371130701325659, guid: ea14130b0de647248b752b89ca0fce4c, type: 3}
+  PrimaryAttackType: 1
+  PrimaryAttackBehaviourConfig: {fileID: 11400000, guid: 2f0413e5b3e05054bbf67efd771db1c5, type: 2}
+  SecondaryAttackType: 1
+  SecondaryAttackBehaviourConfig: {fileID: 0}
+  IsReloadable: 1
+  MaxAmmoInMagazine: 30
+  ReloadTime: 3
+  InfiniteAmmo: 1
+  MaxAmmo: 120
+  AmmoPerPrimaryShot: 1
+  AmmoPerSecondaryShot: 0

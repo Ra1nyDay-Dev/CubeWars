@@ -1,9 +1,21 @@
 fileFormatVersion: 2
 guid: 32550265d294c724c935d42cb7fa624b
+AssetOrigin:
+  serializedVersion: 1
+  productId: 331318
+  packageName: Free - Low Poly Weapon Pack
+  packageVersion: 1.0
+  assetPath: Assets/Free - Low Poly Weapon Pack/Models/KR-47.fbx
+  uploadId: 783726
 ModelImporter:
-  serializedVersion: 22200
+  serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.014
+    second: {fileID: 2100000, guid: 698e02788348f0d4d8251051d84e8893, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -56,6 +68,9 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -105,10 +120,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 331318
-  packageName: Free - Low Poly Weapon Pack
-  packageVersion: 1.0
-  assetPath: Assets/Free - Low Poly Weapon Pack/Models/KR-47.fbx
-  uploadId: 783726

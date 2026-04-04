@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74180eecd4a44cc3830fe80ca6d6d13c, type: 3}
-  m_Name: Pistol_PrimaryAttack
+  m_Name: AK47_PrimaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.AttackConfigs.RaycastAttackConfig
   Damage: 15
   AttackDelay: 0
-  HorizontalForceOnHit: 3
+  HorizontalForceOnHit: 5
   VerticalForceOnHit: 0
   AttackAnimationsCount: 1
   AnimationOnDeath: 0
-  HoldingButtonContinuesAttack: 0
+  HoldingButtonContinuesAttack: 1
   LayerMask:
     serializedVersion: 2
     m_Bits: 449
   Distance: 30
   ShotCount: 1
-  RoundsPerMinute: 100
+  RoundsPerMinute: 600
   UseSpread: 1
   SpreadFactor: 0.03
   HitEffectPrefab: {fileID: 4271093393614929224, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}

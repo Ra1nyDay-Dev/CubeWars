@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Knife_PrimaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.OverlapAttackConfig
   Damage: 15
-  AttackDelay: 0.15
+  AttackDelay: 0.2
   HorizontalForceOnHit: 6
   VerticalForceOnHit: 6
   AttackAnimationsCount: 1
   AnimationOnDeath: 0
-  HoldingButtonContinuesAttack: 1
+  HoldingButtonContinuesAttack: 0
   TargetMode: 0
   MaxTargetsPerAttack: 1
-  AttackCooldown: 0.3
+  AttackCooldown: 0.2
   SearchLayerMask:
     serializedVersion: 2
     m_Bits: 256

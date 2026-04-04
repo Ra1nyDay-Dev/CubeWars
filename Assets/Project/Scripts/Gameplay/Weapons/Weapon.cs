@@ -25,8 +25,7 @@ namespace Project.Scripts.Gameplay.Weapons
 
         protected bool _isPrimaryAttackButtonHeldDown;
         protected bool _isSecondaryAttackButtonHeldDown;
-        protected bool _isAttackPlaying = false;
-        protected float _nextAttackTime;
+        protected bool _isAttacking = false;
 
         public virtual void Construct(
             WeaponConfig config,
@@ -45,22 +44,20 @@ namespace Project.Scripts.Gameplay.Weapons
 
         public virtual async Awaitable StartPrimaryAttack()
         {
-            if (_isPrimaryAttackButtonHeldDown)
+            if (_isPrimaryAttackButtonHeldDown || PrimaryAttack == null || _isAttacking)
                 return;
             
             _isPrimaryAttackButtonHeldDown = true;
             await AttackLoop(PrimaryAttack, () => _isPrimaryAttackButtonHeldDown);
-            _isPrimaryAttackButtonHeldDown = false;
         }
 
         public virtual async Awaitable StartSecondaryAttack()
         {
-            if (_isSecondaryAttackButtonHeldDown)
+            if (_isSecondaryAttackButtonHeldDown || SecondaryAttack == null || _isAttacking)
                 return;
             
             _isSecondaryAttackButtonHeldDown = true;
             await AttackLoop(SecondaryAttack, () => _isSecondaryAttackButtonHeldDown);
-            _isSecondaryAttackButtonHeldDown = false;
         }
 
         public virtual void StopPrimaryAttack() => _isPrimaryAttackButtonHeldDown = false;
@@ -73,7 +70,6 @@ namespace Project.Scripts.Gameplay.Weapons
             while (isHeld())
             {
                 await PerformAttack(attack);
-                await Awaitable.NextFrameAsync();
 
                 if (!attack.HoldingButtonContinuesAttack)
                     break;
@@ -82,10 +78,8 @@ namespace Project.Scripts.Gameplay.Weapons
 
         protected virtual async Awaitable PerformAttack(AttackBehaviour attack)
         {
-            if (!CanAttack(attack)) 
+            if (!CanAttack(attack))
                 return;
-            
-            _nextAttackTime = Time.time + attack.AttackInterval;
             
             OnAttackStarted(attack);
             
@@ -94,15 +88,17 @@ namespace Project.Scripts.Gameplay.Weapons
             attack.PerformAttack();
             OnAttackPerformed(attack);
             
+            await ApplyAttackCooldown(attack);
+            
             OnAttackEnded(attack);
         }
         
         protected virtual bool CanAttack(AttackBehaviour attack) => 
-            attack != null && Time.time >= _nextAttackTime;
+            !_isAttacking;
 
         protected virtual void OnAttackStarted(AttackBehaviour attack)
         {
-            _isAttackPlaying = true;
+            _isAttacking = true;
             
             if (attack == PrimaryAttack)
                 PrimaryAttackStarted?.Invoke();
@@ -112,12 +108,19 @@ namespace Project.Scripts.Gameplay.Weapons
 
         protected virtual Awaitable ApplyAttackDelay(AttackBehaviour attack) => 
             Awaitable.WaitForSecondsAsync(attack.AttackDelay);
+        
+        protected virtual Awaitable ApplyAttackCooldown(AttackBehaviour attack) => 
+            Awaitable.WaitForSecondsAsync(attack.AttackInterval);
 
-        protected virtual void OnAttackPerformed(AttackBehaviour attack) {}
+        protected virtual void OnAttackPerformed(AttackBehaviour attack)
+        {
+            Debug.Log($"{Time.time} Attacked");
+        }
 
         protected virtual void OnAttackEnded(AttackBehaviour attack)
         {
-            _isAttackPlaying = false;
+            Debug.Log($"{Time.time} Attack ready");
+            _isAttacking = false;
             
             if (attack == PrimaryAttack)
                 PrimaryAttackEnded?.Invoke();

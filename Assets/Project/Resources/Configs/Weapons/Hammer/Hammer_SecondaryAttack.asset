@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hammer_SecondaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.OverlapAttackConfig
   Damage: 999
-  AttackDelay: 1.15
+  AttackDelay: 1
   HorizontalForceOnHit: 0
   VerticalForceOnHit: 0
   AttackAnimationsCount: 1

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hammer_PrimaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.OverlapAttackConfig
   Damage: 35
-  AttackDelay: 0.75
+  AttackDelay: 0.8
   HorizontalForceOnHit: 18
   VerticalForceOnHit: 8
   AttackAnimationsCount: 2
@@ -21,7 +21,7 @@ MonoBehaviour:
   HoldingButtonContinuesAttack: 1
   TargetMode: 1
   MaxTargetsPerAttack: 1
-  AttackCooldown: 0.5
+  AttackCooldown: 0.7
   SearchLayerMask:
     serializedVersion: 2
     m_Bits: 256

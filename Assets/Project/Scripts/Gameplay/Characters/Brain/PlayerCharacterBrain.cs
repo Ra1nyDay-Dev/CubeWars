@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Weapons;
@@ -76,7 +77,7 @@ namespace Project.Scripts.Gameplay.Characters.Brain
                 StopSecondaryAttack();
 
             if (IsReloadButtonDown() && IsReloadableWeapon(out RangeWeapon reloadable))
-                _ = reloadable.Reload();
+                reloadable.Reload().Forget();
         }
 
         private bool IsReloadableWeapon(out RangeWeapon reloadable)

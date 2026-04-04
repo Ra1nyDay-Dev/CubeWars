@@ -1,7 +1,7 @@
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Infrastructure.Services.AssetManagement;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
-using Project.Scripts.Infrastructure.Services.CoroutineRunner;
 using Project.Scripts.Infrastructure.Services.SceneLoader;
 using Project.Scripts.Infrastructure.Services.ServiceLocator;
 using Project.Scripts.UI;
@@ -17,7 +17,6 @@ namespace Project.Scripts.Infrastructure.EntryPoints
 
         private static GameEntryPoint _instance;
         private ISceneLoader _sceneLoader;
-        private CoroutineRunner _coroutineRunner;
         private readonly IAssetProvider _assetProvider;
         private readonly GameUI _gameUI;
 
@@ -39,32 +38,23 @@ namespace Project.Scripts.Infrastructure.EntryPoints
             _gameUI.ShowLoadingScreen();
         }
 
-
         private void RunGame()
         {
             RegisterProjectServices();
-            _sceneLoader.Load(FIRST_SCENE);
+            _sceneLoader.Load(FIRST_SCENE).Forget();
         }
 
         private void RegisterProjectServices()
         {
-            RegisterCoroutineRunner();
             ProjectServices.Container.Register<IAssetProvider>(_assetProvider);
             ProjectServices.Container.Register<IConfigProvider>(new ConfigProvider());
-            ProjectServices.Container.Register<IGameUI>(_gameUI); ;
+            ProjectServices.Container.Register<IGameUI>(_gameUI);
             RegisterSceneLoader();
-        }
-
-        private void RegisterCoroutineRunner()
-        {
-            _coroutineRunner = new GameObject("CoroutineRunner").AddComponent<CoroutineRunner>();
-            ProjectServices.Container.Register<ICoroutineRunner>(_coroutineRunner);
-            Object.DontDestroyOnLoad(_coroutineRunner.gameObject);
         }
 
         private void RegisterSceneLoader()
         {
-            _sceneLoader = new SceneLoader(_coroutineRunner, _gameUI);
+            _sceneLoader = new SceneLoader(_gameUI);
             ProjectServices.Container.Register<ISceneLoader>(_sceneLoader);
         }
     }

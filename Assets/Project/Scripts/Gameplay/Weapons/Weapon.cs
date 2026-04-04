@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
@@ -42,7 +43,7 @@ namespace Project.Scripts.Gameplay.Weapons
             ApplyHandsSkinMaterial(handsSkinMaterial);
         }
 
-        public virtual async Awaitable StartPrimaryAttack()
+        public virtual async UniTask StartPrimaryAttack()
         {
             if (_isPrimaryAttackButtonHeldDown || PrimaryAttack == null || _isAttacking)
                 return;
@@ -51,7 +52,7 @@ namespace Project.Scripts.Gameplay.Weapons
             await AttackLoop(PrimaryAttack, () => _isPrimaryAttackButtonHeldDown);
         }
 
-        public virtual async Awaitable StartSecondaryAttack()
+        public virtual async UniTask StartSecondaryAttack()
         {
             if (_isSecondaryAttackButtonHeldDown || SecondaryAttack == null || _isAttacking)
                 return;
@@ -63,12 +64,18 @@ namespace Project.Scripts.Gameplay.Weapons
         public virtual void StopPrimaryAttack() => _isPrimaryAttackButtonHeldDown = false;
         public virtual void StopSecondaryAttack() => _isSecondaryAttackButtonHeldDown = false;
 
-        protected async Awaitable AttackLoop(
+        protected virtual async UniTask AttackLoop(
             AttackBehaviour attack,
             Func<bool> isHeld)
         {
             while (isHeld())
             {
+                if (!CanAttack(attack))
+                {
+                    await UniTask.Yield();
+                    continue;
+                }
+                
                 await PerformAttack(attack);
 
                 if (!attack.HoldingButtonContinuesAttack)
@@ -76,11 +83,8 @@ namespace Project.Scripts.Gameplay.Weapons
             }
         }
 
-        protected virtual async Awaitable PerformAttack(AttackBehaviour attack)
+        protected virtual async UniTask PerformAttack(AttackBehaviour attack)
         {
-            if (!CanAttack(attack))
-                return;
-            
             OnAttackStarted(attack);
             
             await ApplyAttackDelay(attack);
@@ -106,11 +110,11 @@ namespace Project.Scripts.Gameplay.Weapons
                 SecondaryAttackStarted?.Invoke();
         }
 
-        protected virtual Awaitable ApplyAttackDelay(AttackBehaviour attack) => 
-            Awaitable.WaitForSecondsAsync(attack.AttackDelay);
-        
-        protected virtual Awaitable ApplyAttackCooldown(AttackBehaviour attack) => 
-            Awaitable.WaitForSecondsAsync(attack.AttackInterval);
+        protected virtual UniTask ApplyAttackDelay(AttackBehaviour attack) => 
+            UniTask.Delay(TimeSpan.FromSeconds(attack.AttackDelay));
+
+        protected virtual UniTask ApplyAttackCooldown(AttackBehaviour attack) => 
+            UniTask.Delay(TimeSpan.FromSeconds(attack.AttackInterval));
 
         protected virtual void OnAttackPerformed(AttackBehaviour attack)
         {

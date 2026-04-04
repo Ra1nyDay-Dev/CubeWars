@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
@@ -55,7 +56,7 @@ namespace Project.Scripts.Gameplay.Weapons
                       $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
         }
 
-        public virtual async Awaitable Reload()
+        public virtual async UniTask Reload()
         {
             if (!IsReloadable 
                 || _isReloading 
@@ -64,8 +65,13 @@ namespace Project.Scripts.Gameplay.Weapons
                 return;
 
             _isReloading = true;
+            
             ReloadStarted?.Invoke();
-            await Awaitable.WaitForSecondsAsync(_reloadTime);
+            
+            await UniTask.Delay(
+                TimeSpan.FromSeconds(_reloadTime),
+                cancellationToken: this.GetCancellationTokenOnDestroy()
+            );
 
             _currentAmmoInMagazine = _infiniteAmmo ? 
                 _maxAmmoInMagazine 
@@ -121,7 +127,7 @@ namespace Project.Scripts.Gameplay.Weapons
             base.OnAttackEnded(attack);
             
             if (IsReloadable && _currentAmmoInMagazine == 0)
-                _ = Reload();
+                Reload().Forget();
         }
     }
 }

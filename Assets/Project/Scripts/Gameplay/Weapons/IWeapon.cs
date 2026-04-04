@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
@@ -26,8 +27,8 @@ namespace Project.Scripts.Gameplay.Weapons
         event Action SecondaryAttackStarted;
         event Action SecondaryAttackEnded;
 
-        Awaitable StartPrimaryAttack();
-        Awaitable StartSecondaryAttack();
+        UniTask StartPrimaryAttack();
+        UniTask StartSecondaryAttack();
         void StopPrimaryAttack();
         void StopSecondaryAttack();
     }

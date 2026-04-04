@@ -7,7 +7,6 @@ namespace Project.Scripts.Gameplay.Weapons
     public class WeaponArsenalTest : MonoBehaviour
     {
         [SerializeField] private Character _character;
-        [SerializeField] private WeaponType _spawnedWeaponType = WeaponType.Knife;
 
         private WeaponArsenal _weaponArsenal;
         
@@ -18,8 +17,14 @@ namespace Project.Scripts.Gameplay.Weapons
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.P)) 
-                _weaponArsenal.ChangeWeapon(_spawnedWeaponType);
+            if (Input.GetKeyDown(KeyCode.Alpha1)) 
+                _weaponArsenal.ChangeWeapon(WeaponType.Knife);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) 
+                _weaponArsenal.ChangeWeapon(WeaponType.Hammer);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) 
+                _weaponArsenal.ChangeWeapon(WeaponType.Pistol);
+            if (Input.GetKeyDown(KeyCode.Alpha4)) 
+                _weaponArsenal.ChangeWeapon(WeaponType.AK47);
         }
     }
 }

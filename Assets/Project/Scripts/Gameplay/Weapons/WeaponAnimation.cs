@@ -49,6 +49,7 @@ namespace Project.Scripts.Gameplay.Weapons
             }
             
             _animator.SetBool(IsGroundedHash, _owner.IsGrounded);
+            _animator.SetBool(IsMovingHash, _owner.IsMoving);
         }
 
         private void Awake()

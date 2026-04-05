@@ -34,6 +34,9 @@ namespace Project.Scripts.Gameplay.Characters
         public bool IsGrounded => 
             _verticalMovement.IsGrounded;
         
+        public bool IsMoving => 
+            _directionalMovement.IsMoving;
+        
         public event Action<Vector3> MovementDirectionChanged;
         public event Action<Vector3> HorizontalVelocityChanged;
         public event Action<bool> MovingChanged;

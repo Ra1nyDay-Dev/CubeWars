@@ -7,5 +7,6 @@ namespace Project.Scripts.Gameplay.Data.Enums
         Pistol,
         Shotgun,
         AK47,
+        Minigun,
     }
 }

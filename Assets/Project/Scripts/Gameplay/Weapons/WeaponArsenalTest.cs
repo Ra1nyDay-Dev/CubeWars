@@ -27,6 +27,8 @@ namespace Project.Scripts.Gameplay.Weapons
                 _weaponArsenal.ChangeWeapon(WeaponType.Shotgun);
             if (Input.GetKeyDown(KeyCode.Alpha5)) 
                 _weaponArsenal.ChangeWeapon(WeaponType.AK47);
+            if (Input.GetKeyDown(KeyCode.Alpha6)) 
+                _weaponArsenal.ChangeWeapon(WeaponType.Minigun);
         }
     }
 }

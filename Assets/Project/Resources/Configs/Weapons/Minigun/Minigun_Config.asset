@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58dbceec4dca4808af480ac9d11f728c, type: 3}
-  m_Name: Shotgun_Config
+  m_Name: Minigun_Config
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.WeaponConfigs.RangeWeaponConfig
-  WeaponType: 3
-  WeaponPrefab: {fileID: 5218828965845165619, guid: b67535c52b33fa34998d915a68805a47, type: 3}
+  WeaponType: 5
+  WeaponPrefab: {fileID: 6961144440128553138, guid: b2f49b2ddcf98b24cbd28652830a2dfb, type: 3}
   PrimaryAttackType: 1
-  PrimaryAttackBehaviourConfig: {fileID: 11400000, guid: b22674643f5c3844cb8d0ec67c78f288, type: 2}
+  PrimaryAttackBehaviourConfig: {fileID: 11400000, guid: 270ac777e9206e74fbc3a0bf3916771a, type: 2}
   SecondaryAttackType: 1
-  SecondaryAttackBehaviourConfig: {fileID: 11400000, guid: 32ba3539d8459d74794d780855a9ecb5, type: 2}
+  SecondaryAttackBehaviourConfig: {fileID: 0}
   IsReloadable: 1
-  MaxAmmoInMagazine: 2
-  ReloadTime: 3
-  InfiniteAmmo: 1
-  MaxAmmo: 18
+  MaxAmmoInMagazine: 1000
+  ReloadTime: 6
+  InfiniteAmmo: 0
+  MaxAmmo: 1000
   AmmoPerPrimaryShot: 1
-  AmmoPerSecondaryShot: 2
+  AmmoPerSecondaryShot: 0

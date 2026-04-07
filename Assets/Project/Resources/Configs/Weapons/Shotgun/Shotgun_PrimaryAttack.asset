@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.AttackConfigs.RaycastAttackConfig
   Damage: 12
   AttackDelay: 0
-  HorizontalForceOnHit: 3
+  HorizontalForceOnHit: 12
   VerticalForceOnHit: 0
   AttackAnimationsCount: 1
   AnimationOnDeath: 0

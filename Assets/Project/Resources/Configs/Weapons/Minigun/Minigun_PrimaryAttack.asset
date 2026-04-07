@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74180eecd4a44cc3830fe80ca6d6d13c, type: 3}
-  m_Name: Shotgun_SecondaryAttack
+  m_Name: Minigun_PrimaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.AttackConfigs.RaycastAttackConfig
-  Damage: 12
+  Damage: 3
   AttackDelay: 0
-  HorizontalForceOnHit: 14
+  HorizontalForceOnHit: 5
   VerticalForceOnHit: 0
   AttackAnimationsCount: 1
   AnimationOnDeath: 0
-  HoldingButtonContinuesAttack: 0
+  HoldingButtonContinuesAttack: 1
   LayerMask:
     serializedVersion: 2
     m_Bits: 449
-  Distance: 20
-  ShotCount: 10
-  RoundsPerMinute: 100
+  Distance: 30
+  ShotCount: 1
+  RoundsPerMinute: 3000
   UseSpread: 1
-  SpreadFactor: 0.1
+  SpreadFactor: 0.06
   HitEffectPrefab: {fileID: 4271093393614929224, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}
   MissEffectPrefab: {fileID: 19800002, guid: 957385c45b877e645a128e11a3efb2f9, type: 3}
   HitEffectDestroyDelay: 2

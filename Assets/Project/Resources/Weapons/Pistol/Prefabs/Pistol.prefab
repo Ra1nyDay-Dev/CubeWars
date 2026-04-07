@@ -85,7 +85,8 @@ MonoBehaviour:
   _hands:
   - {fileID: 5343569155423136965}
   - {fileID: 830485686705571725}
-  _muzzleEffect: {fileID: 5297766821998115195}
+  _muzzleEffects:
+  - {fileID: 5297766821998115195}
 --- !u!1 &6709893407513903648
 GameObject:
   m_ObjectHideFlags: 0

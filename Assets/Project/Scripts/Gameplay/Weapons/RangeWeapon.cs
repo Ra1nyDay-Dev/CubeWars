@@ -11,7 +11,7 @@ namespace Project.Scripts.Gameplay.Weapons
     {
         public bool IsReloadable { get; protected set; }
 
-        [SerializeField] protected ParticleSystem _muzzleEffect; // toDo: move to WeaponEffects?
+        [SerializeField] protected ParticleSystem[] _muzzleEffects; // toDo: move to WeaponEffects?
         
         public event Action ReloadStarted;
         
@@ -109,8 +109,11 @@ namespace Project.Scripts.Gameplay.Weapons
 
         private void PerformEffects()
         {
-            if (_muzzleEffect != null) 
-                _muzzleEffect.Play();
+            if (_muzzleEffects.Length > 0)
+            {
+                foreach (var effect in _muzzleEffects) 
+                    effect.Play();
+            }
         }
 
         protected virtual void ConsumeAmmo(int amount)

@@ -175,7 +175,8 @@ MonoBehaviour:
   _hands:
   - {fileID: 2658012065397595}
   - {fileID: 5422576977285800876}
-  _muzzleEffect: {fileID: 5763169293268730059}
+  _muzzleEffects:
+  - {fileID: 5763169293268730059}
 --- !u!95 &3221966718158278751
 Animator:
   serializedVersion: 7

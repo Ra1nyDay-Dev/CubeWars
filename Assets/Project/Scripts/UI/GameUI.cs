@@ -1,15 +1,26 @@
+using System;
 using Project.Scripts.UI.Elements;
 using UnityEngine;
+using Zenject;
 
 namespace Project.Scripts.UI
 {
-    public class GameUI : MonoBehaviour, IGameUI
+    public class GameUI : MonoBehaviour, IGameUI, IInitializable
     {
         [SerializeField] private LoadingScreen _loadingScreen;
         [SerializeField] private Transform _sceneUI;
 
-        public void ShowLoadingScreen() => _loadingScreen.Show();
-        public void HideLoadingScreen() => _loadingScreen.Hide();
+        public void Initialize()
+        {
+            ShowLoadingScreen();
+            DontDestroyOnLoad(gameObject);
+        }
+
+        public void ShowLoadingScreen() 
+            => _loadingScreen.Show();
+
+        public void HideLoadingScreen() 
+            => _loadingScreen.Hide();
 
         public void AttachSceneUI(GameObject sceneUI)
         {
@@ -18,7 +29,7 @@ namespace Project.Scripts.UI
             FixUiTransform(sceneUI);
         }
 
-        private void ClearSceneUI()
+        public void ClearSceneUI()
         {
             var childCount = _sceneUI.childCount;
             for (int i = 0; i < childCount; i++)
@@ -27,14 +38,14 @@ namespace Project.Scripts.UI
             }
         }
 
-        private void FixUiTransform(GameObject UIObject)
+        private void FixUiTransform(GameObject uiObject)
         {
-            var rt = UIObject.GetComponent<RectTransform>();
+            var rt = uiObject.GetComponent<RectTransform>();
             rt.anchorMin = Vector2.zero;
             rt.anchorMax = Vector2.one;
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
-            UIObject.transform.localScale = Vector3.one;
+            uiObject.transform.localScale = Vector3.one;
         }
     }
 }

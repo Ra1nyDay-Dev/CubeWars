@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.Characters;
+using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Project.Scripts.Gameplay.Weapons
     {
         [SerializeField] private GameObject[] _hands;
 
-        public Character Owner { get; private set; }
+        public CharacterMovement Owner { get; private set; }
         public int PrimaryAttackAnimationsCount { get; private set; }
         public WeaponType WeaponType { get; private set; }
 
@@ -32,7 +33,7 @@ namespace Project.Scripts.Gameplay.Weapons
             WeaponConfig config,
             AttackBehaviour primaryAttack,
             AttackBehaviour secondaryAttack,
-            Character owner,
+            CharacterMovement owner,
             Material handsSkinMaterial
         )
         {

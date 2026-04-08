@@ -1,54 +1,56 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.Data;
-using Project.Scripts.Infrastructure.EntryPoints;
 using Project.Scripts.UI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
+using Zenject;
 
 namespace Project.Scripts.Infrastructure.Services.SceneLoader
 {
     public class SceneLoader : ISceneLoader
     {
-        private readonly GameUI _gameUI;
+        private readonly IGameUI _gameUI;
+        private readonly ZenjectSceneLoader _zenjectLoader;
 
-        public SceneLoader(GameUI gameUI) => 
+        [Inject]
+        public SceneLoader(
+            IGameUI gameUI, 
+            ZenjectSceneLoader zenjectLoader)
+        {
             _gameUI = gameUI;
+            _zenjectLoader = zenjectLoader;
+        }
 
-        public UniTask Load(string name, Action onLoaded = null) => 
-            LoadScene(name, RunSceneEntryPoint, onLoaded);
-
-        public UniTask Load<TSceneParams>(
-            string name,
-            TSceneParams sceneParams,
-            Action onLoaded = null
-        ) where TSceneParams : class, ISceneParams => 
-            LoadScene(name, () => RunSceneEntryPoint(sceneParams), onLoaded);
-
-        private async UniTask LoadScene(string name, Action runEntryPoint, Action onLoaded = null)
+        public async UniTask Load(string sceneName, Action onLoaded = null)
         {
             _gameUI.ShowLoadingScreen();
             
-            SceneManager.LoadScene(Scenes.BOOT);
-            await SceneManager.LoadSceneAsync(name).ToUniTask();
-            
-            if (name != Scenes.BOOT) 
-                runEntryPoint?.Invoke();
+            await _zenjectLoader.LoadSceneAsync(sceneName).ToUniTask();
 
             _gameUI.HideLoadingScreen();
             onLoaded?.Invoke();
         }
-        
-        private void RunSceneEntryPoint()
+
+        public async UniTask Load<TSceneParams>(
+            string sceneName,
+            TSceneParams sceneParams,
+            Action onLoaded = null
+        ) where TSceneParams : class, ISceneParams 
         {
-            var entry = Object.FindFirstObjectByType<SceneEntryPoint>();
-            entry.Run(_gameUI);
-        }
-        
-        private void RunSceneEntryPoint<TSceneParams>(TSceneParams sceneParams)
-        {
-            var entry = Object.FindFirstObjectByType<SceneEntryPoint<TSceneParams>>();
-            entry.Run(_gameUI, sceneParams);
+            _gameUI.ShowLoadingScreen();
+            
+            await _zenjectLoader.LoadSceneAsync(
+                sceneName, 
+                LoadSceneMode.Single,
+                container =>
+                {
+                    container.BindInstance(sceneParams);
+                }
+            ).ToUniTask();
+
+            _gameUI.HideLoadingScreen();
+            onLoaded?.Invoke();
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
 using Project.Scripts.Gameplay.Characters;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Services.Fabrics.Weapon;
-using Project.Scripts.Infrastructure.Services.ServiceLocator;
 using UnityEngine;
+using Zenject;
 
 namespace Project.Scripts.Gameplay.Weapons
 {
@@ -18,11 +19,15 @@ namespace Project.Scripts.Gameplay.Weapons
         [SerializeField] private Death _death;
         
         private IWeaponFabric _weaponFabric;
-        private Character _owner;
+        private CharacterMovement _owner;
+
+        [Inject]
+        public void Construct(IWeaponFabric weaponFabric) => 
+            _weaponFabric = weaponFabric;
 
         private void Awake()
         {
-            _owner = GetComponent<Character>();
+            _owner = GetComponent<CharacterMovement>();
         }
 
         private void Start() => 
@@ -51,7 +56,7 @@ namespace Project.Scripts.Gameplay.Weapons
         private void EquipWeapon(WeaponType weaponType)
         {
             //toDo: rewrite to inject in Characters Fabric
-            _weaponFabric = SceneServices.Container.Get<IWeaponFabric>();
+            // _weaponFabric = SceneServices.Container.Get<IWeaponFabric>();
             
             CurrentWeaponGameObject = _weaponFabric.CreateWeaponInHands(
                 weaponType,

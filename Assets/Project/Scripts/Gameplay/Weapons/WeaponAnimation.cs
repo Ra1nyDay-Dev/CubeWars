@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Project.Scripts.Gameplay.Characters;
+using Project.Scripts.Gameplay.Characters.Movement;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Weapons
@@ -22,12 +23,12 @@ namespace Project.Scripts.Gameplay.Weapons
 
         private Animator _animator;
         private IWeapon _weapon;
-        private Character _owner;
+        private CharacterMovement _owner;
         
         private Vector3 _lastHorizontalVelocity;
         private int _lastPrimaryAttackIndex = 1;
 
-        public void Construct(IWeapon weapon, Character owner)
+        public void Construct(IWeapon weapon, CharacterMovement owner)
         {
             _weapon = weapon;
             _owner = owner;

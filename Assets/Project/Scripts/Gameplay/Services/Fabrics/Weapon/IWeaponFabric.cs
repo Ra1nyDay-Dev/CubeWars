@@ -1,17 +1,17 @@
 ﻿using Project.Scripts.Gameplay.Characters;
+using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data.Enums;
-using Project.Scripts.Infrastructure.Services.ServiceLocator;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
 {
-    public interface IWeaponFabric : ISceneService
+    public interface IWeaponFabric
     {
         GameObject CreateWeaponInHands(WeaponType weaponType,
             Transform weaponSlot,
             Transform attackStartPoint,
             Material handsSkinMaterial,
             GameObject selfHitbox, 
-            Character owner);
+            CharacterMovement owner);
     }
 }

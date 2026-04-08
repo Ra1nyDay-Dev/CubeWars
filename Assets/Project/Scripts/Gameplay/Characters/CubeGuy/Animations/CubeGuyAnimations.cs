@@ -1,13 +1,14 @@
 ﻿using System;
 using DG.Tweening;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data;
 using UnityEditor;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
 {
-    [RequireComponent(typeof(Character))]
+    [RequireComponent(typeof(CharacterMovement))]
     [RequireComponent(typeof(Animator))]
     public class CubeGuyAnimations : MonoBehaviour
     {
@@ -31,7 +32,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
 
         private Animator _animator;
-        private Character _character;
+        private CharacterMovement _characterMovement;
         private IDamageable _damageable;
         private Death _death;
         private Renderer _renderer;
@@ -44,9 +45,9 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-            _character = GetComponent<Character>();
-            _damageable = _character.GetComponent<IDamageable>();
-            _death = _character.GetComponent<Death>();
+            _characterMovement = GetComponent<CharacterMovement>();
+            _damageable = _characterMovement.GetComponent<IDamageable>();
+            _death = _characterMovement.GetComponent<Death>();
             _renderer = _tweensMesh.GetComponent<Renderer>();
             _materialPropertyBlock = new MaterialPropertyBlock();
             SetTweens();
@@ -54,23 +55,23 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
 
         private void OnEnable()
         {
-            _character.MovingChanged += OnMovingChanged;
-            _character.HorizontalVelocityChanged += OnHorizontalVelocityChanged;
-            _character.GroundedChanged += OnGroundedChanged;
-            _character.Jumped += OnJumped;
-            _character.RotationChanged += OnRotationChanged;
-            _character.VerticalVelocityChanged += OnVerticalVelocityChanged;
+            _characterMovement.MovingChanged += OnMovingChanged;
+            _characterMovement.HorizontalVelocityChanged += OnHorizontalVelocityChanged;
+            _characterMovement.GroundedChanged += OnGroundedChanged;
+            _characterMovement.Jumped += OnJumped;
+            _characterMovement.RotationChanged += OnRotationChanged;
+            _characterMovement.VerticalVelocityChanged += OnVerticalVelocityChanged;
             _damageable.Damaged += OnDamaged;
             _death.Happened += OnDie;
         }
 
         private void OnDisable()
         {
-            _character.MovingChanged -= OnMovingChanged;
-            _character.HorizontalVelocityChanged -= OnHorizontalVelocityChanged;
-            _character.GroundedChanged -= OnGroundedChanged;
-            _character.Jumped -= OnJumped;
-            _character.RotationChanged -= OnRotationChanged;
+            _characterMovement.MovingChanged -= OnMovingChanged;
+            _characterMovement.HorizontalVelocityChanged -= OnHorizontalVelocityChanged;
+            _characterMovement.GroundedChanged -= OnGroundedChanged;
+            _characterMovement.Jumped -= OnJumped;
+            _characterMovement.RotationChanged -= OnRotationChanged;
             _damageable.Damaged -= OnDamaged;
             _death.Happened -= OnDie;
         }
@@ -99,10 +100,10 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
 
         private void UpdateMovementAnimation(Vector3 worldVelocity)
         {
-            if (!_character.IsGrounded)
+            if (!_characterMovement.IsGrounded)
                 return;
             
-            Vector3 localVelocity = Quaternion.Inverse(_character.CurrentRotation) * worldVelocity;
+            Vector3 localVelocity = Quaternion.Inverse(_characterMovement.CurrentRotation) * worldVelocity;
             _animator.SetFloat(HorizontalSpeedHash, worldVelocity.magnitude);
             _animator.SetFloat(HorizontalSpeedXHash, localVelocity.x);
             _animator.SetFloat(HorizontalSpeedZHash, localVelocity.z);
@@ -110,14 +111,14 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
 
         private void OnJumped()
         {
-            Vector3 moveDirection = _character.CurrentHorizontalVelocity;
+            Vector3 moveDirection = _characterMovement.CurrentHorizontalVelocity;
 
             if (moveDirection.magnitude > 0.1f)
                 _jumpDirection = moveDirection.normalized;
             else
                 _jumpDirection = Vector3.zero;
 
-            Vector3 localMoveDir = Quaternion.Inverse(_character.CurrentRotation) * _jumpDirection;
+            Vector3 localMoveDir = Quaternion.Inverse(_characterMovement.CurrentRotation) * _jumpDirection;
 
             _animator.SetFloat(FlipXHash, localMoveDir.x);
             _animator.SetFloat(FlipZHash, localMoveDir.z);

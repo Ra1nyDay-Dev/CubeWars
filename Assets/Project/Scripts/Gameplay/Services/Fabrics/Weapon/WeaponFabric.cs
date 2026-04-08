@@ -2,7 +2,7 @@
 using Project.Scripts.Gameplay.AttackSystems.Overlap;
 using Project.Scripts.Gameplay.AttackSystems.Raycast;
 using Project.Scripts.Gameplay.Characters;
-using Project.Scripts.Gameplay.Data.Configs;
+using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
@@ -10,6 +10,7 @@ using Project.Scripts.Gameplay.Weapons;
 using Project.Scripts.Infrastructure.Services.AssetManagement;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using UnityEngine;
+using Zenject;
 
 namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
 {
@@ -18,7 +19,10 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
         private readonly IConfigProvider _configProvider;
         private readonly IAssetProvider _assetProvider;
         
-        public WeaponFabric(IAssetProvider assetProvider, IConfigProvider configProvider)
+        [Inject]
+        public WeaponFabric(
+            IAssetProvider assetProvider,
+            IConfigProvider configProvider)
         {
             _configProvider = configProvider;
             _assetProvider = assetProvider;
@@ -29,7 +33,7 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
             Transform attackStartPoint,
             Material handsSkinMaterial,
             GameObject selfHitbox, 
-            Character owner)
+            CharacterMovement owner)
         {
             WeaponConfig config = _configProvider.GetWeaponConfig(weaponType);
             GameObject weaponGameObject = _assetProvider.Instantiate(config.WeaponPrefab);

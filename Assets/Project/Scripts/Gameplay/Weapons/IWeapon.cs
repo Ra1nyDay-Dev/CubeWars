@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.Characters;
+using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Project.Scripts.Gameplay.Weapons
             WeaponConfig config,
             AttackBehaviour primaryAttack,
             AttackBehaviour secondaryAttack,
-            Character owner,
+            CharacterMovement owner,
             Material handsSkinMaterial
             );
 

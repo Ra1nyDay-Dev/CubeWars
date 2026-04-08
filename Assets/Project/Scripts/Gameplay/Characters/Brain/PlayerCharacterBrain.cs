@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Weapons;
 using UnityEngine;
@@ -16,19 +17,19 @@ namespace Project.Scripts.Gameplay.Characters.Brain
         private const string SECONDARY_ATTACK_AXIS = "Fire2";
         
         private readonly Camera _camera;
-        private readonly Character _character;
+        private readonly CharacterMovement _characterMovement;
         private readonly WeaponArsenal _weaponArsenal;
         private readonly Death _characterDeath;
 
-        public PlayerCharacterBrain(Character character, Camera camera)
+        public PlayerCharacterBrain(CharacterMovement characterMovement, Camera camera)
         {
             _camera = camera;
-            _character = character;
+            _characterMovement = characterMovement;
             
-            _characterDeath = _character.GetComponent<Death>();
+            _characterDeath = _characterMovement.GetComponent<Death>();
             _characterDeath.Happened += OnCharacterDeath;
 
-            _weaponArsenal = _character.GetComponent<WeaponArsenal>();
+            _weaponArsenal = _characterMovement.GetComponent<WeaponArsenal>();
         }
 
         public Vector3 Axis() => 
@@ -56,13 +57,13 @@ namespace Project.Scripts.Gameplay.Characters.Brain
         {
             Vector3 inputDirection = Axis();
             Vector3 relativeInputDirection = GetRelativeInput(inputDirection);
-            _character.SetMoveDirection(relativeInputDirection);
+            _characterMovement.SetMoveDirection(relativeInputDirection);
             
             Vector3 directionToMouse = GetDirectionToMouse();
-            _character.SetRotationDirection(directionToMouse);
+            _characterMovement.SetRotationDirection(directionToMouse);
             
             if (IsJumpButtonDown())
-                _character.Jump();
+                _characterMovement.Jump();
 
             if (IsPrimaryAttackButtonDown())
                 PerformPrimaryAttack();
@@ -113,13 +114,13 @@ namespace Project.Scripts.Gameplay.Characters.Brain
         private Vector3 GetDirectionToMouse()
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            Plane groundPlane = new Plane(Vector3.up, _character.transform.position);
+            Plane groundPlane = new Plane(Vector3.up, _characterMovement.transform.position);
             Vector3 directionToMouse = Vector3.zero;
             
             if (groundPlane.Raycast(ray, out float distance))
             {
                 Vector3 hitPoint = ray.GetPoint(distance);
-                directionToMouse = hitPoint - _character.transform.position;                
+                directionToMouse = hitPoint - _characterMovement.transform.position;                
                 directionToMouse.y = 0;
             }
 
@@ -129,13 +130,13 @@ namespace Project.Scripts.Gameplay.Characters.Brain
         private void OnCharacterDeath(DamageData damageData)
         {
             Disable();
-            _character.StartCoroutine(StopMovementAfterDelay(0.5f));
+            _characterMovement.StartCoroutine(StopMovementAfterDelay(0.5f));
         }
 
         private IEnumerator StopMovementAfterDelay(float delay)
         {
             yield return new WaitForSeconds(delay);
-            _character.SetMoveDirection(Vector3.zero);
+            _characterMovement.SetMoveDirection(Vector3.zero);
         }
     }
 }

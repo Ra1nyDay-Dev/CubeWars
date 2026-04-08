@@ -1,8 +1,10 @@
-﻿using Project.Scripts.Infrastructure.Services.ServiceLocator;
+﻿
+using UnityEngine;
 
 namespace Project.Scripts.UI
 {
-    public interface ISceneUI : ISceneService
+    public interface ISceneUI
     {
+        GameObject Root { get; }
     }
 }

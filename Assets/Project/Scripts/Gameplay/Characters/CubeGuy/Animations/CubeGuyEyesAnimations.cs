@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -23,7 +24,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         [SerializeField] private float _maxPupilChangePositionInterval = 3f;
         [SerializeField] private List<Vector3> _pupilPositions = new List<Vector3>();
         
-        private Character _character;
+        private CharacterMovement _characterMovement;
         private IDamageable _damageable;
         private Vector3 _pupilDefaultLocalPosition;
         
@@ -36,9 +37,9 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
 
         private void Awake()
         {
-            _character = GetComponentInParent<Character>();
-            _damageable = _character.GetComponent<IDamageable>();
-            _death = _character.GetComponent<Death>();
+            _characterMovement = GetComponentInParent<CharacterMovement>();
+            _damageable = _characterMovement.GetComponent<IDamageable>();
+            _death = _characterMovement.GetComponent<Death>();
             _pupilDefaultLocalPosition = _leftPupil.localPosition;
 
             SetUpBlinkTween();

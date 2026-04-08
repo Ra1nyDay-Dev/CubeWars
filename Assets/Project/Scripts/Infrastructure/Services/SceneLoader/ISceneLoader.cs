@@ -1,13 +1,12 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Project.Scripts.Infrastructure.Services.ServiceLocator;
 
 namespace Project.Scripts.Infrastructure.Services.SceneLoader
 {
-    public interface ISceneLoader : IProjectService
+    public interface ISceneLoader
     {
-        UniTask Load(string name, Action onLoaded = null);
-        UniTask Load<TSceneParams>(string name, TSceneParams sceneParams, Action onLoaded = null) 
+        UniTask Load(string sceneName, Action onLoaded = null);
+        UniTask Load<TSceneParams>(string sceneName, TSceneParams sceneParams, Action onLoaded = null) 
             where TSceneParams : class, ISceneParams;
     }
 }

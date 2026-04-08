@@ -1,4 +1,5 @@
 ﻿using Project.Scripts.Gameplay.Characters;
+using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
@@ -6,13 +7,13 @@ namespace Project.Scripts.Gameplay.Weapons
 {
     public class WeaponArsenalTest : MonoBehaviour
     {
-        [SerializeField] private Character _character;
+        [SerializeField] private CharacterMovement _characterMovement;
 
         private WeaponArsenal _weaponArsenal;
         
         private void Awake()
         {
-            _weaponArsenal = _character.GetComponent<WeaponArsenal>();
+            _weaponArsenal = _characterMovement.GetComponent<WeaponArsenal>();
         }
 
         private void Update()

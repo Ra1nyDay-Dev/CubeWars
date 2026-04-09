@@ -1,38 +1,43 @@
-﻿using System;
+﻿using System.IO;
+using Project.Scripts.Gameplay.Data;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using Zenject;
 
 namespace Project.Scripts.Infrastructure.Services.AssetManagement
 {
     public class AssetProvider : IAssetProvider
     {
-        public GameObject Instantiate(string path)
-        {
-            var prefab = LoadPrefab(path);
-            return Object.Instantiate(prefab);
-        }
+        private DiContainer _diContainer;
         
-        public GameObject Instantiate(GameObject prefab) => 
-            Object.Instantiate(prefab);
+        [Inject]
+        public void Construct(DiContainer diContainer) => 
+            _diContainer = diContainer;
 
-        public GameObject Instantiate(string path, Vector3 place)
-        {
-            var prefab = LoadPrefab(path);
-            return Object.Instantiate(prefab, place, Quaternion.identity);
-        }
+        public GameObject Instantiate(string path) => 
+            _diContainer.InstantiatePrefab(LoadPrefab(path));
+
+        public GameObject Instantiate(GameObject prefab) => 
+            _diContainer.InstantiatePrefab(prefab);
+
+        public GameObject Instantiate(string path, Vector3 place) =>
+            _diContainer.InstantiatePrefab(LoadPrefab(path))
+                .With(go => go.transform.position = place )
+                .With(go => go.transform.rotation = Quaternion.identity);
+
+        public GameObject Instantiate(string path, Vector3 place, Quaternion rotation) =>
+            _diContainer.InstantiatePrefab(LoadPrefab(path))
+                .With(go => go.transform.position = place )
+                .With(go => go.transform.rotation = rotation);
         
-        public GameObject Instantiate(string path, Vector3 place, Quaternion rotation)
-        {
-            var prefab = LoadPrefab(path);
-            return Object.Instantiate(prefab, place, rotation);
-        }
+        public GameObject Instantiate(string path, Vector3 place, Quaternion rotation, Transform parent) =>
+            _diContainer.InstantiatePrefab(LoadPrefab(path), place, rotation, parent);
 
         private GameObject LoadPrefab(string path)
         {
             var prefab = Resources.Load<GameObject>(path);
 
             if (prefab == null)
-                throw new Exception("Cant find prefab at path " + path);
+                throw new FileNotFoundException("Cant find prefab at path " + path);
 
             return prefab;
         }

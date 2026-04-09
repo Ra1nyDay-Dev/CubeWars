@@ -13,5 +13,7 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
             Material handsSkinMaterial,
             GameObject selfHitbox, 
             CharacterMovement owner);
+        
+        GameObject CreateWeaponAtSpawn(WeaponType weaponType, Transform weaponSlot);
     }
 }

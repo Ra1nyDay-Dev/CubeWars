@@ -765,7 +765,7 @@ GameObject:
   - component: {fileID: 1331258266150335023}
   - component: {fileID: 7633125715107327431}
   - component: {fileID: 4881187661058655429}
-  m_Layer: 2
+  m_Layer: 9
   m_Name: CubeGuy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -859,8 +859,6 @@ MonoBehaviour:
   _gravity: -29.43
   _groundDownForce: -2
   _jumpHeight: 3
-  _backwardForceTest: 0
-  _upwardForceTest: 0
 --- !u!114 &8015432753243293538
 MonoBehaviour:
   m_ObjectHideFlags: 0

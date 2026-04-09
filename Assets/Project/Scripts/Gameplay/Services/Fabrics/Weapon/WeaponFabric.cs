@@ -38,12 +38,23 @@ namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
             WeaponConfig config = _configProvider.GetWeaponConfig(weaponType);
             GameObject weaponGameObject = _assetProvider.Instantiate(config.WeaponPrefab);
             IWeapon weapon = weaponGameObject.GetComponent<IWeapon>();
-            AttackBehaviour primaryAttack = CreateAttack(config.PrimaryAttackBehaviourConfig, config.PrimaryAttackType, attackStartPoint, selfHitbox, config.WeaponType);
-            AttackBehaviour secondaryAttack = CreateAttack(config.SecondaryAttackBehaviourConfig, config.SecondaryAttackType, attackStartPoint, selfHitbox, config.WeaponType);
+            AttackBehaviour primaryAttack = CreateAttack(config.PrimaryAttackBehaviourConfig, config.PrimaryAttackType,
+                attackStartPoint, selfHitbox, config.WeaponType);
+            AttackBehaviour secondaryAttack = CreateAttack(config.SecondaryAttackBehaviourConfig, config.SecondaryAttackType,
+                attackStartPoint, selfHitbox, config.WeaponType);
             weapon.Construct(config, primaryAttack, secondaryAttack, owner, handsSkinMaterial);
             weaponGameObject.transform.SetParent(weaponSlot.transform, false);
             weaponGameObject.GetComponent<WeaponAnimation>()?.Construct(weapon, owner);
             
+            return weaponGameObject;
+        }
+
+        public GameObject CreateWeaponAtSpawn(WeaponType weaponType, Transform weaponSlot)
+        {
+            string assetPath = $"Weapons/{weaponType}/Prefabs/{weaponType}_WeaponSpawner";
+            var weaponGameObject = _assetProvider.Instantiate(assetPath);
+            weaponGameObject.transform.SetParent(weaponSlot.transform, false);
+
             return weaponGameObject;
         }
 

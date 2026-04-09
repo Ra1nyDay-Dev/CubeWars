@@ -24,7 +24,7 @@ MonoBehaviour:
     m_Bits: 449
   Distance: 30
   ShotCount: 1
-  RoundsPerMinute: 3000
+  RoundsPerMinute: 5000
   UseSpread: 1
   SpreadFactor: 0.06
   HitEffectPrefab: {fileID: 4271093393614929224, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}

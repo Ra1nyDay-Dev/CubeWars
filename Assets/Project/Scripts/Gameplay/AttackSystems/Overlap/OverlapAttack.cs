@@ -63,15 +63,9 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
                     int targetsToAttack = _targetMode == OverlapAttackTargetMode.All
                         ? _validTargets.Count
                         : Mathf.Min(_maxTargetsPerAttack, _validTargets.Count);
-
                     
-                    
-                    for (int i = 0; i < targetsToAttack; i++)
-                    {
-                        
-                        
+                    for (int i = 0; i < targetsToAttack; i++) 
                         ApplyDamage(_validTargets[i].damageable, _validTargets[i].transform);
-                    }
                 }
             }
         }

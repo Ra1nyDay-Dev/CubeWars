@@ -55,9 +55,6 @@ namespace Project.Scripts.Gameplay.Weapons
 
         private void EquipWeapon(WeaponType weaponType)
         {
-            //toDo: rewrite to inject in Characters Fabric
-            // _weaponFabric = SceneServices.Container.Get<IWeaponFabric>();
-            
             CurrentWeaponGameObject = _weaponFabric.CreateWeaponInHands(
                 weaponType,
                 _weaponSlot.transform,

@@ -5,11 +5,11 @@ namespace Project.Scripts.Gameplay.Characters.Movement
 {
     public class CharacterDirectionalMovement
     {
-        public event Action<Vector3> DirectionChanged;
-        public event Action<Vector3> VelocityChanged;
+        public event Action<Vector2> DirectionChanged;
+        public event Action<Vector2> VelocityChanged;
         public event Action<bool> IsMovingChanged;
         
-        public Vector3 CurrentDirection {get; private set;}
+        public Vector2 CurrentDirection {get; private set;}
         public bool IsMoving { get; private set; }
         
         private readonly CharacterController _characterController;
@@ -18,11 +18,11 @@ namespace Project.Scripts.Gameplay.Characters.Movement
         private readonly float _groundDeceleration;
         private readonly float _airDeceleration;
         
-        private Vector3 _lastDirection = Vector3.zero; 
-        private Vector3 _lastVelocity = Vector3.zero;
+        private Vector2 _lastDirection = Vector2.zero; 
+        private Vector2 _lastVelocity = Vector2.zero;
         private bool _lastMoving = false;
-        private Vector3 _currentVelocity;
-        private Vector3 _externalVelocity;
+        private Vector2 _currentVelocity;
+        private Vector2 _externalVelocity;
 
         public CharacterDirectionalMovement(CharacterController characterController, float movementSpeed,
             float acceleration, float groundDeceleration, float airDeceleration)
@@ -34,13 +34,16 @@ namespace Project.Scripts.Gameplay.Characters.Movement
             _airDeceleration = airDeceleration;
         }
 
-        public Vector3 CurrentVelocity => 
+        public Vector2 CurrentVelocity => 
             _currentVelocity;
         
-        public Vector3 ExternalVelocity => 
+        public Vector2 ExternalVelocity => 
             _externalVelocity;
+
+        public Vector2 FinalVelocity =>
+            _currentVelocity + _externalVelocity;
         
-        public void SetDirection(Vector3 direction) => 
+        public void SetDirection(Vector2 direction) => 
             CurrentDirection = direction;
 
         public void Update(float deltaTime, bool isGrounded = false)
@@ -56,19 +59,19 @@ namespace Project.Scripts.Gameplay.Characters.Movement
         {
             float deceleration = isGrounded ? _groundDeceleration : _airDeceleration;
 
-            _externalVelocity = Vector3.MoveTowards(
+            _externalVelocity = Vector2.MoveTowards(
                 _externalVelocity,
-                Vector3.zero,
+                Vector2.zero,
                 deceleration * deltaTime
             );
         }
         
-        public void AddForce(Vector3 force) => 
+        public void AddForce(Vector2 force) => 
             _externalVelocity = force;
 
         private void Move(float deltaTime, bool isGrounded)
         {
-            Vector3 targetVelocity = CurrentDirection.normalized * _movementSpeed;
+            Vector2 targetVelocity = CurrentDirection.normalized * _movementSpeed;
             float deceleration = isGrounded ? _groundDeceleration : _airDeceleration;
 
             if (CurrentDirection.magnitude > 0.05f)
@@ -79,9 +82,9 @@ namespace Project.Scripts.Gameplay.Characters.Movement
             IsMoving = CurrentDirection.magnitude > 0.05f;
         }
 
-        private void Accelerate(Vector3 targetVelocity, float deltaTime)
+        private void Accelerate(Vector2 targetVelocity, float deltaTime)
         {
-            _currentVelocity =  Vector3.MoveTowards(
+            _currentVelocity =  Vector2.MoveTowards(
                 _currentVelocity,
                 targetVelocity,
                 _acceleration * deltaTime);
@@ -89,7 +92,7 @@ namespace Project.Scripts.Gameplay.Characters.Movement
 
         private void Decelerate(Vector3 targetVelocity, float deceleration, float deltaTime)
         {
-            _currentVelocity = Vector3.MoveTowards(
+            _currentVelocity = Vector2.MoveTowards(
                 _currentVelocity,
                 targetVelocity,
                 deceleration * deltaTime);
@@ -97,7 +100,7 @@ namespace Project.Scripts.Gameplay.Characters.Movement
 
         private void CheckDirectionChange()
         {
-            if (Vector3.Distance(_lastDirection, CurrentDirection) > 0.01f)
+            if (Vector2.Distance(_lastDirection, CurrentDirection) > 0.01f)
             {
                 DirectionChanged?.Invoke(CurrentDirection);
                 _lastDirection = CurrentDirection;
@@ -106,7 +109,7 @@ namespace Project.Scripts.Gameplay.Characters.Movement
 
         private void CheckVelocityChange()
         {
-            if (Vector3.Distance(_lastVelocity, CurrentVelocity) > 0.01f)
+            if (Vector2.Distance(_lastVelocity, CurrentVelocity) > 0.01f)
             {
                 VelocityChanged?.Invoke(CurrentVelocity);
                 _lastVelocity = CurrentVelocity;

@@ -5,14 +5,13 @@ using Zenject;
 
 namespace Project.Scripts.UI
 {
-    public class GameUI : MonoBehaviour, IGameUI, IInitializable
+    public class GameUI : MonoBehaviour, IGameUI
     {
         [SerializeField] private LoadingScreen _loadingScreen;
         [SerializeField] private Transform _sceneUI;
 
-        public void Initialize()
+        private void Awake()
         {
-            ShowLoadingScreen();
             DontDestroyOnLoad(gameObject);
         }
 

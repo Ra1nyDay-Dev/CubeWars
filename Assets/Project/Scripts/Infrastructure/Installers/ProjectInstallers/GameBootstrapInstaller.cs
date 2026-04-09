@@ -1,5 +1,6 @@
 ﻿using Project.Scripts.Infrastructure.Services.AssetManagement;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
+using Project.Scripts.Infrastructure.Services.Input;
 using Project.Scripts.Infrastructure.Services.SceneLoader;
 using Project.Scripts.UI;
 using UnityEngine;
@@ -7,58 +8,42 @@ using Zenject;
 
 namespace Project.Scripts.Infrastructure.Installers.ProjectInstallers
 {
-    public class GameBootstrapInstaller : MonoInstaller
+    public class GameBootstrapInstaller : MonoInstaller, IInitializable
     {
         [SerializeField] private GameUI _gameUIPrefab;
 
         public override void InstallBindings()
         {
-            BindGameUI();
-            BindAssetProvider();
+            BindBootstrapServices();
+            BindUIServices();
+            BindAssetManagementServices();
             BindConfigProvider();
             BindSceneLoader();
-            BindGameBootstrap();
-            
-            SetInitializeExecutionOrders();
+            BindInputService();
         }
 
-        private void BindGameUI() =>
-            Container
-                .BindInterfacesAndSelfTo<GameUI>()
-                .FromComponentInNewPrefab(_gameUIPrefab)
-                .AsSingle()
-                .NonLazy();
+        private void BindBootstrapServices()
+        {
+            Container.BindInterfacesTo<GameBootstrapInstaller>().FromInstance(this).AsSingle();
+            Container.Bind<GameBootstrap>().AsSingle();
+        }
 
-        private void BindAssetProvider() =>
-            Container
-                .Bind<IAssetProvider>()
-                .To<AssetProvider>()
-                .AsSingle()
-                .NonLazy();
+        private void BindUIServices() =>
+            Container.Bind<IGameUI>().To<GameUI>().FromComponentInNewPrefab(_gameUIPrefab).AsSingle();
+
+        private void BindAssetManagementServices() =>
+            Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
 
         private void BindConfigProvider() =>
-            Container
-                .Bind<IConfigProvider>()
-                .To<ConfigProvider>()
-                .AsSingle()
-                .NonLazy();
+            Container.Bind<IConfigProvider>().To<ConfigProvider>().AsSingle();
 
         private void BindSceneLoader() =>
-            Container
-                .Bind<ISceneLoader>()
-                .To<SceneLoader>()
-                .AsSingle()
-                .NonLazy();
+            Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
 
-        private void BindGameBootstrap() =>
-            Container.BindInterfacesTo<GameBootstrap>()
-                .AsSingle()
-                .NonLazy();
+        private void BindInputService() => 
+            Container.Bind<IInputService>().To<KeyboardOldInputService>().AsSingle();
 
-        private void SetInitializeExecutionOrders()
-        {
-            Container.BindExecutionOrder<GameUI>(-1000); // Show loading screen before all service inits
-            Container.BindExecutionOrder<GameBootstrap>(1000); // Configure and start game after all service inits
-        }
+        public void Initialize() => 
+            Container.Resolve<GameBootstrap>().ConfigureAndStartGame(); // toDo: Maybe rewrite to GameStateMachine somewhere
     }
 }

@@ -757,6 +757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8627788700149613054}
   - component: {fileID: 4503632166462594920}
+  - component: {fileID: 4225793582177660496}
   - component: {fileID: 8810046193908702145}
   - component: {fileID: 9019203110749931664}
   - component: {fileID: 8015432753243293538}
@@ -765,6 +766,7 @@ GameObject:
   - component: {fileID: 1331258266150335023}
   - component: {fileID: 7633125715107327431}
   - component: {fileID: 4881187661058655429}
+  - component: {fileID: 3503723972374694468}
   m_Layer: 9
   m_Name: CubeGuy
   m_TagString: Untagged
@@ -790,6 +792,7 @@ Transform:
   - {fileID: 4735600764874508844}
   - {fileID: 8740759010776093842}
   - {fileID: 48202550004894652}
+  - {fileID: 2692415646519651568}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &4503632166462594920
@@ -817,6 +820,33 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &4225793582177660496
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724456649089160340}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!95 &8810046193908702145
 Animator:
   serializedVersion: 7
@@ -942,6 +972,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b15bb1029442a48d7b920553266009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Characters.CharacterReactions
+--- !u!114 &3503723972374694468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724456649089160340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b2d39c56284dd29423965ba650961e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Characters.Interactions.InteractorUnit
+  _interactZoneTriggerObserver: {fileID: 6557273689684366638}
 --- !u!1 &1799767827916068226
 GameObject:
   m_ObjectHideFlags: 0
@@ -2390,3 +2433,69 @@ MonoBehaviour:
   _startPoint: {fileID: 8740759010776093842}
   _showPrimaryGizmos: 0
   _showSecondaryGizmos: 0
+--- !u!1 &9139451500803836146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2692415646519651568}
+  - component: {fileID: 793671248645964116}
+  - component: {fileID: 6557273689684366638}
+  m_Layer: 9
+  m_Name: InteractZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2692415646519651568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9139451500803836146}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8627788700149613054}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &793671248645964116
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9139451500803836146}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6557273689684366638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9139451500803836146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0bd8609c404e4592defac3ae2737c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Characters.Interactions.TriggerObserver

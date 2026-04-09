@@ -15,10 +15,10 @@ namespace Project.Scripts.Gameplay.Characters.Movement
         [SerializeField] private float _groundDownForce = -2f;
         [SerializeField] private float _jumpHeight = 3f;
 
-        public Vector3 CurrentHorizontalVelocity => 
+        public Vector2 CurrentHorizontalVelocity => 
             _directionalMovement.CurrentVelocity;
         
-        public Vector3 CurrentMovementDirection => 
+        public Vector2 CurrentMovementDirection => 
             _directionalMovement.CurrentDirection;
 
         public float CurrentVerticalVelocity => 
@@ -33,8 +33,8 @@ namespace Project.Scripts.Gameplay.Characters.Movement
         public bool IsMoving => 
             _directionalMovement.IsMoving;
         
-        public event Action<Vector3> MovementDirectionChanged;
-        public event Action<Vector3> HorizontalVelocityChanged;
+        public event Action<Vector2> MovementDirectionChanged;
+        public event Action<Vector2> HorizontalVelocityChanged;
         public event Action<bool> MovingChanged;
         
         public event Action<Quaternion> RotationChanged;
@@ -63,11 +63,11 @@ namespace Project.Scripts.Gameplay.Characters.Movement
             _verticalMovement.Update(Time.fixedDeltaTime);
             _directionalMovement.Update(Time.fixedDeltaTime, IsGrounded);
             _rotation.Update(Time.fixedDeltaTime);
-            
-            Vector3 finalVelocity =
-                _directionalMovement.CurrentVelocity +
-                _directionalMovement.ExternalVelocity +
-                Vector3.up * _verticalMovement.CurrentVelocity;
+
+            Vector3 finalVelocity = new Vector3(
+                _directionalMovement.FinalVelocity.x,
+                _verticalMovement.CurrentVelocity,
+                _directionalMovement.FinalVelocity.y);
             
             _controller.Move(finalVelocity * Time.fixedDeltaTime);
         }
@@ -98,7 +98,7 @@ namespace Project.Scripts.Gameplay.Characters.Movement
             _verticalMovement.Jumped -= OnJumped;
         }
 
-        public void SetMoveDirection(Vector3 direction) => 
+        public void SetMoveDirection(Vector2 direction) => 
             _directionalMovement.SetDirection(direction);
         
         public void SetRotationDirection(Vector3 direction) => 
@@ -109,12 +109,12 @@ namespace Project.Scripts.Gameplay.Characters.Movement
         
         public void AddForce(Vector3 force)
         {
-            _directionalMovement.AddForce(force);
+            _directionalMovement.AddForce(new Vector2(force.x,force.z));
             _verticalMovement.AddForce(force.y);
         }
 
-        private void OnDirectionChanged(Vector3 direction) => MovementDirectionChanged?.Invoke(direction);
-        private void OnHorizontalVelocityChanged(Vector3 velocity) => HorizontalVelocityChanged?.Invoke(velocity);
+        private void OnDirectionChanged(Vector2 direction) => MovementDirectionChanged?.Invoke(direction);
+        private void OnHorizontalVelocityChanged(Vector2 velocity) => HorizontalVelocityChanged?.Invoke(velocity);
         private void OnMovingChanged(bool isMoving) => MovingChanged?.Invoke(isMoving);
         private void OnRotationChanged(Quaternion rotation) => RotationChanged?.Invoke(rotation);
         private void OnGroundedChanged(bool isGrounded) => GroundedChanged?.Invoke(isGrounded);

@@ -26,11 +26,9 @@ namespace Project.Scripts.Gameplay.Characters.Reactions
 
         public void GetHitForce(Vector3 hitDirection, float horizontalForceOnHit, float verticalForceOnHit)
         {
-            Vector3 localDir = transform.InverseTransformDirection(hitDirection);
+            Vector3 force = hitDirection.normalized * horizontalForceOnHit 
+                            + Vector3.up * verticalForceOnHit;
             
-            Vector3 force =
-                -localDir * horizontalForceOnHit +
-                Vector3.up * verticalForceOnHit;
             _characterMovement.AddForce(force);
         }
     }

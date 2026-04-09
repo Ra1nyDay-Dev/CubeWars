@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
+using Project.Scripts.Gameplay.Characters.Interactions;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Services.Fabrics.Weapon;
 using UnityEngine;
@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
 {
-    public class WeaponSpawner : MonoBehaviour
+    public class WeaponSpawner : MonoBehaviour, IInteractable
     {
         [SerializeField] private GameObject _weaponSlot;
         
@@ -19,13 +19,10 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
         
         private IWeaponFabric _weaponFabric;
         private WeaponSpawnerAnimation _spawnerAnimation;
+        private CancellationTokenSource _spawnCancellationTokenSource;
         
         private bool _isActive;
         private bool _isWeaponAvailable;
-        private readonly List<WeaponArsenal> _charactersInZone = new();
-        
-        private bool CanTakeWeapon => 
-            _charactersInZone.Count > 0 && _isWeaponAvailable;
 
         [Inject]
         public void Construct(IWeaponFabric weaponFabric) => 
@@ -40,29 +37,17 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
             ActivateSpawn();
         }
 
-        private void Update()
-        {
-            if (Input.GetKey(KeyCode.E) && CanTakeWeapon)
-                TakeWeapon(_charactersInZone.First());
-        }
+        private void OnDestroy() => 
+            HideWeapon();
 
-        private void OnTriggerEnter(Collider character)
+        public void Interact(InteractorUnit interactor)
         {
-            Debug.Log("Entered in zone");
-            if (character.TryGetComponent(out WeaponArsenal arsenal))
-            {
-                _charactersInZone.Add(arsenal);
-                Debug.Log("Arsenal found");
-            }
-        }
+            if (!_isWeaponAvailable
+                || !interactor.TryGetComponent(out WeaponArsenal arsenal)
+                || arsenal.CurrentWeapon?.WeaponType == _weaponType)
+                return;
 
-        private void OnTriggerExit(Collider character)
-        {
-            if (character.TryGetComponent(out WeaponArsenal arsenal))
-            {
-                if (_charactersInZone.Contains(arsenal))
-                    _charactersInZone.Remove(arsenal);
-            }
+            TakeWeapon(arsenal);
         }
 
         private void ActivateSpawn()
@@ -73,9 +58,9 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
             _isActive = true;
             
             if (_spawnOnStart)
-                RespawnWeapon();
+                ShowWeapon();
             else
-                WaitAndRespawnWeapon().Forget();
+                WaitAndShowWeapon().Forget();
         }
 
         private void DeactivateSpawn()
@@ -84,7 +69,7 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
             _isActive = false;
         }
 
-        private void RespawnWeapon()
+        private void ShowWeapon()
         {
             _isWeaponAvailable = true;
             _weaponSlot.SetActive(true);
@@ -93,6 +78,7 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
 
         private void HideWeapon()
         {
+            CancelSpawnTask();
             _isWeaponAvailable = false;
             _weaponSlot.SetActive(false);
             _spawnerAnimation?.StopAnimation();
@@ -100,21 +86,29 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
 
         private void TakeWeapon(WeaponArsenal characterArsenal)
         {
-            if (characterArsenal.CurrentWeapon?.WeaponType == _weaponType)
-                return;
-                    
             HideWeapon();
             characterArsenal.ChangeWeapon(_weaponType);
-            WaitAndRespawnWeapon().Forget();
+            WaitAndShowWeapon().Forget();
         }
 
-        private async UniTask WaitAndRespawnWeapon()
+        private async UniTask WaitAndShowWeapon()
         {
-            await SpawnDelay();
-            RespawnWeapon();
+            CancelSpawnTask();
+            _spawnCancellationTokenSource = new CancellationTokenSource();
+            await SpawnDelay(_spawnTime, _spawnCancellationTokenSource.Token);
+            ShowWeapon();
         }
 
-        private UniTask SpawnDelay() => 
-            UniTask.Delay(TimeSpan.FromSeconds(_spawnTime));
+        private UniTask SpawnDelay(float spawnTime, CancellationToken cancellationToken) => 
+            UniTask.Delay(
+                TimeSpan.FromSeconds(spawnTime), 
+                cancellationToken: cancellationToken);
+        
+        private void CancelSpawnTask()
+        {
+            _spawnCancellationTokenSource?.Cancel();
+            _spawnCancellationTokenSource?.Dispose();
+            _spawnCancellationTokenSource = null;
+        }
     }
 }

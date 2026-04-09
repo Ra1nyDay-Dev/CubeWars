@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Project.Scripts.Infrastructure
 {
-    public class GameBootstrap : IInitializable
+    public class GameBootstrap
     {
         private const string FIRST_SCENE = Scenes.GAMEPLAY;
         
@@ -15,10 +15,7 @@ namespace Project.Scripts.Infrastructure
         public GameBootstrap(ISceneLoader sceneLoader) => 
             _sceneLoader = sceneLoader;
         
-        public void Initialize() => 
-            RestartGame();
-        
-        public void RestartGame() =>
+        public void ConfigureAndStartGame() =>
             _sceneLoader.Load(FIRST_SCENE).Forget();
     }
 }

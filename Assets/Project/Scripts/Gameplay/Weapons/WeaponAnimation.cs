@@ -105,7 +105,7 @@ namespace Project.Scripts.Gameplay.Weapons
         private void OnVerticalVelocityChanged(float verticalVelocity) => 
             _animator.SetFloat(VerticalVelocityHash, verticalVelocity);
 
-        private void OnHorizontalVelocityChanged(Vector3 velocity)
+        private void OnHorizontalVelocityChanged(Vector2 velocity)
         {
             _lastHorizontalVelocity = velocity;
             UpdateMovementAnimation(velocity);

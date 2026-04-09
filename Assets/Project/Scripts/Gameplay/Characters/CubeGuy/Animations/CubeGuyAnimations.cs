@@ -39,7 +39,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private MaterialPropertyBlock _materialPropertyBlock;
         private Sequence _damagedSequence;
         
-        private Vector3 _lastHorizontalVelocity;
+        private Vector2 _lastHorizontalVelocity;
         private Vector3 _jumpDirection;
 
         private void Awake()
@@ -89,7 +89,7 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private void OnVerticalVelocityChanged(float verticalVelocity) => 
             _animator.SetFloat(VerticalVelocityHash, verticalVelocity);
 
-        private void OnHorizontalVelocityChanged(Vector3 velocity)
+        private void OnHorizontalVelocityChanged(Vector2 velocity)
         {
             _lastHorizontalVelocity = velocity;
             UpdateMovementAnimation(velocity);
@@ -98,30 +98,33 @@ namespace Project.Scripts.Gameplay.Characters.CubeGuy.Animations
         private void OnRotationChanged(Quaternion rotation) => 
             UpdateMovementAnimation(_lastHorizontalVelocity);
 
-        private void UpdateMovementAnimation(Vector3 worldVelocity)
+        private void UpdateMovementAnimation(Vector2 worldVelocity)
         {
             if (!_characterMovement.IsGrounded)
                 return;
             
-            Vector3 localVelocity = Quaternion.Inverse(_characterMovement.CurrentRotation) * worldVelocity;
-            _animator.SetFloat(HorizontalSpeedHash, worldVelocity.magnitude);
-            _animator.SetFloat(HorizontalSpeedXHash, localVelocity.x);
-            _animator.SetFloat(HorizontalSpeedZHash, localVelocity.z);
+            Vector3 worldDirection = new Vector3(worldVelocity.x, 0, worldVelocity.y);
+            Vector3 localDirection = _characterMovement.transform.InverseTransformDirection(worldDirection);
+
+            _animator.SetFloat(HorizontalSpeedHash, worldDirection.magnitude);
+            _animator.SetFloat(HorizontalSpeedXHash, localDirection.x);
+            _animator.SetFloat(HorizontalSpeedZHash, localDirection.z);
         }
 
         private void OnJumped()
         {
-            Vector3 moveDirection = _characterMovement.CurrentHorizontalVelocity;
-
-            if (moveDirection.magnitude > 0.1f)
-                _jumpDirection = moveDirection.normalized;
+            Vector2 moveDirection = _characterMovement.CurrentHorizontalVelocity;
+            Vector3 worldDirection  = new Vector3(moveDirection.x, 0, moveDirection.y);
+            
+            if (worldDirection.magnitude > 0.1f)
+                _jumpDirection = worldDirection.normalized;
             else
                 _jumpDirection = Vector3.zero;
 
-            Vector3 localMoveDir = Quaternion.Inverse(_characterMovement.CurrentRotation) * _jumpDirection;
+            Vector3 localDirection = _characterMovement.transform.InverseTransformDirection(_jumpDirection);
 
-            _animator.SetFloat(FlipXHash, localMoveDir.x);
-            _animator.SetFloat(FlipZHash, localMoveDir.z);
+            _animator.SetFloat(FlipXHash, localDirection.x);
+            _animator.SetFloat(FlipZHash, localDirection.z);
             _animator.SetTrigger(JumpedHash);
         }
 

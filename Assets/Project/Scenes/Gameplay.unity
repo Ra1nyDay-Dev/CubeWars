@@ -481,7 +481,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9019203110749931664, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
   m_PrefabInstance: {fileID: 90245337}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1091311474}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9b21bf5a68f4be5b93232617b6c5c69, type: 3}
@@ -2233,8 +2233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3633f0602646e4b87b705f95ced7f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Characters.CubeGuy.BrainsExample
-  _characterMovement: {fileID: 90245338}
-  _camera: {fileID: 1341490122}
+  _character: {fileID: 1091311474}
 --- !u!4 &742254365
 Transform:
   m_ObjectHideFlags: 0
@@ -3053,6 +3052,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1091311474 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1724456649089160340, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
+  m_PrefabInstance: {fileID: 90245337}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1095760873
 GameObject:
   m_ObjectHideFlags: 0
@@ -5599,11 +5603,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1128675325781891742, guid: d71f004a175424b45a2021b26160c2fb, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3365365651364693319, guid: d71f004a175424b45a2021b26160c2fb, type: 3}
       propertyPath: m_Name
       value: KnifeWeaponSpawner
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4129267410068115238, guid: d71f004a175424b45a2021b26160c2fb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

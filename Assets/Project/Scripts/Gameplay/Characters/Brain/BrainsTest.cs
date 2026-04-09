@@ -1,18 +1,25 @@
 ﻿using Project.Scripts.Gameplay.Characters.Movement;
+using Project.Scripts.Infrastructure.Services.Input;
 using UnityEngine;
+using Zenject;
 
 namespace Project.Scripts.Gameplay.Characters.Brain
 {
     public class BrainsTest : MonoBehaviour
     {
-        [SerializeField] private CharacterMovement _characterMovement;
-        [SerializeField] private Camera _camera;
+        [SerializeField] private GameObject _character;
         
         private CharacterBrain _characterBrain;
+        private IInputService _inputService;
+        private Camera _camera;
+
+        [Inject]
+        private void Construct(IInputService inputService) => 
+            _inputService = inputService;
 
         private void Awake()
         {
-            _characterBrain = new PlayerCharacterBrain(_characterMovement, _camera);
+            _characterBrain = new PlayerCharacterBrain(_character, _inputService);
             _characterBrain.Enable();
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Data
 {
@@ -24,6 +25,15 @@ namespace Project.Scripts.Gameplay.Data
                 apply?.Invoke(self);
  
             return self;
+        }
+        
+        public static Vector3 With(this Vector3 v, float? x = null, float? y = null, float? z = null)
+        {
+            return new Vector3(
+                x ?? v.x,
+                y ?? v.y,
+                z ?? v.z
+            );
         }
     }
 }

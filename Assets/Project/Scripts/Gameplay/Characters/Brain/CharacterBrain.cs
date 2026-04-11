@@ -45,15 +45,18 @@ namespace Project.Scripts.Gameplay.Characters.Brain
             UpdateLogic(deltaTime);
         }
 
-        public void Dispose() => 
+        public virtual void Dispose()
+        {
+            Disable();
             _characterDeath.Happened -= OnCharacterDeath;
+        }
 
         protected abstract void UpdateLogic(float deltaTime);
 
-        protected void SetMoveDirection(Vector2 direction) =>
+        protected void Move(Vector2 direction) =>
             _characterMovement.SetMoveDirection(direction);
 
-        protected void SetRotationDirection(Vector3 direction) => 
+        protected void Rotate(Vector3 direction) => 
             _characterMovement.SetRotationDirection(direction);
 
         protected void Jump() => 
@@ -87,6 +90,6 @@ namespace Project.Scripts.Gameplay.Characters.Brain
         }
         
         private void OnCharacterDeath(DamageData damageData) => 
-            Disable();
+            Dispose();
     }
 }

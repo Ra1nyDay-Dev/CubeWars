@@ -90,7 +90,7 @@ namespace Project.Scripts.Gameplay.Characters.Movement
                 _acceleration * deltaTime);
         }
 
-        private void Decelerate(Vector3 targetVelocity, float deceleration, float deltaTime)
+        private void Decelerate(Vector2 targetVelocity, float deceleration, float deltaTime)
         {
             _currentVelocity = Vector2.MoveTowards(
                 _currentVelocity,

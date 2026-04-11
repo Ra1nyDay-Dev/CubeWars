@@ -1,6 +1,7 @@
 ﻿using Project.Scripts.Infrastructure.Services.AssetManagement;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using Project.Scripts.Infrastructure.Services.Input;
+using Project.Scripts.Infrastructure.Services.Input.DeviceTracker;
 using Project.Scripts.Infrastructure.Services.SceneLoader;
 using Project.Scripts.UI;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Project.Scripts.Infrastructure.Installers.ProjectInstallers
     public class GameBootstrapInstaller : MonoInstaller, IInitializable
     {
         [SerializeField] private GameUI _gameUIPrefab;
+        [SerializeField] private InputDeviceTracker _inputDeviceTrackerPrefab;
 
         public override void InstallBindings()
         {
@@ -19,7 +21,7 @@ namespace Project.Scripts.Infrastructure.Installers.ProjectInstallers
             BindAssetManagementServices();
             BindConfigProvider();
             BindSceneLoader();
-            BindInputService();
+            BindInputServices();
         }
 
         private void BindBootstrapServices()
@@ -40,8 +42,13 @@ namespace Project.Scripts.Infrastructure.Installers.ProjectInstallers
         private void BindSceneLoader() =>
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
 
-        private void BindInputService() => 
-            Container.Bind<IInputService>().To<KeyboardOldInputService>().AsSingle();
+        public void BindInputServices()
+        {
+            Container.Bind<IInputDeviceTracker>().To<InputDeviceTracker>()
+                .FromComponentInNewPrefab(_inputDeviceTrackerPrefab).AsSingle();
+            
+            Container.BindInterfacesTo<UnityNewInputService>().AsSingle();
+        }
 
         public void Initialize() => 
             Container.Resolve<GameBootstrap>().ConfigureAndStartGame(); // toDo: Maybe rewrite to GameStateMachine somewhere

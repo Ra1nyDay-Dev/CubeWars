@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Infrastructure.Services.Input;
+﻿using System;
+using Project.Scripts.Infrastructure.Services.Input;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Characters.Brain
@@ -6,40 +7,60 @@ namespace Project.Scripts.Gameplay.Characters.Brain
     public class PlayerCharacterBrain : CharacterBrain
     {
         private readonly IInputService _inputService;
-        
-        public PlayerCharacterBrain(GameObject character, IInputService inputService) : base(character) => 
+        private readonly Camera _camera;
+
+        public PlayerCharacterBrain(
+            GameObject character,
+            Camera camera,
+            IInputService inputService
+        ) : base(character)
+        {
             _inputService = inputService;
+            _camera = camera;
+
+            SubscribeInputActions();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            UnsubscribeInputActions();
+        }
 
         protected override void UpdateLogic(float deltaTime) => 
             HandleInput();
 
         private void HandleInput()
         {
-            GameplayInput input = _inputService.GetGameplayInput(_character.transform.position);
+            Move(_inputService.GameplayActions.GetRelativeMoveInput(_camera));
             
-            SetMoveDirection(input.Move);
-            SetRotationDirection(input.Look);
+            Rotate(_inputService.GameplayActions.GetRelativeLookInput(
+                    _character.transform.position,
+                    _camera
+                    )
+            );
+        }
 
-            if (input.Jump)
-                Jump();
-             
-            if (input.Interact)
-                TryInteract();
-            
-            if (input.StartPrimaryFire)
-                StartPrimaryAttack();
-            
-            if (input.StopPrimaryFire)
-                StopPrimaryAttack();
-            
-            if (input.StartSecondaryFire)
-                StartSecondaryAttack();
-            
-            if (input.StopSecondaryFire)
-                StopSecondaryAttack();
-            
-            if (input.Reload) 
-                Reload();
+        private void SubscribeInputActions()
+        {
+            _inputService.GameplayActions.PrimaryButtonDown += StartPrimaryAttack;
+            _inputService.GameplayActions.PrimaryButtonUp += StopPrimaryAttack;
+            _inputService.GameplayActions.SecondaryButtonDown += StartSecondaryAttack;
+            _inputService.GameplayActions.SecondaryButtonUp += StopSecondaryAttack;
+            _inputService.GameplayActions.ReloadButtonDown += Reload;
+            _inputService.GameplayActions.InteractButtonDown += TryInteract;
+            _inputService.GameplayActions.JumpButtonDown += Jump;
+        }
+        
+        private void UnsubscribeInputActions()
+        {
+            _inputService.GameplayActions.PrimaryButtonDown -= StartPrimaryAttack;
+            _inputService.GameplayActions.PrimaryButtonUp -= StopPrimaryAttack;
+            _inputService.GameplayActions.SecondaryButtonDown -= StartSecondaryAttack;
+            _inputService.GameplayActions.SecondaryButtonUp -= StopSecondaryAttack;
+            _inputService.GameplayActions.ReloadButtonDown -= Reload;
+            _inputService.GameplayActions.InteractButtonDown -= TryInteract;
+            _inputService.GameplayActions.JumpButtonDown -= Jump;
         }
     }
 }

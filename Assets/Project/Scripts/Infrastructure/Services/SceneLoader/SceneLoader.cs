@@ -25,7 +25,6 @@ namespace Project.Scripts.Infrastructure.Services.SceneLoader
         public async UniTask Load(string sceneName, Action onLoaded = null)
         {
             _gameUI.ShowLoadingScreen();
-            
             await _zenjectLoader.LoadSceneAsync(sceneName).ToUniTask();
 
             _gameUI.HideLoadingScreen();
@@ -39,7 +38,6 @@ namespace Project.Scripts.Infrastructure.Services.SceneLoader
         ) where TSceneParams : class, ISceneParams 
         {
             _gameUI.ShowLoadingScreen();
-            
             await _zenjectLoader.LoadSceneAsync(
                 sceneName, 
                 LoadSceneMode.Single,

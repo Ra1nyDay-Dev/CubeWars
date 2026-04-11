@@ -75,3 +75,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Infrastructure.Installers.ProjectInstallers.GameBootstrapInstaller
   _gameUIPrefab: {fileID: 8954825470283330860, guid: 8827d5cdb57100f45ae793142ac0360a, type: 3}
+  _inputDeviceTrackerPrefab: {fileID: -7144653815103331464, guid: 5dc0ab8ef7302eb419019f2ef14c801a, type: 3}

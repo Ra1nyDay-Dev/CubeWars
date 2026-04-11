@@ -1,18 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using Project.Scripts.Infrastructure.Services.Input.ActionMaps;
+using Project.Scripts.Infrastructure.Services.Input.ActionMaps.Gameplay;
+using UnityEngine;
 
 namespace Project.Scripts.Infrastructure.Services.Input
 {
     public interface IInputService
     {
-        Vector2 GetAxis();
-        Vector2 GetRelativeAxis();
-        bool IsPrimaryAttackButtonDown(); 
-        bool IsPrimaryAttackButtonUp(); 
-        bool IsSecondaryAttackButtonDown(); 
-        bool IsSecondaryAttackButtonUp(); 
-        bool IsJumpButtonDown();
-        bool IsReloadButtonDown(); 
-        bool IsInteractButtonDown();
-        GameplayInput GetGameplayInput(Vector3 playerPosition);
+        IGameplayActions GameplayActions { get; }
+        ActionMapType CurrentActionMap { get; }
+        void SwitchActionMap(ActionMapType actionMapType);
     }
 }

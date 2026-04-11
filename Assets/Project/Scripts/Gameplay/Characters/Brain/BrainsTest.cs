@@ -1,5 +1,4 @@
-﻿using Project.Scripts.Gameplay.Characters.Movement;
-using Project.Scripts.Infrastructure.Services.Input;
+﻿using Project.Scripts.Infrastructure.Services.Input;
 using UnityEngine;
 using Zenject;
 
@@ -19,7 +18,8 @@ namespace Project.Scripts.Gameplay.Characters.Brain
 
         private void Awake()
         {
-            _characterBrain = new PlayerCharacterBrain(_character, _inputService);
+            _camera = Camera.main;
+            _characterBrain = new PlayerCharacterBrain(_character, _camera, _inputService);
             _characterBrain.Enable();
         }
 
@@ -27,5 +27,8 @@ namespace Project.Scripts.Gameplay.Characters.Brain
         {
             _characterBrain.Update(Time.deltaTime);
         }
+
+        private void OnDestroy() => 
+            _characterBrain.Dispose();
     }
 }

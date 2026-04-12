@@ -1,10 +1,8 @@
-﻿using System;
-using Project.Scripts.Gameplay.Characters;
-using Project.Scripts.Gameplay.Characters.HealthSystems;
+﻿using Project.Scripts.Gameplay.Characters.HealthSystems;
 using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Enums;
-using Project.Scripts.Gameplay.Services.Fabrics.Weapon;
+using Project.Scripts.Gameplay.Services.Factories.WeaponFactory;
 using UnityEngine;
 using Zenject;
 
@@ -18,12 +16,12 @@ namespace Project.Scripts.Gameplay.Weapons
         [SerializeField] private GameObject _selfHitbox;
         [SerializeField] private Death _death;
         
-        private IWeaponFabric _weaponFabric;
+        private IWeaponFactory _weaponFactory;
         private CharacterMovement _owner;
 
         [Inject]
-        public void Construct(IWeaponFabric weaponFabric) => 
-            _weaponFabric = weaponFabric;
+        public void Construct(IWeaponFactory weaponFactory) => 
+            _weaponFactory = weaponFactory;
 
         private void Awake()
         {
@@ -55,7 +53,7 @@ namespace Project.Scripts.Gameplay.Weapons
 
         private void EquipWeapon(WeaponType weaponType)
         {
-            CurrentWeaponGameObject = _weaponFabric.CreateWeaponInHands(
+            CurrentWeaponGameObject = _weaponFactory.CreateWeaponInHands(
                 weaponType,
                 _weaponSlot.transform,
                 _attackStartPoint.transform,

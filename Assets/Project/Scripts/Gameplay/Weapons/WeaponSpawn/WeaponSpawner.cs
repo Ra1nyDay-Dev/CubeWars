@@ -2,8 +2,9 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.Characters.Interactions;
+using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Enums;
-using Project.Scripts.Gameplay.Services.Fabrics.Weapon;
+using Project.Scripts.Gameplay.Services.Factories.WeaponFactory;
 using UnityEngine;
 using Zenject;
 
@@ -12,27 +13,32 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
     public class WeaponSpawner : MonoBehaviour, IInteractable
     {
         [SerializeField] private GameObject _weaponSlot;
+
+        private IWeaponFactory _weaponFactory;
         
-        [SerializeField] private WeaponType _weaponType;
-        [SerializeField] private float _spawnTime;
-        [SerializeField] private bool _spawnOnStart;
-        
-        private IWeaponFabric _weaponFabric;
+        private string _id;
+        private WeaponType _weaponType;
+        private float _spawnTime;
+        private bool _spawnOnStart;
         private WeaponSpawnerAnimation _spawnerAnimation;
-        private CancellationTokenSource _spawnCancellationTokenSource;
         
+        private CancellationTokenSource _spawnCancellationTokenSource;
         private bool _isActive;
         private bool _isWeaponAvailable;
 
         [Inject]
-        public void Construct(IWeaponFabric weaponFabric) => 
-            _weaponFabric = weaponFabric;
+        public void Construct(IWeaponFactory weaponFactory) => 
+            _weaponFactory = weaponFactory;
 
-        private void Awake()
+        public void Initialize(WeaponSpawnerData data)
         {
-            _spawnerAnimation = GetComponent<WeaponSpawnerAnimation>();
+            _id = data.Id;
+            _weaponType = data.WeaponType;
+            _spawnTime = data.SpawnTime;
+            _spawnOnStart = data.SpawnOnStart;
             
-            _weaponFabric.CreateWeaponAtSpawn(_weaponType, _weaponSlot.transform);
+            _spawnerAnimation = GetComponent<WeaponSpawnerAnimation>();
+            _weaponFactory.CreateWeaponAtSpawn(_weaponType, _weaponSlot.transform);
             _weaponSlot.SetActive(false);
             ActivateSpawn();
         }

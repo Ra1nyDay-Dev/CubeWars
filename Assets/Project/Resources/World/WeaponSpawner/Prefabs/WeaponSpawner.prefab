@@ -14754,10 +14754,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6206917600f2f3b4c8d4f4c23ba413d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Weapons.WeaponSpawn.WeaponSpawn
+  <WeaponType>k__BackingField: 0
+  <SpawnTime>k__BackingField: 0
+  <SpawnOnStart>k__BackingField: 0
   _weaponSlot: {fileID: 1342944664104675552}
-  _weaponType: 2
-  _spawnTime: 3
-  _spawnOnStart: 1
 --- !u!114 &7811591056330538048
 MonoBehaviour:
   m_ObjectHideFlags: 0

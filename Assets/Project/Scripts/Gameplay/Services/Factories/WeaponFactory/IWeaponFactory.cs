@@ -1,11 +1,10 @@
-﻿using Project.Scripts.Gameplay.Characters;
-using Project.Scripts.Gameplay.Characters.Movement;
+﻿using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
-namespace Project.Scripts.Gameplay.Services.Fabrics.Weapon
+namespace Project.Scripts.Gameplay.Services.Factories.WeaponFactory
 {
-    public interface IWeaponFabric
+    public interface IWeaponFactory
     {
         GameObject CreateWeaponInHands(WeaponType weaponType,
             Transform weaponSlot,

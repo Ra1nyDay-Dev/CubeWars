@@ -88,7 +88,7 @@ namespace Project.Scripts.Gameplay.AttackSystems.Overlap
                 if (_selfHitbox == hitbox.gameObject)
                     continue;
                 
-                Transform target = hitbox.transform.parent;
+                Transform target = hitbox.transform.root;
                 
                 if (target == null || target.TryGetComponent(out IDamageable damageable) == false)
                     continue;

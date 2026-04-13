@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Weapons
 {
+    // toDo: DEBUG_DELETE 
     public class WeaponArsenalTest : MonoBehaviour
     {
         [SerializeField] private CharacterMovement _characterMovement;

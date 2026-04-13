@@ -46,6 +46,7 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
         private void OnDestroy() => 
             HideWeapon();
 
+
         public void Interact(InteractorUnit interactor)
         {
             if (!_isWeaponAvailable

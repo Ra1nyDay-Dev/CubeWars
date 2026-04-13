@@ -52,6 +52,7 @@ namespace Project.Scripts.Gameplay.Weapons
             _currentAmmoInMagazine = _maxAmmoInMagazine;
             _currentAmmo = _maxAmmo;
 
+            // toDo: DEBUG_DELETE 
             Debug.Log($"Weapon {WeaponType} constructed. " +
                       $"Ammo {_currentAmmoInMagazine}/" +
                       $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
@@ -80,6 +81,7 @@ namespace Project.Scripts.Gameplay.Weapons
             
             _isReloading = false;
             
+            // toDo: DEBUG_DELETE 
             Debug.Log($"Weapon {WeaponType} reloaded. " +
                       $"Ammo {_currentAmmoInMagazine}/" +
                       $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
@@ -103,6 +105,7 @@ namespace Project.Scripts.Gameplay.Weapons
 
             PerformEffects();
             
+            // toDo: DEBUG_DELETE 
             Debug.Log($"Weapon {WeaponType} shoot. " +
                       $"Ammo {_currentAmmoInMagazine}/" +
                       $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");

@@ -62,8 +62,11 @@ namespace Project.Scripts.Gameplay.Characters.Brain
         protected void Jump() => 
             _characterMovement.Jump();
 
-        protected void TryInteract() => 
-            _interactorUnit.CurrentInteractable?.Interact(_interactorUnit);
+        protected void TryInteract()
+        {
+            if (_interactorUnit.TryGetNearInteractable(out IInteractable interactable))
+                interactable.Interact(_interactorUnit);
+        }
 
         protected void StartPrimaryAttack() => 
             _weaponArsenal.CurrentWeapon?.StartPrimaryAttack();

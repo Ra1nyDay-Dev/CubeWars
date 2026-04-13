@@ -1,6 +1,4 @@
 ﻿using Project.Scripts.Gameplay.AttackSystems;
-using Project.Scripts.Gameplay.AttackSystems.Overlap;
-using Project.Scripts.Gameplay.AttackSystems.Raycast;
 using Project.Scripts.Gameplay.Characters.Movement;
 using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
@@ -38,14 +36,18 @@ namespace Project.Scripts.Gameplay.Services.Factories.WeaponFactory
             CharacterMovement owner)
         {
             WeaponConfig config = _configProvider.GetWeaponConfig(weaponType);
+            
             GameObject weaponGameObject = _instantiator.InstantiatePrefab(config.WeaponPrefab);
             IWeapon weapon = weaponGameObject.GetComponent<IWeapon>();
-            AttackBehaviour primaryAttack = CreateAttack(config.PrimaryAttackBehaviourConfig, config.PrimaryAttackType,
+            
+            AttackBehaviour primaryAttack = CreateAttack(config.PrimaryAttackBehaviourConfig,
                 attackStartPoint, selfHitbox, config.WeaponType);
-            AttackBehaviour secondaryAttack = CreateAttack(config.SecondaryAttackBehaviourConfig, config.SecondaryAttackType,
+            AttackBehaviour secondaryAttack = CreateAttack(config.SecondaryAttackBehaviourConfig,
                 attackStartPoint, selfHitbox, config.WeaponType);
+            
             weapon.Construct(config, primaryAttack, secondaryAttack, owner, handsSkinMaterial);
             weaponGameObject.transform.SetParent(weaponSlot.transform, false);
+            
             weaponGameObject.GetComponent<WeaponAnimation>()?.Construct(weapon, owner);
             
             return weaponGameObject;
@@ -61,24 +63,12 @@ namespace Project.Scripts.Gameplay.Services.Factories.WeaponFactory
             return weaponGameObject;
         }
 
-        private AttackBehaviour CreateAttack(AttackConfig config, AttackType attackType,
-            Transform attackStartPoint, GameObject selfHitbox, WeaponType weaponType)
-        {
-            if (!config)
-                return null;
-
-            switch (attackType)
-            {
-                case AttackType.Overlap:
-                    if (config is OverlapAttackConfig overlapConfig)
-                        return new OverlapAttack(overlapConfig, attackStartPoint, selfHitbox, weaponType);
-                    break;
-                case AttackType.Raycast:
-                    if (config is RaycastAttackConfig raycastConfig)
-                        return new RaycastAttack(raycastConfig, attackStartPoint, weaponType);
-                    break;
-            }
-            return null;
-        }
+        private AttackBehaviour CreateAttack(
+            AttackConfig config,
+            Transform attackStartPoint,
+            GameObject selfHitbox,
+            WeaponType weaponType
+        ) =>
+            config?.CreateAttack(attackStartPoint, selfHitbox, weaponType);
     }
 }

@@ -31,12 +31,6 @@ namespace Project.Scripts.Gameplay.Weapons
         private void Start() => 
             _death.Happened += OnDie;
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.O)) 
-                UnequipWeapon();
-        }
-
         private void OnDestroy() => 
             _death.Happened -= OnDie;
 

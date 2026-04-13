@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Characters.Interactions
@@ -7,30 +9,44 @@ namespace Project.Scripts.Gameplay.Characters.Interactions
     {
         [SerializeField] private TriggerObserver _interactZoneTriggerObserver;
         
-        public IInteractable CurrentInteractable { get; private set; }
+        private readonly Dictionary<IInteractable, Transform> _interactables = new();
         
         private void Start()
         {
             _interactZoneTriggerObserver.TriggerEnter += TriggerEnter;
             _interactZoneTriggerObserver.TriggerExit += TriggerExit;
         }
+        
+        public bool TryGetNearInteractable(out IInteractable interactable)
+        {
+            if (_interactables.Count == 0)
+            {
+                interactable = null;
+                return false;
+            }
+            
+            interactable = _interactables
+                .OrderBy(i => Vector3.Distance(transform.position, i.Value.position))
+                .First()
+                .Key;
+            
+            return true;
+        }
 
         private void TriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out IInteractable interactable)) 
-                CurrentInteractable = interactable;
+                _interactables.Add(interactable, other.transform);
         }
 
         private void TriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out IInteractable interactable) && 
-                CurrentInteractable == interactable)
-                CurrentInteractable = null;
+            if (other.TryGetComponent(out IInteractable interactable))
+                _interactables.Remove(interactable);
         }
 
         private void OnDestroy()
         {
-            CurrentInteractable = null;
             _interactZoneTriggerObserver.TriggerEnter -= TriggerEnter;
             _interactZoneTriggerObserver.TriggerExit -= TriggerExit;
         }

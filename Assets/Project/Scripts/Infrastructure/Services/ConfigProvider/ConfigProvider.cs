@@ -15,6 +15,7 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
         private Dictionary<string, LevelConfig> _levels;
         private Dictionary<WeaponType, WeaponConfig> _weapons;
 
+        // toDo: rewrite to async load with Addressables
         public void LoadAll()
         {
             _levels = Resources

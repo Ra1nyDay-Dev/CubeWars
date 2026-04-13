@@ -4,13 +4,11 @@ using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Characters.HealthSystems
 {
-    public interface IHealth
+    public interface IHealth : IDamageable
     {
         float Current { get; }
         float Max { get; }
         event Action HealthChanged;
-        event Action<DamageData> Damaged;
         void Heal(float heal);
-        public void TakeDamage(DamageData damageData);
     }
 }

@@ -13,7 +13,7 @@ namespace Project.Scripts.Gameplay.Characters.HealthSystems
         public event Action HealthChanged;
         public event Action<DamageData> Damaged;
         
-        private void Update()
+        private void Update() // toDo: DEBUG_DELETE 
         {
             if (Input.GetKeyDown(KeyCode.F)) 
                 TakeDamage(new(10, DamageSource.Environment));

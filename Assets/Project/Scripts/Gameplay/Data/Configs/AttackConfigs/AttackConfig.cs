@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Gameplay.Data.Enums;
+﻿using Project.Scripts.Gameplay.AttackSystems;
+using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
@@ -14,6 +15,11 @@ namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
         public DeathType AnimationOnDeath = DeathType.Default;
         public bool HoldingButtonContinuesAttack = false;
         
-        public virtual float AttackInterval { get; }
+        public abstract float AttackInterval { get; }
+        
+        public abstract AttackBehaviour CreateAttack(
+            Transform attackStartPoint,
+            GameObject selfHitbox,
+            WeaponType weaponType);
     }
 }

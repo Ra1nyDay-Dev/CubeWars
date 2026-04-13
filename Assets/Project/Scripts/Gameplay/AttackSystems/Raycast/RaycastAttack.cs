@@ -59,7 +59,7 @@ namespace Project.Scripts.Gameplay.AttackSystems.Raycast
             if (Physics.Raycast(ray, out RaycastHit hitInfo, _distance, _layerMask))
             {
                 var hitCollider = hitInfo.collider;
-                Transform target = hitCollider.transform.parent;
+                Transform target = hitCollider.transform.root;
 
                 if (target != null && target.TryGetComponent(out IDamageable damageable))
                 {

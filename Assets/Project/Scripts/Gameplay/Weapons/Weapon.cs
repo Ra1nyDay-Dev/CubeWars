@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.AttackSystems;
 using Project.Scripts.Gameplay.Characters;
@@ -9,6 +10,10 @@ using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Weapons
 {
+    //toDo: 
+    // 1. Move AttackTypes to WeaponAttacks class with attack slots list
+    // 2. Move Ammo to IAmmo Behaviour
+    // 3. Move Reload to IReloadable Behaviour
     public abstract class Weapon : MonoBehaviour, IWeapon
     {
         [SerializeField] private GameObject[] _hands;
@@ -24,7 +29,7 @@ namespace Project.Scripts.Gameplay.Weapons
 
         public AttackBehaviour PrimaryAttack { get; protected set; }
         public AttackBehaviour SecondaryAttack { get; protected set; }
-
+        
         protected bool _isPrimaryAttackButtonHeldDown;
         protected bool _isSecondaryAttackButtonHeldDown;
         protected bool _isAttacking = false;
@@ -50,7 +55,13 @@ namespace Project.Scripts.Gameplay.Weapons
                 return;
             
             _isPrimaryAttackButtonHeldDown = true;
-            await AttackLoop(PrimaryAttack, () => _isPrimaryAttackButtonHeldDown);
+
+            try
+            {
+                await AttackLoop(PrimaryAttack, () => 
+                    _isPrimaryAttackButtonHeldDown, this.GetCancellationTokenOnDestroy());
+            }
+            catch (OperationCanceledException) { }
         }
 
         public virtual async UniTask StartSecondaryAttack()
@@ -59,41 +70,55 @@ namespace Project.Scripts.Gameplay.Weapons
                 return;
             
             _isSecondaryAttackButtonHeldDown = true;
-            await AttackLoop(SecondaryAttack, () => _isSecondaryAttackButtonHeldDown);
+
+            try
+            {
+                await AttackLoop(SecondaryAttack, () => 
+                    _isSecondaryAttackButtonHeldDown, this.GetCancellationTokenOnDestroy());
+            }
+            catch (OperationCanceledException) { }
         }
 
-        public virtual void StopPrimaryAttack() => _isPrimaryAttackButtonHeldDown = false;
-        public virtual void StopSecondaryAttack() => _isSecondaryAttackButtonHeldDown = false;
+        public virtual void StopPrimaryAttack() => 
+            _isPrimaryAttackButtonHeldDown = false;
+
+        public virtual void StopSecondaryAttack() => 
+            _isSecondaryAttackButtonHeldDown = false;
 
         protected virtual async UniTask AttackLoop(
             AttackBehaviour attack,
-            Func<bool> isHeld)
+            Func<bool> isHeld,
+            CancellationToken token)
         {
             while (isHeld())
             {
+                token.ThrowIfCancellationRequested();
+                
                 if (!CanAttack(attack))
                 {
-                    await UniTask.Yield();
+                    await UniTask.Yield(token);
                     continue;
                 }
                 
-                await PerformAttack(attack);
+                await PerformAttack(attack, token);
 
                 if (!attack.HoldingButtonContinuesAttack)
                     break;
             }
         }
 
-        protected virtual async UniTask PerformAttack(AttackBehaviour attack)
+        protected virtual async UniTask PerformAttack(
+            AttackBehaviour attack,
+            CancellationToken token)
         {
             OnAttackStarted(attack);
             
-            await ApplyAttackDelay(attack);
+            await ApplyAttackDelay(attack, token);
             
             attack.PerformAttack();
             OnAttackPerformed(attack);
             
-            await ApplyAttackCooldown(attack);
+            await ApplyAttackCooldown(attack, token);
             
             OnAttackEnded(attack);
         }
@@ -111,20 +136,22 @@ namespace Project.Scripts.Gameplay.Weapons
                 SecondaryAttackStarted?.Invoke();
         }
 
-        protected virtual UniTask ApplyAttackDelay(AttackBehaviour attack) => 
-            UniTask.Delay(TimeSpan.FromSeconds(attack.AttackDelay));
+        protected virtual UniTask ApplyAttackDelay(
+            AttackBehaviour attack, CancellationToken token) => 
+            UniTask.Delay(TimeSpan.FromSeconds(attack.AttackDelay), cancellationToken: token);
 
-        protected virtual UniTask ApplyAttackCooldown(AttackBehaviour attack) => 
-            UniTask.Delay(TimeSpan.FromSeconds(attack.AttackInterval));
+        protected virtual UniTask ApplyAttackCooldown(
+            AttackBehaviour attack, CancellationToken token) => 
+            UniTask.Delay(TimeSpan.FromSeconds(attack.AttackInterval), cancellationToken: token);
 
         protected virtual void OnAttackPerformed(AttackBehaviour attack)
         {
-            Debug.Log($"{Time.time} Attacked");
+            Debug.Log($"{Time.time} Attacked"); // toDo: DEBUG_DELETE 
         }
 
         protected virtual void OnAttackEnded(AttackBehaviour attack)
         {
-            Debug.Log($"{Time.time} Attack ready");
+            Debug.Log($"{Time.time} Attack ready"); // toDo: DEBUG_DELETE 
             _isAttacking = false;
             
             if (attack == PrimaryAttack)

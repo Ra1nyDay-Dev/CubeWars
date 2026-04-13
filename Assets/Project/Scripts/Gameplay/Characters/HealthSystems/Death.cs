@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.Data;
 using UnityEngine;
 
@@ -9,10 +11,12 @@ namespace Project.Scripts.Gameplay.Characters.HealthSystems
     {
         [SerializeField] private Health _health;
         
+        private const float DESTROY_TIME_AFTER_DEATH = 3;
+        
         public event Action <DamageData> Happened;
         
         private bool _isDead;
-        
+
         private void Start() => 
             _health.Damaged += OnDamaged;
 
@@ -29,13 +33,14 @@ namespace Project.Scripts.Gameplay.Characters.HealthSystems
         {
             _isDead = true;
             _health.Damaged -= OnDamaged;
-            StartCoroutine(DestroyTimer());
             Happened?.Invoke(damageData);
+            DestroyTimer(this.GetCancellationTokenOnDestroy())
+                .Forget(Debug.LogException);
         }
         
-        private IEnumerator DestroyTimer()
+        private async UniTask DestroyTimer(CancellationToken cancellationToken)
         {
-            yield return new WaitForSeconds(3);
+            await UniTask.Delay(TimeSpan.FromSeconds(DESTROY_TIME_AFTER_DEATH), cancellationToken: cancellationToken);
             Destroy(gameObject);
         }
     }

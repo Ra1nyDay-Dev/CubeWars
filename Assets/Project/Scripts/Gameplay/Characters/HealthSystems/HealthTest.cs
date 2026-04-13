@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Characters.HealthSystems
 {
+    // toDo: DEBUG_DELETE 
     public class HealthTest : MonoBehaviour, IHealth, IDamageable
     {
         [field: SerializeField] public float Current { get; private set; }

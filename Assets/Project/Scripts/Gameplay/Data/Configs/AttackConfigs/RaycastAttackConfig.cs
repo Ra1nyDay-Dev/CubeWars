@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Project.Scripts.Gameplay.AttackSystems;
+using Project.Scripts.Gameplay.AttackSystems.Raycast;
+using Project.Scripts.Gameplay.Data.Enums;
+using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
 {
@@ -22,5 +25,11 @@ namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
         [SerializeField] public ParticleSystem HitEffectPrefab;
         [SerializeField] public ParticleSystem MissEffectPrefab;
         [SerializeField, Min(0f)] public float HitEffectDestroyDelay = 2f;
+        
+        public override AttackBehaviour CreateAttack(
+            Transform attackStartPoint,
+            GameObject selfHitbox,
+            WeaponType weaponType) =>
+            new RaycastAttack(this, attackStartPoint, weaponType);
     }
 }

@@ -1,4 +1,6 @@
-﻿using Project.Scripts.Gameplay.Data.Enums;
+﻿using Project.Scripts.Gameplay.AttackSystems;
+using Project.Scripts.Gameplay.AttackSystems.Overlap;
+using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
@@ -28,5 +30,11 @@ namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs
         [Header("Gizmos")]
         public DrawGizmosType DrawGizmosType;
         public Color GizmosColor = Color.cyan;
+        
+        public override AttackBehaviour CreateAttack(
+            Transform attackStartPoint,
+            GameObject selfHitbox,
+            WeaponType weaponType) =>
+            new OverlapAttack(this, attackStartPoint, selfHitbox, weaponType);
     }
 }

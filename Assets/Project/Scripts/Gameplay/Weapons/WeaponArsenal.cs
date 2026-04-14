@@ -1,5 +1,5 @@
-﻿using Project.Scripts.Gameplay.Characters.HealthSystems;
-using Project.Scripts.Gameplay.Characters.Movement;
+﻿using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
+using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Services.Factories.WeaponFactory;
@@ -14,37 +14,37 @@ namespace Project.Scripts.Gameplay.Weapons
         [SerializeField] private GameObject _attackStartPoint;
         [SerializeField] Material _handsSkinMaterial;
         [SerializeField] private GameObject _selfHitbox;
-        [SerializeField] private Death _death;
         
-        private IWeaponFactory _weaponFactory;
-        private CharacterMovement _owner;
+        public GameObject CurrentWeaponGameObject { get; private set; }
 
+        public IWeapon CurrentWeapon { get; private set; }
+
+        private IWeaponFactory _weaponFactory;
+        private CharacterMovement _ownerMovement;
+        private Death _death;
+        
         [Inject]
         public void Construct(IWeaponFactory weaponFactory) => 
             _weaponFactory = weaponFactory;
 
         private void Awake()
         {
-            _owner = GetComponent<CharacterMovement>();
+            _ownerMovement = GetComponent<CharacterMovement>();
+            _death = GetComponent<Death>();
         }
 
-        private void Start() => 
+        private void OnEnable() => 
             _death.Happened += OnDie;
 
-        private void OnDestroy() => 
+        private void OnDisable() => 
             _death.Happened -= OnDie;
-
-        public GameObject CurrentWeaponGameObject { get; private set; }
-
-        public IWeapon CurrentWeapon { get; private set; }
 
         public void ChangeWeapon(WeaponType weaponType)
         {
             UnequipWeapon();
             EquipWeapon(weaponType);
         }
-
-
+        
         private void EquipWeapon(WeaponType weaponType)
         {
             CurrentWeaponGameObject = _weaponFactory.CreateWeaponInHands(
@@ -53,7 +53,7 @@ namespace Project.Scripts.Gameplay.Weapons
                 _attackStartPoint.transform,
                 _handsSkinMaterial,
                 _selfHitbox,
-                _owner);
+                _ownerMovement);
             
             CurrentWeapon = CurrentWeaponGameObject.GetComponent<IWeapon>();
         }

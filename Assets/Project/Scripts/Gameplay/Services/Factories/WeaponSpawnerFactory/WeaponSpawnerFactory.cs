@@ -18,16 +18,18 @@ namespace Project.Scripts.Gameplay.Services.Factories.WeaponSpawnerFactory
             _instantiator =  instantiator;
         }
 
-        public void Create(WeaponSpawnerData weaponSpawnerData)
+        public WeaponSpawner Create(WeaponSpawnerData weaponSpawnerData)
         {
             WeaponSpawner prefab = _assetProvider.LoadAsset<WeaponSpawner>(AssetPath.WEAPON_SPAWNER);
-            _instantiator.InstantiatePrefabForComponent<WeaponSpawner>(
+            WeaponSpawner weaponSpawner = _instantiator.InstantiatePrefabForComponent<WeaponSpawner>(
                     prefab,
                     position: weaponSpawnerData.Position,
                     Quaternion.identity,
                     parentTransform: null
-                )
-                .Initialize(weaponSpawnerData);
+                );
+            weaponSpawner.Initialize(weaponSpawnerData);
+
+            return weaponSpawner;
         }
     }
 }

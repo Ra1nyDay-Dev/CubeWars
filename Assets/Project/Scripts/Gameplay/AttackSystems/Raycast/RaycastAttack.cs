@@ -1,4 +1,4 @@
-﻿using Project.Scripts.Gameplay.Characters.HealthSystems;
+﻿using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
@@ -98,6 +98,7 @@ namespace Project.Scripts.Gameplay.AttackSystems.Raycast
             };
         }
         
+        // toDo: rewrite to object pool
         private void SpawnParticleEffectOnHit(RaycastHit hitInfo, ParticleSystem hitEffectPrefab)
         {
             if (hitEffectPrefab != null)

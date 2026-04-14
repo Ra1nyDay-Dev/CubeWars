@@ -1,8 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.AttackSystems;
-using Project.Scripts.Gameplay.Characters;
-using Project.Scripts.Gameplay.Characters.Movement;
+using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using UnityEngine;
 

@@ -759,6 +759,7 @@ GameObject:
   - component: {fileID: 4503632166462594920}
   - component: {fileID: 4225793582177660496}
   - component: {fileID: 8810046193908702145}
+  - component: {fileID: 8299717263585795847}
   - component: {fileID: 9019203110749931664}
   - component: {fileID: 8015432753243293538}
   - component: {fileID: 1720069135644177650}
@@ -869,6 +870,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8299717263585795847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724456649089160340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e5695ca3b26465190bf4ad03418a420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.CharacterSystems.Character
 --- !u!114 &9019203110749931664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -881,14 +894,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b21bf5a68f4be5b93232617b6c5c69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Characters.CubeGuy.Character
-  _movementSpeed: 10
-  _acceleration: 100
-  _groundDeceleration: 50
-  _airDeceleration: 10
-  _rotationSpeed: 20
-  _gravity: -29.43
-  _groundDownForce: -2
-  _jumpHeight: 3
 --- !u!114 &8015432753243293538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,8 +933,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e2a5451e4c4c1c81a9c45193649d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Characters.Health.Health
-  <Current>k__BackingField: 100
-  <Max>k__BackingField: 100
 --- !u!114 &1331258266150335023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -942,7 +945,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeea5c941617400b83c1a71f63af6b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Characters.CombatSystems.Death
-  _health: {fileID: 1785537955421874399}
 --- !u!114 &7633125715107327431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -959,7 +961,6 @@ MonoBehaviour:
   _attackStartPoint: {fileID: 8811326981135413612}
   _handsSkinMaterial: {fileID: 2100000, guid: d75ad2cbb0fc9f74c820dc3c24fea5e8, type: 2}
   _selfHitbox: {fileID: 3133059519000722611}
-  _death: {fileID: 1331258266150335023}
 --- !u!114 &4881187661058655429
 MonoBehaviour:
   m_ObjectHideFlags: 0

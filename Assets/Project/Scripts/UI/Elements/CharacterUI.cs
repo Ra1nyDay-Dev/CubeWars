@@ -1,5 +1,5 @@
 ﻿using System;
-using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.Data;
 using UnityEngine;
 
@@ -15,23 +15,26 @@ namespace Project.Scripts.UI.Elements
         {
             _health = GetComponent<Health>();
             _death = GetComponent<Death>();
+            UpdateHealthBar();
         }
 
-        public void Start()
+        private void OnEnable() => 
+            SubscribeToEvents();
+
+        private void OnDestroy() => 
+            UnsubscribeFromEvents();
+
+
+        private void SubscribeToEvents()
         {
             _health.HealthChanged += UpdateHealthBar;
             _death.Happened += OnDie;
-            
-            UpdateHealthBar();
         }
-        
-        private void OnDestroy()
+
+        private void UnsubscribeFromEvents()
         {
-            if (_health != null) 
-                _health.HealthChanged -= UpdateHealthBar;
-            
-            if (_death != null)
-                _death.Happened -= OnDie;
+            _health.HealthChanged -= UpdateHealthBar;
+            _death.Happened -= OnDie;
         }
 
         private void UpdateHealthBar() => 

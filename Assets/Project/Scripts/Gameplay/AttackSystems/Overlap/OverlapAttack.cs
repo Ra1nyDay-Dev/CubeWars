@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using Project.Scripts.Gameplay.Characters;
-using Project.Scripts.Gameplay.Characters.HealthSystems;
+using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Configs;
 using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;

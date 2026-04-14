@@ -2,8 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.AttackSystems;
-using Project.Scripts.Gameplay.Characters;
-using Project.Scripts.Gameplay.Characters.Movement;
+using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Project.Scripts.Gameplay.Characters;
-using Project.Scripts.Gameplay.Characters.Movement;
+﻿using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Weapons
@@ -23,59 +20,60 @@ namespace Project.Scripts.Gameplay.Weapons
 
         private Animator _animator;
         private IWeapon _weapon;
-        private CharacterMovement _owner;
+        private CharacterMovement _ownerMovement;
         
         private Vector3 _lastHorizontalVelocity;
         private int _lastPrimaryAttackIndex = 1;
 
-        public void Construct(IWeapon weapon, CharacterMovement owner)
+        public void Construct(IWeapon weapon, CharacterMovement ownerMovement)
         {
             _weapon = weapon;
-            _owner = owner;
+            _ownerMovement = ownerMovement;
             
+            SubscribeToEvents();
+
+            _animator.SetBool(IsGroundedHash, _ownerMovement.IsGrounded);
+            _animator.SetBool(IsMovingHash, _ownerMovement.IsMoving);
+            _animator.SetFloat(HorizontalSpeedHash, _ownerMovement.CurrentHorizontalVelocity.magnitude);
+        }
+
+        private void Awake() => 
+            _animator = GetComponent<Animator>();
+
+        private void OnDestroy() => 
+            UnsubscribeFromEvents();
+
+        private void SubscribeToEvents()
+        {
             _weapon.PrimaryAttackStarted += OnPrimaryAttackStarted;
             _weapon.PrimaryAttackEnded += OnPrimaryAttackEnded;
             _weapon.SecondaryAttackStarted += OnSecondaryAttackStarted;
             _weapon.SecondaryAttackEnded += OnSecondaryAttackEnded;
-            _owner.MovingChanged += OnMovingChanged;
-            _owner.HorizontalVelocityChanged += OnHorizontalVelocityChanged;
-            _owner.GroundedChanged += OnGroundedChanged;
-            _owner.Jumped += OnJumped;
-            _owner.VerticalVelocityChanged += OnVerticalVelocityChanged;
-
-            if (_weapon is RangeWeapon rangeWeapon)
-            {
-                if (rangeWeapon.IsReloadable) 
-                    rangeWeapon.ReloadStarted += OnReload;
-            }
+            _ownerMovement.MovingChanged += OnMovingChanged;
+            _ownerMovement.HorizontalVelocityChanged += OnHorizontalVelocityChanged;
+            _ownerMovement.GroundedChanged += OnGroundedChanged;
+            _ownerMovement.Jumped += OnJumped;
+            _ownerMovement.VerticalVelocityChanged += OnVerticalVelocityChanged;
             
-            _animator.SetBool(IsGroundedHash, _owner.IsGrounded);
-            _animator.SetBool(IsMovingHash, _owner.IsMoving);
-            _animator.SetFloat(HorizontalSpeedHash, _owner.CurrentHorizontalVelocity.magnitude);
+            // toDo: temporary. Rewrite to IReloadable behaviour
+            if (_weapon is RangeWeapon { IsReloadable: true } rangeWeapon) 
+                rangeWeapon.ReloadStarted += OnReload;
         }
 
-        private void Awake()
-        {
-            _animator = GetComponent<Animator>();
-        }
-
-        private void OnDestroy()
+        private void UnsubscribeFromEvents()
         {
             _weapon.PrimaryAttackStarted -= OnPrimaryAttackStarted;
             _weapon.PrimaryAttackEnded -= OnPrimaryAttackEnded;
             _weapon.SecondaryAttackStarted -= OnSecondaryAttackStarted;
             _weapon.SecondaryAttackEnded -= OnSecondaryAttackEnded;
-            _owner.MovingChanged -= OnMovingChanged;
-            _owner.HorizontalVelocityChanged -= OnHorizontalVelocityChanged;
-            _owner.GroundedChanged -= OnGroundedChanged;
-            _owner.Jumped -= OnJumped;
-            _owner.VerticalVelocityChanged -= OnVerticalVelocityChanged;
+            _ownerMovement.MovingChanged -= OnMovingChanged;
+            _ownerMovement.HorizontalVelocityChanged -= OnHorizontalVelocityChanged;
+            _ownerMovement.GroundedChanged -= OnGroundedChanged;
+            _ownerMovement.Jumped -= OnJumped;
+            _ownerMovement.VerticalVelocityChanged -= OnVerticalVelocityChanged;
             
-            if (_weapon is RangeWeapon rangeWeapon)
-            {
-                if (rangeWeapon.IsReloadable) 
-                    rangeWeapon.ReloadStarted -= OnReload;
-            }
+            if (_weapon is RangeWeapon { IsReloadable: true } rangeWeapon) 
+                rangeWeapon.ReloadStarted -= OnReload;
         }
 
         private void OnJumped() => 
@@ -113,7 +111,7 @@ namespace Project.Scripts.Gameplay.Weapons
 
         private void UpdateMovementAnimation(Vector3 worldVelocity)
         {
-            Vector3 localVelocity = Quaternion.Inverse(_owner.CurrentRotation) * worldVelocity;
+            Vector3 localVelocity = Quaternion.Inverse(_ownerMovement.CurrentRotation) * worldVelocity;
             _animator.SetFloat(HorizontalSpeedHash, worldVelocity.magnitude);
             _animator.SetFloat(HorizontalSpeedXHash, localVelocity.x);
             _animator.SetFloat(HorizontalSpeedZHash, localVelocity.z);

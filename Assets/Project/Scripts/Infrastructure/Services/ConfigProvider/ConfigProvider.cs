@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
 using Project.Scripts.Gameplay.Data.Configs.LevelConfigs;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
@@ -11,26 +12,40 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
     {
         private const string WEAPONS_CONFIGS_PATH = "Configs/Weapons";
         private const string LEVELS_CONFIGS_PATH = "Configs/Levels";
+        private const string CHARACTER_MOVEMENT_CONFIG_PATH = "Configs/Characters/Movement/CharacterMovementConfig";
+        private const string HEALTH_CONFIG_PATH = "Configs/Characters/Health/DefaultHealthConfig";
 
-        private Dictionary<string, LevelConfig> _levels;
-        private Dictionary<WeaponType, WeaponConfig> _weapons;
+        private Dictionary<string, LevelConfig> _levelConfigs;
+        private Dictionary<WeaponType, WeaponConfig> _weaponConfigs;
+        private CharacterMovementConfig _characterMovementConfig;
+        private HealthConfig _healthConfig;
 
         // toDo: rewrite to async load with Addressables
         public void LoadAll()
         {
-            _levels = Resources
+            _levelConfigs = Resources
                 .LoadAll<LevelConfig>(LEVELS_CONFIGS_PATH)
                 .ToDictionary(x => x.SceneName, x => x );
             
-            _weapons = Resources
+            _weaponConfigs = Resources
                 .LoadAll<WeaponConfig>(WEAPONS_CONFIGS_PATH)
                 .ToDictionary(x => x.WeaponType, x => x );
+            
+            _characterMovementConfig = Resources.Load<CharacterMovementConfig>(CHARACTER_MOVEMENT_CONFIG_PATH);
+            
+            _healthConfig = Resources.Load<HealthConfig>(HEALTH_CONFIG_PATH);
         }
         
         public LevelConfig GetLevelConfig(string sceneName) => 
-            _levels.GetValueOrDefault(sceneName);
+            _levelConfigs.GetValueOrDefault(sceneName);
         
         public WeaponConfig GetWeaponConfig(WeaponType weaponType) => 
-            _weapons.GetValueOrDefault(weaponType);
+            _weaponConfigs.GetValueOrDefault(weaponType);
+        
+        public CharacterMovementConfig GetMovementConfig() =>
+            _characterMovementConfig;
+        
+        public HealthConfig GetHealthConfig() =>
+            _healthConfig;
     }
 }

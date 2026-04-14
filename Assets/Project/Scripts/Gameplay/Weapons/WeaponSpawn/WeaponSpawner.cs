@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Project.Scripts.Gameplay.Characters.Interactions;
+using Project.Scripts.Gameplay.CharacterSystems.Interactions;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Services.Factories.WeaponFactory;

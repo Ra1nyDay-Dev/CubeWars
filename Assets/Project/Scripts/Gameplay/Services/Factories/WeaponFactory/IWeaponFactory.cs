@@ -1,4 +1,4 @@
-﻿using Project.Scripts.Gameplay.Characters.Movement;
+﻿using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 

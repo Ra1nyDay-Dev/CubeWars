@@ -2,7 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.AttackSystems;
-using Project.Scripts.Gameplay.CharacterSystems.Movement;
+using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
@@ -17,7 +17,7 @@ namespace Project.Scripts.Gameplay.Weapons
     {
         [SerializeField] private GameObject[] _hands;
 
-        public CharacterMovement Owner { get; private set; }
+        public Character Owner { get; private set; }
         public int PrimaryAttackAnimationsCount { get; private set; }
         public WeaponType WeaponType { get; private set; }
 
@@ -37,15 +37,14 @@ namespace Project.Scripts.Gameplay.Weapons
             WeaponConfig config,
             AttackBehaviour primaryAttack,
             AttackBehaviour secondaryAttack,
-            CharacterMovement owner,
-            Material handsSkinMaterial
+            Character owner
         )
         {
             PrimaryAttack = primaryAttack;
             SecondaryAttack = secondaryAttack;
             Owner = owner;
             WeaponType = config.WeaponType;
-            ApplyHandsSkinMaterial(handsSkinMaterial);
+            ApplyHandsSkinMaterial(owner.SkinMaterial);
         }
 
         public virtual async UniTask StartPrimaryAttack()

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Brain;
 using Project.Scripts.Gameplay.Data;
+using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
 using Project.Scripts.Gameplay.Data.Configs.LevelConfigs;
 using Project.Scripts.Gameplay.Services.CameraProvider;
 using Project.Scripts.Gameplay.Services.Factories.BrainFactory;
@@ -55,29 +57,42 @@ namespace Project.Scripts.Infrastructure.SceneBootstrapHandlers
 
         private void CreateCharacters(LevelConfig levelConfig)
         {
-            int playersCount = 7;
+            int playersCount = 7; // test. Will be moved to sceneParams in menu
+           
             Queue<InitialPointData> initialPoints = new Queue<InitialPointData>(levelConfig.InitialPoints);
             
             if (initialPoints.Count < playersCount)
                 throw new Exception($"Not enough initial points ({initialPoints.Count}) to spawn {playersCount} characters.");
             
-            CreatePlayerCharacter(initialPoints);
-            CreateBotsCharacters(playersCount, initialPoints);
+            CreatePlayerCharacter(initialPoints.Dequeue());
+            CreateBotsCharacters(initialPoints, playersCount - 1);
         }
 
-        private void CreatePlayerCharacter(Queue<InitialPointData> initialPoints)
+        private void CreatePlayerCharacter(InitialPointData initialPoint)
         {
-            Character playerCharacter = _characterFactory.Create(initialPoints.Dequeue());
+            CharacterSkinMaterialsConfig skinsConfig = _configProvider.GetCharacterSkinMaterialsConfig();
+            Character playerCharacter = _characterFactory.Create(
+                initialPoint.Position, 
+                initialPoint.Rotation,
+                skinsConfig.PlayerSkinMaterial);
             _cameraProvider.SetFollowTarget(playerCharacter.transform);
             _brainFactory.Create(playerCharacter, BrainType.Player);
         }
 
-        private void CreateBotsCharacters(int playersCount, Queue<InitialPointData> initialPoints)
+        private void CreateBotsCharacters(Queue<InitialPointData> initialPoints, int botsCount)
         {
-            for (int i = 0; i < playersCount - 1; i++)
+            CharacterSkinMaterialsConfig skinsConfig = _configProvider.GetCharacterSkinMaterialsConfig();
+            Queue<Material> botsMaterials = new(
+                skinsConfig.Materials
+                    .Where(x => x != skinsConfig.PlayerSkinMaterial));
+            
+            for (int i = 0; i < botsCount; i++)
             {
-                Character emptyCharacter = _characterFactory.Create(initialPoints.Dequeue());
+                InitialPointData initialPointData = initialPoints.Dequeue();
+                Material material = botsMaterials.Dequeue();
+                Character emptyCharacter = _characterFactory.Create(initialPointData.Position, initialPointData.Rotation, material);
                 _brainFactory.Create(emptyCharacter, BrainType.Empty);
+                botsMaterials.Enqueue(material);
             }
         }
     }

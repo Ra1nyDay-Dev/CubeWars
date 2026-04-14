@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234f5fff567d4098a23bafcac4c456d4, type: 3}
+  m_Name: CharacterSkinMaterialsConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.CharacterConfigs.CharacterSkinMaterialsConfig
+  PlayerSkinMaterial: {fileID: 2100000, guid: 7718051ac51abeb4aa69424d4f549066, type: 2}
+  Materials:
+  - {fileID: 2100000, guid: b736a788f5e33214f9ba0422486728f6, type: 2}
+  - {fileID: 2100000, guid: 92c7fe7e9fd981e45817863f8520c3b4, type: 2}
+  - {fileID: 2100000, guid: 8d58edfc5d2f48d4381ec01d5bf18f68, type: 2}
+  - {fileID: 2100000, guid: 7718051ac51abeb4aa69424d4f549066, type: 2}
+  - {fileID: 2100000, guid: d65f27913bb4aa149a1bbdd724248da1, type: 2}
+  - {fileID: 2100000, guid: a97b0ccd04509d044b5889815c1a1060, type: 2}
+  - {fileID: 2100000, guid: 7310383f314c6834fbfd64cff5ece346, type: 2}

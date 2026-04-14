@@ -196,7 +196,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 601161895309740906}
-  - component: {fileID: 1693671361408608957}
   - component: {fileID: 8473702120489247213}
   m_Layer: 2
   m_Name: Eyes
@@ -224,28 +223,6 @@ Transform:
   - {fileID: 3489782016668407893}
   m_Father: {fileID: 7160554567620673035}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1693671361408608957
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503524476339201737}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cf34617db0a185f4fa03a5e13422ff7f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8473702120489247213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -882,6 +859,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5695ca3b26465190bf4ad03418a420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.CharacterSystems.Character
+  _skinRenderers:
+  - {fileID: 660531910936123966}
 --- !u!114 &9019203110749931664
 MonoBehaviour:
   m_ObjectHideFlags: 0

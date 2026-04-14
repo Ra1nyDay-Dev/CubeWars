@@ -1,4 +1,4 @@
-﻿using Project.Scripts.Gameplay.CharacterSystems.Movement;
+﻿using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.Data.Enums;
 using UnityEngine;
 
@@ -9,9 +9,8 @@ namespace Project.Scripts.Gameplay.Services.Factories.WeaponFactory
         GameObject CreateWeaponInHands(WeaponType weaponType,
             Transform weaponSlot,
             Transform attackStartPoint,
-            Material handsSkinMaterial,
             GameObject selfHitbox, 
-            CharacterMovement owner);
+            Character owner);
         
         GameObject CreateWeaponAtSpawn(WeaponType weaponType, Transform weaponSlot);
     }

@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Gameplay.CharacterSystems.Movement;
+﻿using System;
+using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Weapons
@@ -25,23 +26,22 @@ namespace Project.Scripts.Gameplay.Weapons
         private Vector3 _lastHorizontalVelocity;
         private int _lastPrimaryAttackIndex = 1;
 
-        public void Construct(IWeapon weapon, CharacterMovement ownerMovement)
+        public void Initialize()
         {
-            _weapon = weapon;
-            _ownerMovement = ownerMovement;
-            
-            SubscribeToEvents();
+            _animator = GetComponent<Animator>();
+            _weapon = GetComponent<IWeapon>();
+            _ownerMovement = _weapon.Owner.Movement;
 
             _animator.SetBool(IsGroundedHash, _ownerMovement.IsGrounded);
             _animator.SetBool(IsMovingHash, _ownerMovement.IsMoving);
             _animator.SetFloat(HorizontalSpeedHash, _ownerMovement.CurrentHorizontalVelocity.magnitude);
+            
+            SubscribeToEvents();
         }
-
-        private void Awake() => 
-            _animator = GetComponent<Animator>();
 
         private void OnDestroy() => 
             UnsubscribeFromEvents();
+
 
         private void SubscribeToEvents()
         {

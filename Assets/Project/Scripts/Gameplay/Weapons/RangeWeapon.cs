@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.AttackSystems;
+using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using UnityEngine;
@@ -30,11 +31,10 @@ namespace Project.Scripts.Gameplay.Weapons
             WeaponConfig config,
             AttackBehaviour primaryAttack,
             AttackBehaviour secondaryAttack,
-            CharacterMovement owner,
-            Material handsSkinMaterial
+            Character owner
         )
         {
-            base.Construct(config,primaryAttack,secondaryAttack,owner,handsSkinMaterial);
+            base.Construct(config,primaryAttack,secondaryAttack,owner);
             
             RangeWeaponConfig rangeConfig = config as RangeWeaponConfig;
             if (rangeConfig == null)

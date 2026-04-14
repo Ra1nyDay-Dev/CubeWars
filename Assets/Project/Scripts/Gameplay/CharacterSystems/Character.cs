@@ -11,6 +11,9 @@ namespace Project.Scripts.Gameplay.CharacterSystems
 {
     public class Character : MonoBehaviour
     {
+        [SerializeField] private Renderer[] _skinRenderers;
+        
+        public Material SkinMaterial { get; private set; }
         public CharacterMovement Movement { get; private set; }
         public WeaponArsenal WeaponArsenal { get; private set; }
         public CharacterAnimations Animations { get; private set; }
@@ -19,7 +22,8 @@ namespace Project.Scripts.Gameplay.CharacterSystems
         public IHealth Health { get; private set; }
         public Death Death { get; private set; }
         public InteractorUnit Interactor { get; private set; }
-        
+
+
         private void Awake()
         {
             Movement = GetComponent<CharacterMovement>();
@@ -32,6 +36,12 @@ namespace Project.Scripts.Gameplay.CharacterSystems
             Interactor = GetComponent<InteractorUnit>();
         }
 
-        
+        public void SetSkinMaterial(Material material)
+        {
+            SkinMaterial = material;
+
+            foreach (Renderer skinRenderer in _skinRenderers)
+                skinRenderer.material = material;
+        }
     }
 }

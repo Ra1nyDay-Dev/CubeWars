@@ -1,4 +1,5 @@
 ﻿using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
+using Project.Scripts.Gameplay.Data.Configs.Health;
 using Project.Scripts.Gameplay.Data.Configs.LevelConfigs;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
@@ -12,5 +13,6 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
         WeaponConfig GetWeaponConfig(WeaponType weaponType);
         CharacterMovementConfig GetMovementConfig();
         HealthConfig GetHealthConfig();
+        CharacterSkinMaterialsConfig GetCharacterSkinMaterialsConfig();
     }
 }

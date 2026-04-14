@@ -1,5 +1,5 @@
-﻿using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
-using Project.Scripts.Gameplay.CharacterSystems.Movement;
+﻿using Project.Scripts.Gameplay.CharacterSystems;
+using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Services.Factories.WeaponFactory;
@@ -12,15 +12,13 @@ namespace Project.Scripts.Gameplay.Weapons
     {
         [SerializeField] private GameObject _weaponSlot;
         [SerializeField] private GameObject _attackStartPoint;
-        [SerializeField] Material _handsSkinMaterial;
         [SerializeField] private GameObject _selfHitbox;
-        
-        public GameObject CurrentWeaponGameObject { get; private set; }
 
         public IWeapon CurrentWeapon { get; private set; }
 
+        private GameObject _currentWeaponGameObject;
         private IWeaponFactory _weaponFactory;
-        private CharacterMovement _ownerMovement;
+        private Character _owner;
         private Death _death;
         
         [Inject]
@@ -29,7 +27,7 @@ namespace Project.Scripts.Gameplay.Weapons
 
         private void Awake()
         {
-            _ownerMovement = GetComponent<CharacterMovement>();
+            _owner = GetComponent<Character>();
             _death = GetComponent<Death>();
         }
 
@@ -47,23 +45,22 @@ namespace Project.Scripts.Gameplay.Weapons
         
         private void EquipWeapon(WeaponType weaponType)
         {
-            CurrentWeaponGameObject = _weaponFactory.CreateWeaponInHands(
+            _currentWeaponGameObject = _weaponFactory.CreateWeaponInHands(
                 weaponType,
                 _weaponSlot.transform,
                 _attackStartPoint.transform,
-                _handsSkinMaterial,
                 _selfHitbox,
-                _ownerMovement);
+                _owner);
             
-            CurrentWeapon = CurrentWeaponGameObject.GetComponent<IWeapon>();
+            CurrentWeapon = _currentWeaponGameObject.GetComponent<IWeapon>();
         }
 
         private void UnequipWeapon()
         {
-            if (CurrentWeaponGameObject != null)
+            if (_currentWeaponGameObject != null)
             {
-                Destroy(CurrentWeaponGameObject);
-                CurrentWeaponGameObject = null;
+                Destroy(_currentWeaponGameObject);
+                _currentWeaponGameObject = null;
                 CurrentWeapon = null;
             }
         }

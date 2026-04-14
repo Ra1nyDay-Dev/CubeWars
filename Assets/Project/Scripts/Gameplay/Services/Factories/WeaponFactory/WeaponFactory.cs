@@ -1,4 +1,5 @@
 ﻿using Project.Scripts.Gameplay.AttackSystems;
+using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
@@ -31,24 +32,23 @@ namespace Project.Scripts.Gameplay.Services.Factories.WeaponFactory
         public GameObject CreateWeaponInHands(WeaponType weaponType,
             Transform weaponSlot,
             Transform attackStartPoint,
-            Material handsSkinMaterial,
             GameObject selfHitbox, 
-            CharacterMovement owner)
+            Character owner)
         {
             WeaponConfig config = _configProvider.GetWeaponConfig(weaponType);
             
             GameObject weaponGameObject = _instantiator.InstantiatePrefab(config.WeaponPrefab);
-            IWeapon weapon = weaponGameObject.GetComponent<IWeapon>();
+            weaponGameObject.transform.SetParent(weaponSlot.transform, false);
             
             AttackBehaviour primaryAttack = CreateAttack(config.PrimaryAttackBehaviourConfig,
                 attackStartPoint, selfHitbox, config.WeaponType);
             AttackBehaviour secondaryAttack = CreateAttack(config.SecondaryAttackBehaviourConfig,
                 attackStartPoint, selfHitbox, config.WeaponType);
             
-            weapon.Construct(config, primaryAttack, secondaryAttack, owner, handsSkinMaterial);
-            weaponGameObject.transform.SetParent(weaponSlot.transform, false);
+            IWeapon weapon = weaponGameObject.GetComponent<IWeapon>();
+            weapon.Construct(config, primaryAttack, secondaryAttack, owner);
             
-            weaponGameObject.GetComponent<WeaponAnimation>()?.Construct(weapon, owner);
+            weaponGameObject.GetComponent<WeaponAnimation>().Initialize();
             
             return weaponGameObject;
         }

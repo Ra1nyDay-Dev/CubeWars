@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Scripts.Gameplay.Data.Configs.CharacterConfigs
+namespace Project.Scripts.Gameplay.Data.Configs.Health
 {
     [CreateAssetMenu(fileName = "HealthConfig", menuName = "Configs/Health")]
     public class HealthConfig : ScriptableObject

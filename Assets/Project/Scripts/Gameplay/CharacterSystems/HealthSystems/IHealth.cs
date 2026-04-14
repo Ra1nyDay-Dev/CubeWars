@@ -1,5 +1,6 @@
 ﻿using System;
 using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
+using Project.Scripts.Gameplay.Data.Configs.Health;
 
 namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
 {

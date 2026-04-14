@@ -3,6 +3,7 @@ using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
+using Project.Scripts.Gameplay.Data.Configs.Health;
 using Project.Scripts.Infrastructure.Services.AssetManagement;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using UnityEngine;
@@ -27,13 +28,13 @@ namespace Project.Scripts.Gameplay.Services.Factories.CharacterFactory
             _instantiator =  instantiator;
         }
         
-        public Character Create(InitialPointData initialPointData)
+        public Character Create(Vector3 position, Quaternion rotation, Material material)
         {
             GameObject prefab = _assetProvider.LoadAsset(AssetPath.CUBE_GUY_CHARACTER);
             Character character = _instantiator.InstantiatePrefabForComponent<Character>(
                 prefab,
-                position: initialPointData.Position.With(y:1),
-                initialPointData.Rotation,
+                position: position,
+                rotation,
                 parentTransform: null
             );
             character.gameObject.SetActive(false);
@@ -44,6 +45,8 @@ namespace Project.Scripts.Gameplay.Services.Factories.CharacterFactory
 
             HealthConfig healthConfig = _configProvider.GetHealthConfig();
             character.Health.Construct(healthConfig);
+
+            character.SetSkinMaterial(material);
             
             character.gameObject.SetActive(true);
 

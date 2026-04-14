@@ -8,6 +8,6 @@ namespace Project.Scripts.Gameplay.Data.Configs.LevelConfigs
     {
         public string SceneName;
         public List<WeaponSpawnerData> WeaponSpawners;
-        public Vector3 InitialPlayerPosition;
+        public List<InitialPointData> InitialPoints;
     }
 }

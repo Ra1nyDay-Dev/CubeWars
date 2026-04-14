@@ -1,6 +1,7 @@
 ﻿using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Movement;
+using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
 using Project.Scripts.Infrastructure.Services.AssetManagement;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
@@ -26,13 +27,13 @@ namespace Project.Scripts.Gameplay.Services.Factories.CharacterFactory
             _instantiator =  instantiator;
         }
         
-        public Character Create(Vector3 initialPoint)
+        public Character Create(InitialPointData initialPointData)
         {
             GameObject prefab = _assetProvider.LoadAsset(AssetPath.CUBE_GUY_CHARACTER);
             Character character = _instantiator.InstantiatePrefabForComponent<Character>(
                 prefab,
-                position: initialPoint,
-                Quaternion.identity,
+                position: initialPointData.Position.With(y:1),
+                initialPointData.Rotation,
                 parentTransform: null
             );
             character.gameObject.SetActive(false);

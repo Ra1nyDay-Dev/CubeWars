@@ -9,7 +9,7 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
         public override Color GizmoColor => Color.yellow;
         public override float GizmoRadius => 1.5f;
         public override string GizmoTitle => WeaponType.ToString();
-        public override float GizmoTitleHeight => 3f;
+        public override bool DrawRotationArrow => false;
         
         [field: SerializeField] public WeaponType WeaponType { get; private set; }
         [field: SerializeField] public float SpawnTime { get; private set; }

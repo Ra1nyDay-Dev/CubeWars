@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Brain;
 using Project.Scripts.Gameplay.Data;
@@ -41,16 +43,42 @@ namespace Project.Scripts.Infrastructure.SceneBootstrapHandlers
             // toDo: move to match factory or state machine or something better
             LevelConfig levelConfig = _configProvider.GetLevelConfig(SceneManager.GetActiveScene().name);
 
+            CreateWeaponSpawners(levelConfig);
+            CreateCharacters(levelConfig);
+        }
+
+        private void CreateWeaponSpawners(LevelConfig levelConfig)
+        {
             foreach (var weaponSpawnerData in levelConfig.WeaponSpawners) 
                 _weaponSpawnerFactory.Create(weaponSpawnerData);
+        }
+
+        private void CreateCharacters(LevelConfig levelConfig)
+        {
+            int playersCount = 7;
+            Queue<InitialPointData> initialPoints = new Queue<InitialPointData>(levelConfig.InitialPoints);
             
-            Character character = _characterFactory.Create(Vector3.zero.With(y:2));
-            _cameraProvider.SetFollowTarget(character.transform);
+            if (initialPoints.Count < playersCount)
+                throw new Exception($"Not enough initial points ({initialPoints.Count}) to spawn {playersCount} characters.");
             
-            _brainFactory.Create(character, BrainType.Player);
-            
-            Character character2 = _characterFactory.Create(Vector3.zero.With(y:2, x:4));
-            _brainFactory.Create(character2, BrainType.Empty);
+            CreatePlayerCharacter(initialPoints);
+            CreateBotsCharacters(playersCount, initialPoints);
+        }
+
+        private void CreatePlayerCharacter(Queue<InitialPointData> initialPoints)
+        {
+            Character playerCharacter = _characterFactory.Create(initialPoints.Dequeue());
+            _cameraProvider.SetFollowTarget(playerCharacter.transform);
+            _brainFactory.Create(playerCharacter, BrainType.Player);
+        }
+
+        private void CreateBotsCharacters(int playersCount, Queue<InitialPointData> initialPoints)
+        {
+            for (int i = 0; i < playersCount - 1; i++)
+            {
+                Character emptyCharacter = _characterFactory.Create(initialPoints.Dequeue());
+                _brainFactory.Create(emptyCharacter, BrainType.Empty);
+            }
         }
     }
 }

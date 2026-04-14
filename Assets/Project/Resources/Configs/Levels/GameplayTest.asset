@@ -14,34 +14,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.LevelConfigs.LevelConfig
   SceneName: GameplayTest
   WeaponSpawners:
-  - Id: Gameplay_bbb10e9b-1a67-47d8-9713-094cc4d380c9
-    Position: {x: -15, y: 0, z: -19}
-    WeaponType: 0
-    SpawnTime: 3
-    SpawnOnStart: 1
-  - Id: Gameplay_18b2d24d-1024-4b26-8752-45e2d2212cf8
-    Position: {x: 9, y: 0, z: -19}
-    WeaponType: 4
-    SpawnTime: 3
-    SpawnOnStart: 1
-  - Id: Gameplay_fa9e58cc-a05a-4308-a6b6-cdb11924b480
-    Position: {x: 15, y: 0, z: -19}
+  - Position: {x: 15, y: 0, z: -19}
     WeaponType: 5
     SpawnTime: 3
     SpawnOnStart: 1
-  - Id: Gameplay_1dc12b91-23f2-44a1-8037-88bf5164ea8f
-    Position: {x: -3, y: 0, z: -19}
-    WeaponType: 2
-    SpawnTime: 3
-    SpawnOnStart: 1
-  - Id: Gameplay_5439bb72-fbdf-4462-85ee-762db3f7558c
-    Position: {x: -9, y: 0, z: -19}
-    WeaponType: 1
-    SpawnTime: 3
-    SpawnOnStart: 1
-  - Id: Gameplay_6f29e0a7-8a9c-44a8-8616-293d8a950f21
-    Position: {x: 3, y: 0, z: -19}
+  - Position: {x: 3, y: 0, z: -19}
     WeaponType: 3
     SpawnTime: 3
     SpawnOnStart: 1
-  InitialPlayerPosition: {x: 0, y: 0, z: 0}
+  - Position: {x: -15, y: 0, z: -19}
+    WeaponType: 0
+    SpawnTime: 3
+    SpawnOnStart: 1
+  - Position: {x: -9, y: 0, z: -19}
+    WeaponType: 1
+    SpawnTime: 3
+    SpawnOnStart: 1
+  - Position: {x: 9, y: 0, z: -19}
+    WeaponType: 4
+    SpawnTime: 3
+    SpawnOnStart: 1
+  - Position: {x: -3, y: 0, z: -19}
+    WeaponType: 2
+    SpawnTime: 3
+    SpawnOnStart: 1
+  InitialPoints:
+  - Position: {x: 0.20000005, y: 0, z: -12.56}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+  - Position: {x: 13, y: 0, z: -2}
+    Rotation: {x: 0, y: 1, z: 0, w: 0}
+  - Position: {x: 9, y: 0, z: -2}
+    Rotation: {x: 0, y: 1, z: 0, w: 0}
+  - Position: {x: 5, y: 0, z: -2}
+    Rotation: {x: 0, y: 1, z: 0, w: 0}
+  - Position: {x: 1, y: 0, z: -2}
+    Rotation: {x: 0, y: 1, z: 0, w: 0}
+  - Position: {x: -3, y: 0, z: -2}
+    Rotation: {x: 0, y: 1, z: 0, w: 0}
+  - Position: {x: -7, y: 0, z: -2}
+    Rotation: {x: 0, y: 1, z: 0, w: 0}

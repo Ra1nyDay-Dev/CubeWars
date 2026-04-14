@@ -16,7 +16,6 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
 
         private IWeaponFactory _weaponFactory;
         
-        private string _id;
         private WeaponType _weaponType;
         private float _spawnTime;
         private bool _spawnOnStart;
@@ -32,7 +31,6 @@ namespace Project.Scripts.Gameplay.Weapons.WeaponSpawn
 
         public void Initialize(WeaponSpawnerData data)
         {
-            _id = data.Id;
             _weaponType = data.WeaponType;
             _spawnTime = data.SpawnTime;
             _spawnOnStart = data.SpawnOnStart;

@@ -7,15 +7,16 @@ namespace Project.Scripts.Gameplay.Common
     public abstract class SpawnMarker : MonoBehaviour
     {
         // Gizmos drawing in SpawnMarkerEditor
-        public virtual Color GizmoColor { get; protected set; } = Color.red;
+        public virtual Color GizmoColor => Color.red;
         
-        public virtual bool DrawPositionSphere {get; protected set;} = true;
-        public virtual float GizmoRadius { get; protected set; } = 1f;
+        public virtual bool DrawPositionSphere => true;
+        public virtual float GizmoRadius => 1.5f;
         
-        public virtual string GizmoTitle { get; protected set; } = "";
-        public virtual float GizmoTitleHeight { get; protected set; } = 3f;
+        public virtual string GizmoTitle => "";
+        public virtual float GizmoTitleHeight => 2.5f;
         
-        public virtual bool DrawRotationArrow {get; protected set; } = true;
-        public virtual float GizmoRotationArrowSize { get; protected set; } = 3f;
+        public virtual bool DrawRotationArrow => true;
+        public virtual float GizmoRotationArrowSize => 3f;
+        
     }
 }

@@ -46,5 +46,7 @@ namespace Project.Scripts.Editor
                 Quaternion.LookRotation(marker.transform.forward),
                 marker.GizmoRotationArrowSize,
                 Event.current.type);
+        
+        
     }
 }

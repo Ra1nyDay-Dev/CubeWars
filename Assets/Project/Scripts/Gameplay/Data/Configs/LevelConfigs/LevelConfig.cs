@@ -9,5 +9,6 @@ namespace Project.Scripts.Gameplay.Data.Configs.LevelConfigs
         public string SceneName;
         public List<WeaponSpawnerData> WeaponSpawners;
         public List<InitialPointData> InitialPoints;
+        public List<RespawnPointData> RespawnPoints;
     }
 }

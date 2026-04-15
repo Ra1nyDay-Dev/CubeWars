@@ -23,6 +23,7 @@ namespace Project.Scripts.Editor
                 levelConfig.SceneName = SceneManager.GetActiveScene().name; 
                 CollectWeaponSpawnersData(levelConfig);
                 CollectInitialPointsData(levelConfig);
+                CollectRespawnPointsData(levelConfig);
             }
             
             EditorUtility.SetDirty(target);
@@ -53,6 +54,21 @@ namespace Project.Scripts.Editor
                 )
                 .Select(x => 
                     new InitialPointData(
+                        x.transform.position,
+                        x.transform.rotation
+                    )
+                )
+                .ToList();
+        }
+        
+        private void CollectRespawnPointsData(LevelConfig levelConfig)
+        {
+            levelConfig.RespawnPoints = FindObjectsByType<RespawnPointMarker>(
+                    FindObjectsInactive.Exclude,
+                    FindObjectsSortMode.InstanceID
+                )
+                .Select(x => 
+                    new RespawnPointData(
                         x.transform.position,
                         x.transform.rotation
                     )

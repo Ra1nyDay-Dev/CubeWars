@@ -7,6 +7,9 @@ namespace Project.Scripts.Gameplay.Data.Configs.LevelConfigs
     public class LevelConfig : ScriptableObject
     {
         public string SceneName;
+        [Range(0, 300)] public float RespawnTimeSeconds;
+        
+        [Header("Level objects")]
         public List<WeaponSpawnerData> WeaponSpawners;
         public List<InitialPointData> InitialPoints;
         public List<RespawnPointData> RespawnPoints;

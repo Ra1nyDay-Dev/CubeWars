@@ -34,7 +34,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Brain
             Move(_inputService.GameplayActions.GetRelativeMoveInput(_camera));
             
             Rotate(_inputService.GameplayActions.GetRelativeLookInput(
-                    _character.transform.position,
+                    Character.transform.position,
                     _camera
                     )
             );

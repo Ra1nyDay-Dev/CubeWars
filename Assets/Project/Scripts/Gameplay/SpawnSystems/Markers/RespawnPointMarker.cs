@@ -13,7 +13,7 @@ namespace Project.Scripts.Gameplay.SpawnSystems.Markers
         
         
 #if UNITY_EDITOR       
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             if (!_enemyChekZoneTrigger)
                 return;

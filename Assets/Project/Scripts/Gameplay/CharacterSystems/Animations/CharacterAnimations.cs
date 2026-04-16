@@ -32,7 +32,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
         private Animator _animator;
         private CharacterMovement _characterMovement;
         private IDamageable _damageable;
-        private Death _death;
+        private RespawnBehaviour _respawnBehaviour;
         private Renderer _renderer;
         private MaterialPropertyBlock _materialPropertyBlock;
         private Sequence _damagedSequence;
@@ -45,7 +45,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _animator = GetComponent<Animator>();
             _characterMovement = GetComponent<CharacterMovement>();
             _damageable = _characterMovement.GetComponent<IDamageable>();
-            _death = _characterMovement.GetComponent<Death>();
+            _respawnBehaviour = _characterMovement.GetComponent<RespawnBehaviour>();
             _renderer = _tweensMesh.GetComponent<Renderer>();
             _materialPropertyBlock = new MaterialPropertyBlock();
             SetTweens();
@@ -68,7 +68,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _characterMovement.RotationChanged += OnRotationChanged;
             _characterMovement.VerticalVelocityChanged += OnVerticalVelocityChanged;
             _damageable.Damaged += OnDamaged;
-            _death.Happened += OnDie;
+            _respawnBehaviour.Dead += OnDie;
         }
 
         private void UnsubscribeFromEvents()
@@ -79,7 +79,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _characterMovement.Jumped -= OnJumped;
             _characterMovement.RotationChanged -= OnRotationChanged;
             _damageable.Damaged -= OnDamaged;
-            _death.Happened -= OnDie;
+            _respawnBehaviour.Dead -= OnDie;
         }
 
         private void OnDie(DamageData damageData)

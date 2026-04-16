@@ -6,17 +6,25 @@ using UnityEngine;
 
 namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
 {
-    public class Death : MonoBehaviour
+    public class RespawnBehaviour : MonoBehaviour
     {
-        public event Action <DamageData> Happened;
+        public event Action <DamageData> Dead;
+        public event Action Respawned;
         
-        private const float DESTROY_TIME_AFTER_DEATH = 3;
+        private const float VANISH_DELAY_AFTER_DEATH = 3;
         
         private IDamageable _damageable;
         private bool _isDead;
         
-        public void Awake() => 
+        private void Awake() => 
             _damageable = GetComponent<IDamageable>();
+
+        public void Respawn()
+        {
+            Reset();
+            Respawned?.Invoke();
+            gameObject.SetActive(true);
+        }
 
         private void OnEnable() => 
             _damageable.DestroyRequested += OnDestroyRequestReceived;
@@ -34,15 +42,18 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
         {
             _isDead = true;
             _damageable.DestroyRequested -= OnDestroyRequestReceived;
-            Happened?.Invoke(damageData);
-            DestroyTimer(this.GetCancellationTokenOnDestroy())
+            Dead?.Invoke(damageData);
+            VanishTimer(this.GetCancellationTokenOnDestroy())
                 .Forget(Debug.LogException);
         }
         
-        private async UniTask DestroyTimer(CancellationToken cancellationToken)
+        private async UniTask VanishTimer(CancellationToken cancellationToken)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(DESTROY_TIME_AFTER_DEATH), cancellationToken: cancellationToken);
-            Destroy(gameObject);
+            await UniTask.Delay(TimeSpan.FromSeconds(VANISH_DELAY_AFTER_DEATH), cancellationToken: cancellationToken);
+            gameObject.SetActive(false);
         }
+
+        private void Reset() => 
+            _isDead = false;
     }
 }

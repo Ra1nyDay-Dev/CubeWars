@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GameplayTest
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.LevelConfigs.LevelConfig
   SceneName: GameplayTest
+  RespawnTimeSeconds: 15
   WeaponSpawners:
   - Position: {x: -15, y: 0, z: -19}
     WeaponType: 0

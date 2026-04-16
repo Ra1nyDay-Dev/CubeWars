@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-namespace Project.Scripts.Gameplay.Data
+namespace Project.Scripts.Infrastructure.Data
 {
     public static class Extensions
     {
@@ -34,6 +36,21 @@ namespace Project.Scripts.Gameplay.Data
                 y ?? v.y,
                 z ?? v.z
             );
+        }
+        
+        public static List<T> Shuffle<T>(this List<T> list)
+        {
+            int n = list.Count;
+
+            while (n > 1)
+            {
+                n--;
+                int k = Random.Range(0,n + 1);
+
+                (list[k], list[n]) = (list[n], list[k]);
+            }
+            
+            return list;
         }
     }
 }

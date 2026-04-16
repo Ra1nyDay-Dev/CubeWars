@@ -1,4 +1,4 @@
-﻿namespace Project.Scripts.Gameplay.Data
+﻿namespace Project.Scripts.Infrastructure.Data
 {
     public class Scenes
     {

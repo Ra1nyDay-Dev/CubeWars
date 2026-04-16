@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.Data;
+using Project.Scripts.Infrastructure.Data;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using Project.Scripts.Infrastructure.Services.SceneLoader;
 using Project.Scripts.UI;

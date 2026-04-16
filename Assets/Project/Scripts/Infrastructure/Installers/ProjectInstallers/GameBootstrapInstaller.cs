@@ -23,6 +23,9 @@ namespace Project.Scripts.Infrastructure.Installers.ProjectInstallers
             BindSceneLoader();
             BindInputServices();
         }
+        
+        public void Initialize() => 
+            Container.Resolve<GameBootstrap>().ConfigureAndStartGame(); // toDo: Maybe rewrite to GameStateMachine somewhere
 
         private void BindBootstrapServices()
         {
@@ -49,8 +52,5 @@ namespace Project.Scripts.Infrastructure.Installers.ProjectInstallers
             
             Container.BindInterfacesTo<UnityNewInputService>().AsSingle();
         }
-
-        public void Initialize() => 
-            Container.Resolve<GameBootstrap>().ConfigureAndStartGame(); // toDo: Maybe rewrite to GameStateMachine somewhere
     }
 }

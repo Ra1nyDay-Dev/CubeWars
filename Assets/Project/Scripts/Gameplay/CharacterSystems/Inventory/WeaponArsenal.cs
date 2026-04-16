@@ -19,7 +19,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Inventory
         private GameObject _currentWeaponGameObject;
         private IWeaponFactory _weaponFactory;
         private Character _owner;
-        private Death _death;
+        private RespawnBehaviour _respawnBehaviour;
         
         [Inject]
         public void Construct(IWeaponFactory weaponFactory) => 
@@ -28,14 +28,14 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Inventory
         private void Awake()
         {
             _owner = GetComponent<Character>();
-            _death = GetComponent<Death>();
+            _respawnBehaviour = GetComponent<RespawnBehaviour>();
         }
 
         private void OnEnable() => 
-            _death.Happened += OnDie;
+            _respawnBehaviour.Dead += OnDie;
 
         private void OnDisable() => 
-            _death.Happened -= OnDie;
+            _respawnBehaviour.Dead -= OnDie;
 
         public void ChangeWeapon(WeaponType weaponType)
         {

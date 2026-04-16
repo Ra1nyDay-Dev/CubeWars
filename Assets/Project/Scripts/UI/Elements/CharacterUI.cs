@@ -9,12 +9,12 @@ namespace Project.Scripts.UI.Elements
     {
         [SerializeField] private HealthBar _healthBar;
         private IHealth _health;
-        private Death _death;
+        private RespawnBehaviour _respawnBehaviour;
 
         private void Awake()
         {
             _health = GetComponent<Health>();
-            _death = GetComponent<Death>();
+            _respawnBehaviour = GetComponent<RespawnBehaviour>();
             UpdateHealthBar();
         }
 
@@ -28,13 +28,13 @@ namespace Project.Scripts.UI.Elements
         private void SubscribeToEvents()
         {
             _health.HealthChanged += UpdateHealthBar;
-            _death.Happened += OnDie;
+            _respawnBehaviour.Dead += OnDie;
         }
 
         private void UnsubscribeFromEvents()
         {
             _health.HealthChanged -= UpdateHealthBar;
-            _death.Happened -= OnDie;
+            _respawnBehaviour.Dead -= OnDie;
         }
 
         private void UpdateHealthBar() => 

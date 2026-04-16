@@ -10,19 +10,20 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Brain
 {
     public abstract class CharacterBrain : ITickable, IDisposable
     {
-        protected readonly Character _character;
+        public Character Character { get; protected set; }
 
-        protected CharacterBrain(Character character)
+        public CharacterBrain(Character character)
         {
-            _character = character;
-            // _characterDeath.Happened += OnCharacterDeath;
+            Character = character;
+            Character.RespawnBehaviour.Dead += OnCharacterDead;
+            Character.RespawnBehaviour.Respawned += OnCharacterRespawned;
         }
 
         public bool IsEnabled { get; protected set; } = false;
-        
+
         public virtual void Enable() => 
             IsEnabled = true;
-        
+
         public virtual void Disable() => 
             IsEnabled = false;
 
@@ -36,42 +37,42 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Brain
 
         public virtual void Dispose()
         {
-            Disable();
-            // _characterDeath.Happened -= OnCharacterDeath;
+            Character.RespawnBehaviour.Dead -= OnCharacterDead;
+            Character.RespawnBehaviour.Respawned -= OnCharacterRespawned;
         }
 
         protected abstract void UpdateLogic(float deltaTime);
 
         protected void Move(Vector2 direction) =>
-            _character.Movement.SetMoveDirection(direction);
+            Character.Movement.SetMoveDirection(direction);
 
         protected void Rotate(Vector3 direction) => 
-            _character.Movement.SetRotationDirection(direction);
+            Character.Movement.SetRotationDirection(direction);
 
         protected void Jump() => 
-            _character.Movement.Jump();
+            Character.Movement.Jump();
 
         protected void TryInteract()
         {
-            if (_character.Interactor.TryGetNearInteractable(out IInteractable interactable))
-                interactable.Interact(_character.Interactor);
+            if (Character.Interactor.TryGetNearInteractable(out IInteractable interactable))
+                interactable.Interact(Character.Interactor);
         }
 
         protected void StartPrimaryAttack() => 
-            _character.WeaponArsenal.CurrentWeapon?.StartPrimaryAttack();
+            Character.WeaponArsenal.CurrentWeapon?.StartPrimaryAttack();
 
         protected void StartSecondaryAttack() => 
-            _character.WeaponArsenal.CurrentWeapon?.StartSecondaryAttack();
+            Character.WeaponArsenal.CurrentWeapon?.StartSecondaryAttack();
 
         protected void StopPrimaryAttack() => 
-            _character.WeaponArsenal.CurrentWeapon?.StopPrimaryAttack();
+            Character.WeaponArsenal.CurrentWeapon?.StopPrimaryAttack();
 
         protected void StopSecondaryAttack() => 
-            _character.WeaponArsenal.CurrentWeapon?.StopSecondaryAttack();
+            Character.WeaponArsenal.CurrentWeapon?.StopSecondaryAttack();
 
         private bool IsReloadableWeapon(out RangeWeapon reloadable)
         {
-            reloadable = _character.WeaponArsenal.CurrentWeapon as RangeWeapon;
+            reloadable = Character.WeaponArsenal.CurrentWeapon as RangeWeapon;
             return reloadable != null && reloadable.IsReloadable;
         }
 
@@ -81,7 +82,10 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Brain
                 reloadable.Reload().Forget();
         }
 
-        private void OnCharacterDeath(DamageData damageData) => 
-            Dispose();
+        private void OnCharacterDead(DamageData damageData) => 
+            Disable();
+
+        private void OnCharacterRespawned() => 
+            Enable();
     }
 }

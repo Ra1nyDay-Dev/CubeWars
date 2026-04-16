@@ -1,7 +1,6 @@
-﻿using Project.Scripts.Gameplay.CharacterSystems;
-using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
-using Project.Scripts.Gameplay.CharacterSystems.Movement;
-using Project.Scripts.Gameplay.Data;
+﻿using System;
+using System.Collections.Generic;
+using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
 using Project.Scripts.Gameplay.Data.Configs.Health;
 using Project.Scripts.Infrastructure.Services.AssetManagement;
@@ -11,12 +10,16 @@ using Zenject;
 
 namespace Project.Scripts.Gameplay.Services.Factories.CharacterFactory
 {
-    public class CharacterFactory : ICharacterFactory
+    public class CharacterFactory : ICharacterFactory, IDisposable
     {
+        public List<Character> Characters => new(_characters);
+        
         private readonly IConfigProvider _configProvider;
         private readonly IAssetProvider _assetProvider;
         private readonly IInstantiator _instantiator;
 
+        private readonly List<Character> _characters;
+        
         [Inject]
         public CharacterFactory(
             IConfigProvider configProvider,
@@ -26,6 +29,8 @@ namespace Project.Scripts.Gameplay.Services.Factories.CharacterFactory
             _configProvider = configProvider;
             _assetProvider = assetProvider;
             _instantiator =  instantiator;
+            
+            _characters = new List<Character>();
         }
         
         public Character Create(Vector3 position, Quaternion rotation, Material material)
@@ -49,8 +54,12 @@ namespace Project.Scripts.Gameplay.Services.Factories.CharacterFactory
             character.SetSkinMaterial(material);
             
             character.gameObject.SetActive(true);
+            _characters.Add(character);
 
             return character;
         }
+        
+        public void Dispose() => 
+            _characters.Clear();
     }
 }

@@ -12,8 +12,8 @@ namespace Project.Scripts.Gameplay.Services.Factories.BrainFactory
     public class BrainFactory : IBrainFactory, ITickable, IDisposable
     {
         public List<CharacterBrain> Brains => new(_brains);
-        
-        private readonly List<CharacterBrain> _brains = new();
+
+        private readonly List<CharacterBrain> _brains;
         
         private readonly IInputService _inputService;
         private readonly ICameraProvider _cameraProvider;
@@ -25,6 +25,8 @@ namespace Project.Scripts.Gameplay.Services.Factories.BrainFactory
         {
             _inputService = inputService;
             _cameraProvider = cameraProvider;
+            
+            _brains = new List<CharacterBrain>();
         }
         
         public CharacterBrain Create(Character character, BrainType brainType)

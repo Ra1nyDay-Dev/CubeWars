@@ -20,7 +20,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems
         public CharacterReactions Reactions { get; private set; }
         public CharacterUI CharacterUI { get; private set; }
         public IHealth Health { get; private set; }
-        public Death Death { get; private set; }
+        public RespawnBehaviour RespawnBehaviour { get; private set; }
         public InteractorUnit Interactor { get; private set; }
 
 
@@ -32,7 +32,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems
             Reactions = GetComponent<CharacterReactions>();
             CharacterUI = GetComponent<CharacterUI>();
             Health = GetComponent<IHealth>();
-            Death = GetComponent<Death>();
+            RespawnBehaviour = GetComponent<RespawnBehaviour>();
             Interactor = GetComponent<InteractorUnit>();
         }
 

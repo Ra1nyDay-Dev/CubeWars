@@ -33,13 +33,13 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
         private Tween _blinkTween;
         private Tween _pupilTween;
         private Sequence _hitSequence;
-        private Death _death;
+        private RespawnBehaviour _respawnBehaviour;
 
         private void Awake()
         {
             _characterMovement = GetComponentInParent<CharacterMovement>();
             _damageable = _characterMovement.GetComponent<IDamageable>();
-            _death = _characterMovement.GetComponent<Death>();
+            _respawnBehaviour = _characterMovement.GetComponent<RespawnBehaviour>();
             _pupilDefaultLocalPosition = _leftPupil.localPosition;
 
             SetUpBlinkTween();
@@ -52,13 +52,13 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
         private void OnEnable()
         {
             _damageable.Damaged += OnDamaged;
-            _death.Happened += OnDie;
+            _respawnBehaviour.Dead += OnDie;
         }
 
         private void OnDisable()
         {
             _damageable.Damaged -= OnDamaged;
-            _death.Happened -= OnDie;
+            _respawnBehaviour.Dead -= OnDie;
         }
 
         private void OnDestroy() => 

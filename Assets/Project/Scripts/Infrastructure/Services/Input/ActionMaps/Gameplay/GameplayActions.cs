@@ -1,5 +1,6 @@
 ﻿using System;
 using Project.Scripts.Gameplay.Data;
+using Project.Scripts.Infrastructure.Data;
 using Project.Scripts.Infrastructure.Services.Input.DeviceTracker;
 using UnityEngine;
 using UnityEngine.InputSystem;

@@ -9,6 +9,7 @@ using Project.Scripts.Gameplay.Data.Configs.LevelConfigs;
 using Project.Scripts.Gameplay.Services.CameraProvider;
 using Project.Scripts.Gameplay.Services.Factories.BrainFactory;
 using Project.Scripts.Gameplay.Services.Factories.CharacterFactory;
+using Project.Scripts.Gameplay.Services.Factories.RespawnPointFactory;
 using Project.Scripts.Gameplay.Services.Factories.WeaponSpawnerFactory;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace Project.Scripts.Infrastructure.SceneBootstrapHandlers
     {
         private readonly IConfigProvider _configProvider;
         private readonly IWeaponSpawnerFactory _weaponSpawnerFactory;
+        private readonly IRespawnPointFactory _respawnPointFactory;
         private readonly ICharacterFactory _characterFactory;
         private readonly ICameraProvider _cameraProvider;
         private readonly IBrainFactory _brainFactory;
@@ -30,12 +32,14 @@ namespace Project.Scripts.Infrastructure.SceneBootstrapHandlers
             ICameraProvider cameraProvider,
             IConfigProvider configProvider,
             IWeaponSpawnerFactory weaponSpawnerFactory,
+            IRespawnPointFactory respawnPointFactory,
             ICharacterFactory characterFactory,
             IBrainFactory brainFactory)
         {
             _cameraProvider = cameraProvider;
             _configProvider = configProvider;
             _weaponSpawnerFactory = weaponSpawnerFactory;
+            _respawnPointFactory = respawnPointFactory;
             _characterFactory = characterFactory;
             _brainFactory = brainFactory;
         }
@@ -46,6 +50,7 @@ namespace Project.Scripts.Infrastructure.SceneBootstrapHandlers
             LevelConfig levelConfig = _configProvider.GetLevelConfig(SceneManager.GetActiveScene().name);
 
             CreateWeaponSpawners(levelConfig);
+            CreateRespawnPoints(levelConfig);
             CreateCharacters(levelConfig);
         }
 
@@ -53,6 +58,11 @@ namespace Project.Scripts.Infrastructure.SceneBootstrapHandlers
         {
             foreach (var weaponSpawnerData in levelConfig.WeaponSpawners) 
                 _weaponSpawnerFactory.Create(weaponSpawnerData);
+        }
+        private void CreateRespawnPoints(LevelConfig levelConfig)
+        {
+            foreach (var respawnPointData in levelConfig.RespawnPoints) 
+                _respawnPointFactory.Create(respawnPointData);
         }
 
         private void CreateCharacters(LevelConfig levelConfig)

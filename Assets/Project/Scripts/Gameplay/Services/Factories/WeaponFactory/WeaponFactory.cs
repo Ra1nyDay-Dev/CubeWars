@@ -1,10 +1,10 @@
-﻿using Project.Scripts.Gameplay.AttackSystems;
-using Project.Scripts.Gameplay.CharacterSystems;
+﻿using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.Data.Configs.AttackConfigs;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
-using Project.Scripts.Gameplay.Weapons;
+using Project.Scripts.Gameplay.WeaponSystems;
+using Project.Scripts.Gameplay.WeaponSystems.AttackSystems;
 using Project.Scripts.Infrastructure.Services.AssetManagement;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using UnityEngine;

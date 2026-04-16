@@ -938,7 +938,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Weapons.WeaponArsenal
   _weaponSlot: {fileID: 1174719635641344057}
   _attackStartPoint: {fileID: 8811326981135413612}
-  _handsSkinMaterial: {fileID: 2100000, guid: d75ad2cbb0fc9f74c820dc3c24fea5e8, type: 2}
   _selfHitbox: {fileID: 3133059519000722611}
 --- !u!114 &4881187661058655429
 MonoBehaviour:
@@ -2424,7 +2423,7 @@ GameObject:
   - component: {fileID: 2692415646519651568}
   - component: {fileID: 793671248645964116}
   - component: {fileID: 6557273689684366638}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: InteractZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.CharacterSystems.Interactions;
 using Project.Scripts.Gameplay.Data;
-using Project.Scripts.Gameplay.Weapons;
+using Project.Scripts.Gameplay.WeaponSystems;
 using UnityEngine;
 using Zenject;
 

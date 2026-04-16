@@ -1,9 +1,9 @@
 ﻿using Project.Scripts.Gameplay.CharacterSystems.Animations;
 using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Interactions;
+using Project.Scripts.Gameplay.CharacterSystems.Inventory;
 using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.CharacterSystems.Reactions;
-using Project.Scripts.Gameplay.Weapons;
 using Project.Scripts.UI.Elements;
 using UnityEngine;
 

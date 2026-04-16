@@ -1,8 +1,7 @@
 ﻿using System.Linq;
-using Project.Scripts.Gameplay.Common;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Configs.LevelConfigs;
-using Project.Scripts.Gameplay.Weapons.WeaponSpawn;
+using Project.Scripts.Gameplay.SpawnSystems.Markers;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -70,7 +69,9 @@ namespace Project.Scripts.Editor
                 .Select(x => 
                     new RespawnPointData(
                         x.transform.position,
-                        x.transform.rotation
+                        x.transform.rotation,
+                        x.EnemyCheckZone.center,
+                        x.EnemyCheckZone.size
                     )
                 )
                 .ToList();

@@ -1,5 +1,5 @@
 ﻿using Project.Scripts.Gameplay.Data;
-using Project.Scripts.Gameplay.Weapons.WeaponSpawn;
+using Project.Scripts.Gameplay.SpawnSystems.WeaponSpawn;
 using Project.Scripts.Infrastructure.Services.AssetManagement;
 using UnityEngine;
 using Zenject;

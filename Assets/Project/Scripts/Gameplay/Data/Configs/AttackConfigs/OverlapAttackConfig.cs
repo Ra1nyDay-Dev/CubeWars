@@ -1,6 +1,6 @@
-﻿using Project.Scripts.Gameplay.AttackSystems;
-using Project.Scripts.Gameplay.AttackSystems.Overlap;
-using Project.Scripts.Gameplay.Data.Enums;
+﻿using Project.Scripts.Gameplay.Data.Enums;
+using Project.Scripts.Gameplay.WeaponSystems.AttackSystems;
+using Project.Scripts.Gameplay.WeaponSystems.AttackSystems.Overlap;
 using UnityEngine;
 
 namespace Project.Scripts.Gameplay.Data.Configs.AttackConfigs

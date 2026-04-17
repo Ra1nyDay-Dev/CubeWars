@@ -10,13 +10,13 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Interactions
         
         private readonly Dictionary<IInteractable, Transform> _interactables = new();
 
-        private void OnEnable()
+        private void Awake()
         {
             _interactZoneTriggerObserver.TriggerEnter += TriggerEnter;
             _interactZoneTriggerObserver.TriggerExit += TriggerExit;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             _interactZoneTriggerObserver.TriggerEnter -= TriggerEnter;
             _interactZoneTriggerObserver.TriggerExit -= TriggerExit;

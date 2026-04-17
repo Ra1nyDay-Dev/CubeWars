@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
 using UnityEngine;
 
@@ -7,15 +8,6 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
     [RequireComponent(typeof(CharacterController))]
     public class CharacterMovement : MonoBehaviour
     {
-        private float _movementSpeed;
-        private float _acceleration;
-        private float _groundDeceleration;
-        private float _airDeceleration;
-        private float _rotationSpeed;
-        private float _gravity;
-        private float _groundDownForce;
-        private float _jumpHeight;
-
         public Vector2 CurrentHorizontalVelocity => 
             _directionalMovement.CurrentVelocity;
         
@@ -44,12 +36,21 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
         public event Action<float> VerticalVelocityChanged;
         public event Action Jumped;
         
+        private float _movementSpeed;
+        private float _acceleration;
+        private float _groundDeceleration;
+        private float _airDeceleration;
+        private float _rotationSpeed;
+        private float _gravity;
+        private float _groundDownForce;
+        private float _jumpHeight;
+        
         private CharacterController _controller;
+        private RespawnBehaviour _respawnBehaviour;
         
         private CharacterDirectionalMovement _directionalMovement;
         private DirectionalRotation _rotation;
         private CharacterVerticalMovement _verticalMovement;
-        private bool _initialized;
 
         public void Construct(CharacterMovementConfig config)
         {
@@ -66,11 +67,14 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
         public void Initialize()
         {
             _controller = GetComponent<CharacterController>();
+            _respawnBehaviour = GetComponent<RespawnBehaviour>();
+            
             _directionalMovement = new CharacterDirectionalMovement(_controller, _movementSpeed, _acceleration,
                 _groundDeceleration, _airDeceleration);
             _rotation = new DirectionalRotation(transform, _rotationSpeed);
             _verticalMovement = new CharacterVerticalMovement(_controller, _gravity, _groundDownForce, _jumpHeight);
-            _initialized = true;
+            
+            SubscribeToEvents();
         }
 
         private void FixedUpdate()
@@ -85,18 +89,6 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
                 _directionalMovement.FinalVelocity.y);
             
             _controller.Move(finalVelocity * Time.fixedDeltaTime);
-        }
-
-        private void OnEnable()
-        {
-            if (_initialized)
-                SubscribeToEvents();
-        }
-
-        private void OnDisable()
-        {
-            if (_initialized)
-                UnsubscribeFromEvents();
         }
 
         private void OnDestroy() => 
@@ -128,6 +120,17 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
             _verticalMovement.GroundedChanged += OnGroundedChanged;
             _verticalMovement.VelocityChanged += OnVerticalVelocityChanged;
             _verticalMovement.Jumped += OnJumped;
+
+            _respawnBehaviour.Respawned += OnRespawn;
+        }
+
+        private void OnRespawn()
+        {
+            _controller.enabled = false;
+            _directionalMovement.Reset();
+            _rotation.Reset();
+            _verticalMovement.Reset();
+            _controller.enabled = true;
         }
 
         private void UnsubscribeFromEvents()

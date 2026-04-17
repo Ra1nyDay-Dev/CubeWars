@@ -43,8 +43,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
             _isDead = true;
             _damageable.DestroyRequested -= OnDestroyRequestReceived;
             Dead?.Invoke(damageData);
-            VanishTimer(this.GetCancellationTokenOnDestroy())
-                .Forget(Debug.LogException);
+            VanishTimer(this.GetCancellationTokenOnDestroy()).Forget();
         }
         
         private async UniTask VanishTimer(CancellationToken cancellationToken)

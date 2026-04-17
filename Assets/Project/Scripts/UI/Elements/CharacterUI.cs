@@ -16,11 +16,9 @@ namespace Project.Scripts.UI.Elements
             _health = GetComponent<Health>();
             _respawnBehaviour = GetComponent<RespawnBehaviour>();
             UpdateHealthBar();
-        }
-
-        private void OnEnable() => 
             SubscribeToEvents();
-
+        }
+        
         private void OnDestroy() => 
             UnsubscribeFromEvents();
 
@@ -29,12 +27,14 @@ namespace Project.Scripts.UI.Elements
         {
             _health.HealthChanged += UpdateHealthBar;
             _respawnBehaviour.Dead += OnDie;
+            _respawnBehaviour.Respawned += OnRespawn;
         }
 
         private void UnsubscribeFromEvents()
         {
             _health.HealthChanged -= UpdateHealthBar;
             _respawnBehaviour.Dead -= OnDie;
+            _respawnBehaviour.Respawned -= OnRespawn;
         }
 
         private void UpdateHealthBar() => 
@@ -42,5 +42,11 @@ namespace Project.Scripts.UI.Elements
 
         private void OnDie(DamageData damageData) => 
             _healthBar.gameObject.SetActive(false);
+
+        private void OnRespawn()
+        {
+            _healthBar.gameObject.SetActive(true);
+            UpdateHealthBar();
+        }
     }
 }

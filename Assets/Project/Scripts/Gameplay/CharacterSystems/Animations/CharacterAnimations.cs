@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System.Collections;
+using DG.Tweening;
 using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.Data;
@@ -49,15 +50,15 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _renderer = _tweensMesh.GetComponent<Renderer>();
             _materialPropertyBlock = new MaterialPropertyBlock();
             SetTweens();
+            
+            SubscribeToEvents();
         }
 
-        private void OnEnable() => 
-            SubscribeToEvents();
-        private void OnDisable() =>
-            UnsubscribeFromEvents();
-
-        private void OnDestroy() => 
+        private void OnDestroy()
+        {
             _damagedSequence.Kill();
+            UnsubscribeFromEvents();
+        }
 
         private void SubscribeToEvents()
         {
@@ -69,6 +70,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _characterMovement.VerticalVelocityChanged += OnVerticalVelocityChanged;
             _damageable.Damaged += OnDamaged;
             _respawnBehaviour.Dead += OnDie;
+            _respawnBehaviour.Respawned += OnRespawn;
         }
 
         private void UnsubscribeFromEvents()
@@ -80,6 +82,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _characterMovement.RotationChanged -= OnRotationChanged;
             _damageable.Damaged -= OnDamaged;
             _respawnBehaviour.Dead -= OnDie;
+            _respawnBehaviour.Respawned -= OnRespawn;
         }
 
         private void OnDie(DamageData damageData)
@@ -87,6 +90,19 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _animator.SetInteger(DeathType, (int)damageData.DeathType);  
             _animator.SetBool(IsDeadHash, true);
             _animator.SetTrigger(DeadHash);
+        }
+
+        private void OnRespawn() => 
+            Reset();
+
+        private void Reset()
+        {
+            _animator.Rebind();
+            
+            _animatorMesh.transform.localRotation = Quaternion.identity;
+            _animatorMesh.transform.localPosition = Vector3.zero;
+            _tweensMesh.transform.localRotation = Quaternion.identity;
+            _tweensMesh.transform.localPosition = Vector3.zero;
         }
 
         private void OnVerticalVelocityChanged(float verticalVelocity) => 

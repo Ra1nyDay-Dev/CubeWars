@@ -11,6 +11,5 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
         float Max { get; }
         event Action HealthChanged;
         void Heal(float heal);
-        void Reset();
     }
 }

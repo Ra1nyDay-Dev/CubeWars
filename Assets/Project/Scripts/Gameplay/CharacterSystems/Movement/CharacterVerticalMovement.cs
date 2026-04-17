@@ -51,6 +51,9 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
         public void AddForce(float force) => 
             CurrentVelocity += force;
 
+        public void Reset() => 
+            CurrentVelocity = 0f;
+
         private void ApplyGroundForce()
         {
             if (IsGrounded && CurrentVelocity < 0)

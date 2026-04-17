@@ -42,9 +42,6 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
 
         public Vector2 FinalVelocity =>
             _currentVelocity + _externalVelocity;
-        
-        public void SetDirection(Vector2 direction) => 
-            CurrentDirection = direction;
 
         public void Update(float deltaTime, bool isGrounded = false)
         {
@@ -54,7 +51,10 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
             CheckVelocityChange();
             CheckMovingChange();
         }
-        
+
+        public void SetDirection(Vector2 direction) => 
+            CurrentDirection = direction;
+
         private void UpdateExternalVelocity(float deltaTime, bool isGrounded)
         {
             float deceleration = isGrounded ? _groundDeceleration : _airDeceleration;
@@ -68,6 +68,15 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
         
         public void AddForce(Vector2 force) => 
             _externalVelocity = force;
+
+        public void Reset()
+        {
+            _lastDirection = Vector2.zero;
+            _lastVelocity = Vector2.zero;
+            _lastMoving = false;
+            _currentVelocity = Vector2.zero;
+            _externalVelocity = Vector2.zero;
+        }
 
         private void Move(float deltaTime, bool isGrounded)
         {

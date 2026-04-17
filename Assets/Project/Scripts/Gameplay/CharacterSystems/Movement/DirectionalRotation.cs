@@ -37,6 +37,9 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
             _transform.rotation = Quaternion.Slerp(CurrentRotation, targetRotation, _rotationSpeed * deltaTime);
         }
 
+        public void Reset() => 
+            _currentDirection = Vector3.zero;
+
         private void CheckRotationChange()
         {
             if (Quaternion.Angle(_lastRotation, CurrentRotation) > 0.1f)

@@ -14,13 +14,18 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
         public event Action HealthChanged;
         public event Action<DamageData> Damaged;
         public event Action<DamageData> DestroyRequested;
+        
+        private RespawnBehaviour _respawnBehaviour;
 
         public void Construct(HealthConfig config)
         {
             Max = config.Max;
             Current = config.Current;
+            
+            _respawnBehaviour = GetComponent<RespawnBehaviour>();
+            _respawnBehaviour.Respawned += OnRespawn;
         }
-        
+
         public void Start() => 
             HealthChanged?.Invoke();
 
@@ -47,16 +52,22 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
             ChangeHealth(heal);
         }
 
+        private void OnRespawn() => 
+            Reset();
+
         private void ChangeHealth(float value)
         {
             Current = Mathf.Clamp(Current + value, 0, Max);
             HealthChanged?.Invoke();
         }
 
-        public void Reset()
+        private void Reset()
         {
             Current = Max;
             HealthChanged?.Invoke();
         }
+
+        private void OnDestroy() => 
+            _respawnBehaviour.Respawned -= OnRespawn;
     }
 }

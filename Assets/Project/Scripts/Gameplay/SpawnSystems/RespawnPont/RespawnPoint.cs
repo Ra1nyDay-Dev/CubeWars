@@ -37,7 +37,7 @@ namespace Project.Scripts.Gameplay.SpawnSystems.RespawnPont
             {
                 _isAvailable = !HasAnyCharacterInside();
                 await UniTask.Delay(TimeSpan.FromSeconds(DELAY_BETWEEN_CHARACTERS_CHECKS),
-                    cancellationToken: CancellationToken.None);
+                    cancellationToken: cancellationToken);
             }
         } 
 

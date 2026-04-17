@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
+﻿using System;
+using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Movement;
 using Project.Scripts.Gameplay.Data;
 using UnityEngine;
@@ -14,13 +15,12 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Reactions
         {
             _characterMovement = GetComponent<CharacterMovement>();
             _damageable = GetComponent<IDamageable>();
+            _damageable.Damaged += OnDamaged;
         }
 
-        private void OnEnable() => 
-            _damageable.Damaged += OnDamaged;
-
-        private void OnDisable() => 
+        private void OnDestroy() => 
             _damageable.Damaged -= OnDamaged;
+
 
         private void OnDamaged(DamageData damageData) => 
             GetHitForce(damageData.HitDirection, damageData.HorizontalHitForce, damageData.VerticalHitForce);

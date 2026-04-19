@@ -105,7 +105,7 @@ namespace Project.Scripts.Gameplay.Services.Factories.LevelFactory
                 Material material = botsMaterials.Dequeue();
                 
                 Character emptyCharacter = _characterFactory.Create(initialPointData.Position, initialPointData.Rotation, material);
-                _brainFactory.Create(emptyCharacter, BrainType.Empty);
+                _brainFactory.Create(emptyCharacter, BrainType.Ai);
                 
                 botsMaterials.Enqueue(material);
             }

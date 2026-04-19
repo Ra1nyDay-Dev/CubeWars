@@ -94,6 +94,7 @@ namespace Project.Scripts.Gameplay.Services.RespawnService
                 await WaitRespawnTime(respawnTime, cancellationToken);
 
                 RespawnPoint respawnPoint = await WaitForRespawnPoint(cancellationToken);
+                respawnPoint.IsAvailable = false;
                 character.gameObject.transform.position = respawnPoint.gameObject.transform.position;
                 character.gameObject.transform.rotation = respawnPoint.gameObject.transform.rotation;
                 character.RespawnBehaviour.Respawn();

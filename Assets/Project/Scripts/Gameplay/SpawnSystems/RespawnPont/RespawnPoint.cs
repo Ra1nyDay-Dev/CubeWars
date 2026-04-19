@@ -11,14 +11,11 @@ namespace Project.Scripts.Gameplay.SpawnSystems.RespawnPont
 {
     public class RespawnPoint : MonoBehaviour
     {
+        public bool IsAvailable { get; set; }
+        
         [SerializeField] private LayerMask _charactersLayerMask;
 
         private const double DELAY_BETWEEN_CHARACTERS_CHECKS = 1f;
-        
-        public bool IsAvailable =>
-            _isAvailable;
-        
-        private bool _isAvailable;
 
         private BoxCollider _collider;
         private readonly Collider[] _overlapResults = new Collider[1];
@@ -35,7 +32,7 @@ namespace Project.Scripts.Gameplay.SpawnSystems.RespawnPont
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                _isAvailable = !HasAnyCharacterInside();
+                IsAvailable = !HasAnyCharacterInside();
                 await UniTask.Delay(TimeSpan.FromSeconds(DELAY_BETWEEN_CHARACTERS_CHECKS),
                     cancellationToken: cancellationToken);
             }
@@ -44,7 +41,7 @@ namespace Project.Scripts.Gameplay.SpawnSystems.RespawnPont
         private bool HasAnyCharacterInside()
         {
             int overlapResultsCount = Physics.OverlapBoxNonAlloc(
-                transform.position + _collider.center,
+                transform.localPosition + _collider.center,
                 _collider.size / 2,
                 _overlapResults,
                 transform.rotation,
@@ -71,7 +68,14 @@ namespace Project.Scripts.Gameplay.SpawnSystems.RespawnPont
             Color32 notAvailableColor = new Color32(220, 49, 49, 130);
             
             Gizmos.color = IsAvailable ? availableColor : notAvailableColor;
-            Gizmos.DrawCube(transform.position + _collider.center, _collider.size);
+            
+            Matrix4x4 oldMatrix = Gizmos.matrix;
+
+            Gizmos.matrix = _collider.transform.localToWorldMatrix;
+
+            Gizmos.DrawCube(_collider.center, _collider.size);
+
+            Gizmos.matrix = oldMatrix;
         }
 #endif
     }

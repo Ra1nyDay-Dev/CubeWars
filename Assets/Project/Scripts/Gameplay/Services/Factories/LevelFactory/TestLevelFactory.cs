@@ -19,7 +19,7 @@ using UnityEngine.SceneManagement;
 
 namespace Project.Scripts.Gameplay.Services.Factories.LevelFactory
 {
-    public class TestLevelFactory : ILevelFactory
+    public class TestPolygonLevelFactory : ILevelFactory
     {
         private readonly IConfigProvider _configProvider;
         private readonly IWeaponSpawnerFactory _weaponSpawnerFactory;
@@ -29,7 +29,7 @@ namespace Project.Scripts.Gameplay.Services.Factories.LevelFactory
         private readonly IBrainFactory _brainFactory;
         private readonly IRespawnService _respawnService;
 
-        public TestLevelFactory(
+        public TestPolygonLevelFactory(
             ICameraProvider cameraProvider,
             IConfigProvider configProvider,
             IWeaponSpawnerFactory weaponSpawnerFactory,

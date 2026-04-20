@@ -3,7 +3,7 @@
     public class Scenes
     {
         public const string BOOT = "Boot";
-        public const string GAMEPLAY_TEST = "GameplayTest";
-        public const string GAMEPLAY_MAP_1 = "GameplayMap1";
+        public const string MAP_POLYGON = "Map_Polygon";
+        public const string MAP_RINGS = "Map_Rings";
     }
 }

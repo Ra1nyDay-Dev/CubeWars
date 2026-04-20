@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Infrastructure.Data;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using Project.Scripts.Infrastructure.Services.SceneLoader;
@@ -10,7 +9,7 @@ namespace Project.Scripts.Infrastructure
 {
     public class GameBootstrap
     {
-        private const string FIRST_SCENE = Scenes.GAMEPLAY_MAP_1;
+        private const string FIRST_SCENE = Scenes.MAP_RINGS;
         
         private readonly IGameUI _gameUI;
         private readonly IConfigProvider _configProvider;

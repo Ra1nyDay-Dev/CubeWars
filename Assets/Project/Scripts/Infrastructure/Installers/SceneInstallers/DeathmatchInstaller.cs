@@ -54,7 +54,7 @@ namespace Project.Scripts.Infrastructure.Installers.SceneInstallers
 
         private void BindFactories()
         {
-            Container.Bind<ILevelFactory>().To<LevelFactory>().AsSingle();
+            Container.Bind<ILevelFactory>().To<DeathmatchLevelFactory>().AsSingle();
             Container.Bind<IWeaponSpawnerFactory>().To<WeaponSpawnerFactory>().AsSingle();
             Container.BindInterfacesTo<RespawnPointFactory>().AsSingle();
             Container.Bind<IWeaponFactory>().To<WeaponFactory>().AsSingle();

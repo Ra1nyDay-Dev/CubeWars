@@ -22,7 +22,12 @@ namespace Project.Scripts.UI.Elements
         private void OnDestroy() => 
             UnsubscribeFromEvents();
 
-
+        public void HideAll() => 
+            _healthBar.gameObject.SetActive(false);
+        
+        public void ShowAll() =>
+            _healthBar.gameObject.SetActive(true);
+        
         private void SubscribeToEvents()
         {
             _health.HealthChanged += UpdateHealthBar;
@@ -41,11 +46,11 @@ namespace Project.Scripts.UI.Elements
             _healthBar.SetValue(_health.Current, _health.Max);
 
         private void OnDie(DamageData damageData) => 
-            _healthBar.gameObject.SetActive(false);
+            HideAll();
 
         private void OnRespawn()
         {
-            _healthBar.gameObject.SetActive(true);
+            ShowAll();
             UpdateHealthBar();
         }
     }

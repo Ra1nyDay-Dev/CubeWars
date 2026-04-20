@@ -9,7 +9,7 @@ namespace Project.Scripts.Infrastructure
 {
     public class GameBootstrap
     {
-        private const string FIRST_SCENE = Scenes.MAP_RINGS;
+        private const string FIRST_SCENE = Scenes.MAIN_MENU;
         
         private readonly IGameUI _gameUI;
         private readonly IConfigProvider _configProvider;

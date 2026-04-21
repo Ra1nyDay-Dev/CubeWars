@@ -3,6 +3,7 @@ using Project.Scripts.Infrastructure.Data;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using Project.Scripts.Infrastructure.Services.SceneLoader;
 using Project.Scripts.UI;
+using Project.Scripts.UI.Services.LoadingScreen;
 using Zenject;
 
 namespace Project.Scripts.Infrastructure
@@ -11,24 +12,24 @@ namespace Project.Scripts.Infrastructure
     {
         private const string FIRST_SCENE = Scenes.MAIN_MENU;
         
-        private readonly IGameUI _gameUI;
+        private readonly ILoadingScreen _loadingScreen;
         private readonly IConfigProvider _configProvider;
         private readonly ISceneLoader _sceneLoader;
 
         [Inject]
         public GameBootstrap(
-            IGameUI gameUI,
+            ILoadingScreen loadingScreen,
             IConfigProvider configProvider,
             ISceneLoader sceneLoader)
         {
-            _gameUI = gameUI;
+            _loadingScreen = loadingScreen;
             _configProvider = configProvider;
             _sceneLoader = sceneLoader;
         }
 
         public void ConfigureAndStartGame()
         {
-            _gameUI.ShowLoadingScreen();
+            _loadingScreen.Show();
             _configProvider.LoadAll();
             _sceneLoader.Load(FIRST_SCENE).Forget();
         }

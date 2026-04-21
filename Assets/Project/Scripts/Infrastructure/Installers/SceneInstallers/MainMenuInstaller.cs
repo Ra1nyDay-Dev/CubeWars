@@ -1,14 +1,7 @@
-﻿using Project.Scripts.Gameplay.Services.CameraProvider;
-using Project.Scripts.Gameplay.Services.Factories.BrainFactory;
-using Project.Scripts.Gameplay.Services.Factories.CharacterFactory;
-using Project.Scripts.Gameplay.Services.Factories.LevelFactory;
-using Project.Scripts.Gameplay.Services.Factories.RespawnPointFactory;
+﻿using Project.Scripts.Gameplay.Services.Factories.CharacterFactory;
 using Project.Scripts.Gameplay.Services.Factories.WeaponFactory;
-using Project.Scripts.Gameplay.Services.Factories.WeaponSpawnerFactory;
-using Project.Scripts.Gameplay.Services.RespawnService;
 using Project.Scripts.Infrastructure.SceneBootstrapHandlers;
 using Project.Scripts.UI;
-using Unity.Cinemachine;
 using UnityEngine;
 using Zenject;
 

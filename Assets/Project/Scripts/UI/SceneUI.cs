@@ -1,19 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using Project.Scripts.UI.Services.WindowFactory;
+using UnityEngine;
 using Zenject;
 
 namespace Project.Scripts.UI
 {
-    public abstract class SceneUI : MonoBehaviour, ISceneUI, IInitializable
+    public abstract class SceneUI : MonoBehaviour, IInitializable
     {
-        public GameObject Root => gameObject;
-        
-        private IGameUI _gameUI;
+        protected IWindowFactory _windowFactory;
 
         [Inject]
-        public void Construct(IGameUI gameUI) => 
-            _gameUI = gameUI;
+        public virtual void Construct(IWindowFactory windowFactory) => 
+            _windowFactory = windowFactory;
 
-        public void Initialize() => 
-            _gameUI.AttachSceneUI(gameObject);
+        public virtual void Initialize() => 
+            _windowFactory.AttachSceneUI(this);
     }
 }

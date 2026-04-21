@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Project.Scripts.UI.Elements
+namespace Project.Scripts.UI.Services.LoadingScreen
 {
-    public class LoadingScreen :  MonoBehaviour
+    public class LoadingScreen : MonoBehaviour, ILoadingScreen
     {
         private CanvasGroup _loadingScreen;
         [SerializeField] private float _fadeSpeed = 0.03f;

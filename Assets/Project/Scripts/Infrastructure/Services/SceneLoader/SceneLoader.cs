@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.UI;
+using Project.Scripts.UI.Services.LoadingScreen;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -10,24 +11,24 @@ namespace Project.Scripts.Infrastructure.Services.SceneLoader
 {
     public class SceneLoader : ISceneLoader
     {
-        private readonly IGameUI _gameUI;
+        private readonly ILoadingScreen _loadingScreen;
         private readonly ZenjectSceneLoader _zenjectLoader;
 
         [Inject]
         public SceneLoader(
-            IGameUI gameUI, 
+            ILoadingScreen loadingScreen, 
             ZenjectSceneLoader zenjectLoader)
         {
-            _gameUI = gameUI;
+            _loadingScreen = loadingScreen;
             _zenjectLoader = zenjectLoader;
         }
 
         public async UniTask Load(string sceneName, Action onLoaded = null)
         {
-            _gameUI.ShowLoadingScreen();
+            _loadingScreen.Show();
             await _zenjectLoader.LoadSceneAsync(sceneName).ToUniTask();
 
-            _gameUI.HideLoadingScreen();
+            _loadingScreen.Hide();
             onLoaded?.Invoke();
         }
 
@@ -37,7 +38,7 @@ namespace Project.Scripts.Infrastructure.Services.SceneLoader
             Action onLoaded = null
         ) where TSceneParams : class, ISceneParams 
         {
-            _gameUI.ShowLoadingScreen();
+            _loadingScreen.Show();
             await _zenjectLoader.LoadSceneAsync(
                 sceneName, 
                 LoadSceneMode.Single,
@@ -47,7 +48,7 @@ namespace Project.Scripts.Infrastructure.Services.SceneLoader
                 }
             ).ToUniTask();
 
-            _gameUI.HideLoadingScreen();
+            _loadingScreen.Hide();
             onLoaded?.Invoke();
         }
     }

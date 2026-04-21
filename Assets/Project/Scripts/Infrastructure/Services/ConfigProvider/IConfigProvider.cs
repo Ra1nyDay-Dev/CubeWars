@@ -3,6 +3,8 @@ using Project.Scripts.Gameplay.Data.Configs.Health;
 using Project.Scripts.Gameplay.Data.Configs.LevelConfigs;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
 using Project.Scripts.Gameplay.Data.Enums;
+using Project.Scripts.UI.Windows;
+using UnityEngine;
 
 namespace Project.Scripts.Infrastructure.Services.ConfigProvider
 {
@@ -14,5 +16,6 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
         CharacterMovementConfig GetMovementConfig();
         HealthConfig GetHealthConfig();
         CharacterSkinMaterialsConfig GetCharacterSkinMaterialsConfig();
+        GameObject GetWindowPrefab(WindowId windowId);
     }
 }

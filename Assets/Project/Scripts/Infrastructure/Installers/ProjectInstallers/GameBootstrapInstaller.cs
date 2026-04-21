@@ -4,6 +4,9 @@ using Project.Scripts.Infrastructure.Services.Input;
 using Project.Scripts.Infrastructure.Services.Input.DeviceTracker;
 using Project.Scripts.Infrastructure.Services.SceneLoader;
 using Project.Scripts.UI;
+using Project.Scripts.UI.Services.LoadingScreen;
+using Project.Scripts.UI.Services.WindowFactory;
+using Project.Scripts.UI.Services.WindowService;
 using UnityEngine;
 using Zenject;
 
@@ -33,8 +36,13 @@ namespace Project.Scripts.Infrastructure.Installers.ProjectInstallers
             Container.Bind<GameBootstrap>().AsSingle();
         }
 
-        private void BindUIServices() =>
-            Container.Bind<IGameUI>().To<GameUI>().FromComponentInNewPrefab(_gameUIPrefab).AsSingle();
+        private void BindUIServices()
+        {
+            GameUI gameUi = Container.InstantiatePrefabForComponent<GameUI>(_gameUIPrefab);
+            Container.Bind<ILoadingScreen>().To<LoadingScreen>().FromInstance(gameUi.LoadingScreen).AsSingle();
+            Container.Bind<IWindowFactory>().To<WindowFactory>().AsSingle().WithArguments(gameUi.GameUIRoot, gameUi.SceneUiRoot);
+            Container.Bind<IWindowService>().To<WindowService>().AsSingle();
+        }
 
         private void BindAssetManagementServices() =>
             Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();

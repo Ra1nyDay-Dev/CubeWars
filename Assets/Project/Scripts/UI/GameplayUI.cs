@@ -1,6 +1,6 @@
 ﻿namespace Project.Scripts.UI
 {
-    public class GameplayUI : SceneUI, IGameplayUI
+    public class GameplayUI : SceneUI
     {
     }
 }

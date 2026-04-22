@@ -25,10 +25,10 @@ namespace Project.Scripts.UI.Windows.MainMenu.PlayWindow
             _mapsContainer.Initialize();
         }
         
-        protected override void SubscribeUpdates() => 
-            _playButton.onClick.AddListener(OnPlayButtonClicked);
-
-        private void OnPlayButtonClicked() => 
-            _sceneLoader.Load(_mapsContainer.Current.SceneName);
+        protected override void SubscribeUpdates()
+        {
+            _playButton.onClick.AddListener(
+                () => _sceneLoader.Load(_mapsContainer.Current.SceneName));
+        }
     }
 }

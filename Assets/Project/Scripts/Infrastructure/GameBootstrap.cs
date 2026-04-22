@@ -4,13 +4,15 @@ using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using Project.Scripts.Infrastructure.Services.SceneLoader;
 using Project.Scripts.UI;
 using Project.Scripts.UI.Services.LoadingScreen;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Project.Scripts.Infrastructure
 {
     public class GameBootstrap
     {
-        private const string FIRST_SCENE = Scenes.MAIN_MENU;
+        private const string FIRST_SCENE = Scenes.MAP_POLYGON;
         
         private readonly ILoadingScreen _loadingScreen;
         private readonly IConfigProvider _configProvider;
@@ -26,6 +28,10 @@ namespace Project.Scripts.Infrastructure
             _configProvider = configProvider;
             _sceneLoader = sceneLoader;
         }
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void OnGameRun() => 
+            SceneManager.LoadScene(Scenes.BOOT);
 
         public void ConfigureAndStartGame()
         {

@@ -33,6 +33,7 @@ namespace Project.Scripts.UI.Windows.MainMenu.NavBar
             if (_background != null)
                 _defaultBackgroundColor = _background.color;
         }
+        
 
         public void SetSelected(bool selected)
         {

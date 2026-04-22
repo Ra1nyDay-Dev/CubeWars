@@ -5,5 +5,6 @@
     None = 0,
     MainMenuNavBar = 1,
     MainMenuPlay = 2,
+    GameplaySetting = 3,
   }
 }

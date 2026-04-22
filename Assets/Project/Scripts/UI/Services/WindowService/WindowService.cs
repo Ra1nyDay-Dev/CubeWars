@@ -35,7 +35,9 @@ namespace Project.Scripts.UI.Services.WindowService
     
     public void CloseAll() 
     {
-      foreach (BaseWindow window in _openedWindows)
+      List<BaseWindow> openedWindows = new(_openedWindows);
+      
+      foreach (BaseWindow window in openedWindows)
         Close(window.Id);
     }
   }

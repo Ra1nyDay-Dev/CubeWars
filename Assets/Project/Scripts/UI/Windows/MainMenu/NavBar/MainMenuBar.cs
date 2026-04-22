@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Project.Scripts.UI.Elements;
 using Project.Scripts.UI.Services.WindowService;
 using UnityEngine;
 using Zenject;
 
-namespace Project.Scripts.UI.Windows.MainMenu
+namespace Project.Scripts.UI.Windows.MainMenu.NavBar
 {
     public class MainMenuBar : BaseWindow
     {
@@ -30,6 +29,12 @@ namespace Project.Scripts.UI.Windows.MainMenu
         {
             foreach (var button in _buttons)
                 button.Clicked += OnButtonClicked;
+        }
+        
+        protected override void UnsubscribeUpdates()
+        {
+            foreach (var button in _buttons)
+                button.Clicked -= OnButtonClicked;
         }
 
         private void OnButtonClicked(WindowId windowId)

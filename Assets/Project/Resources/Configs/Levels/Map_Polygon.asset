@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98a543aba73d49098a8b35ba275073ec, type: 3}
   m_Name: Map_Polygon
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.LevelConfigs.LevelConfig
+  MapName: Polygon
   SceneName: Map_Polygon
+  MapImage: {fileID: 21300000, guid: edc753ab4ed23aa42919e45479ff36c3, type: 3}
   RespawnTimeSeconds: 5
   WeaponSpawners:
   - Position: {x: -3, y: 0, z: -19}

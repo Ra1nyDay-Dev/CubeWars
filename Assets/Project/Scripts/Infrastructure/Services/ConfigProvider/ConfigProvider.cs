@@ -39,6 +39,9 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
 
         public LevelConfig GetLevelConfig(string sceneName) => 
             _levelConfigs.GetValueOrDefault(sceneName);
+        
+        public List<LevelConfig> GetAllLevelsConfigs() => 
+           new List<LevelConfig>(_levelConfigs.Values);
 
         public WeaponConfig GetWeaponConfig(WeaponType weaponType) => 
             _weaponConfigs.GetValueOrDefault(weaponType);

@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98a543aba73d49098a8b35ba275073ec, type: 3}
   m_Name: Map_Rings
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.LevelConfigs.LevelConfig
+  MapName: Rings
   SceneName: Map_Rings
+  MapImage: {fileID: 21300000, guid: 2c23b0cac97f69249885351caf9eb8c6, type: 3}
   RespawnTimeSeconds: 5
   WeaponSpawners:
   - Position: {x: -49, y: 29, z: -122}

@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
+﻿using System.Collections.Generic;
+using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
 using Project.Scripts.Gameplay.Data.Configs.Health;
 using Project.Scripts.Gameplay.Data.Configs.LevelConfigs;
 using Project.Scripts.Gameplay.Data.Configs.WeaponConfigs;
@@ -17,5 +18,6 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
         HealthConfig GetHealthConfig();
         CharacterSkinMaterialsConfig GetCharacterSkinMaterialsConfig();
         GameObject GetWindowPrefab(WindowId windowId);
+        List<LevelConfig> GetAllLevelsConfigs();
     }
 }

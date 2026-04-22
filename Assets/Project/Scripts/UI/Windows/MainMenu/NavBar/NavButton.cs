@@ -1,11 +1,11 @@
 ﻿using System;
-using Project.Scripts.UI.Windows;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Project.Scripts.UI.Elements
+namespace Project.Scripts.UI.Windows.MainMenu.NavBar
 {
+    [RequireComponent(typeof(Button))]
     public class NavButton : MonoBehaviour
     {
         [field: SerializeField] public WindowId WindowId { get; private set; }
@@ -25,7 +25,7 @@ namespace Project.Scripts.UI.Elements
         private void Awake()
         {
             _button = GetComponent<Button>();
-            _button?.onClick.AddListener(() => Clicked?.Invoke(WindowId));
+            _button.onClick.AddListener(() => Clicked?.Invoke(WindowId));
             
             if (_buttonText != null)
                 _defaultTextColor = _buttonText.color;

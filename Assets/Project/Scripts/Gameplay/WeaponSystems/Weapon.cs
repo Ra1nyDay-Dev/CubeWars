@@ -144,12 +144,10 @@ namespace Project.Scripts.Gameplay.WeaponSystems
 
         protected virtual void OnAttackPerformed(AttackBehaviour attack)
         {
-            Debug.Log($"{Time.time} Attacked"); // toDo: DEBUG_DELETE 
         }
 
         protected virtual void OnAttackEnded(AttackBehaviour attack)
         {
-            Debug.Log($"{Time.time} Attack ready"); // toDo: DEBUG_DELETE 
             _isAttacking = false;
             
             if (attack == PrimaryAttack)

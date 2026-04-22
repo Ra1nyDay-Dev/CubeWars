@@ -11,6 +11,7 @@ namespace Project.Scripts.Gameplay.Services.Factories.BrainFactory
 {
     public class BrainFactory : IBrainFactory, ITickable, IDisposable
     {
+        public PlayerCharacterBrain PlayerBrain {get; private set;}
         public List<CharacterBrain> Brains => new(_brains);
 
         private readonly List<CharacterBrain> _brains;
@@ -47,6 +48,9 @@ namespace Project.Scripts.Gameplay.Services.Factories.BrainFactory
             _brains.Add(characterBrain);
             characterBrain.Enable();
             
+            if (characterBrain is PlayerCharacterBrain playerCharacterBrain)
+                PlayerBrain = playerCharacterBrain;
+            
             return characterBrain;
         }
         
@@ -64,6 +68,7 @@ namespace Project.Scripts.Gameplay.Services.Factories.BrainFactory
                 brain.Dispose();
             
             _brains.Clear();
+            PlayerBrain = null;
         }
     }
 }

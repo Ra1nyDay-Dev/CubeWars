@@ -8,5 +8,6 @@ namespace Project.Scripts.Gameplay.Services.Factories.BrainFactory
     {
         CharacterBrain Create(Character character, BrainType brainType);
         List<CharacterBrain> Brains { get; }
+        PlayerCharacterBrain PlayerBrain { get; }
     }
 }

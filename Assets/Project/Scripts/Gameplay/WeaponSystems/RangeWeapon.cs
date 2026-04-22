@@ -9,21 +9,22 @@ namespace Project.Scripts.Gameplay.WeaponSystems
 {
     public class RangeWeapon : Weapon
     {
-        public bool IsReloadable { get; protected set; }
-
         [SerializeField] protected ParticleSystem[] _muzzleEffects; // toDo: move to WeaponEffects?
         
+        public bool IsReloadable { get; protected set; }
+        public int CurrentAmmo { get; private set; }
+        public int CurrentAmmoInMagazine { get; private set; }
+        public bool InfiniteAmmo { get; private set; }
+        
         public event Action ReloadStarted;
+        public event Action<int, int, bool> AmmoChanged;
         
         private int _maxAmmoInMagazine;
         private float _reloadTime;
-        private bool _infiniteAmmo;
         private int _maxAmmo;
         private int _ammoPerPrimaryShot;
         private int _ammoPerSecondaryShot;
-        
-        private int _currentAmmoInMagazine;
-        private int _currentAmmo;
+
         private bool _isReloading;
 
         public override void Construct(
@@ -42,26 +43,23 @@ namespace Project.Scripts.Gameplay.WeaponSystems
             IsReloadable = rangeConfig.IsReloadable;
             _maxAmmoInMagazine = rangeConfig.MaxAmmoInMagazine;
             _reloadTime =  rangeConfig.ReloadTime;
-            _infiniteAmmo = rangeConfig.InfiniteAmmo;
+            InfiniteAmmo = rangeConfig.InfiniteAmmo;
             _maxAmmo = rangeConfig.MaxAmmo;
             _ammoPerPrimaryShot = rangeConfig.AmmoPerPrimaryShot;
             _ammoPerSecondaryShot = rangeConfig.AmmoPerSecondaryShot;
 
-            _currentAmmoInMagazine = _maxAmmoInMagazine;
-            _currentAmmo = _maxAmmo;
-
-            // toDo: DEBUG_DELETE 
-            Debug.Log($"Weapon {WeaponType} constructed. " +
-                      $"Ammo {_currentAmmoInMagazine}/" +
-                      $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
+            CurrentAmmoInMagazine = _maxAmmoInMagazine;
+            CurrentAmmo = _maxAmmo;
+            
+            AmmoChanged?.Invoke(CurrentAmmoInMagazine, CurrentAmmo - CurrentAmmoInMagazine, InfiniteAmmo);
         }
 
         public virtual async UniTask Reload()
         {
             if (!IsReloadable 
                 || _isReloading 
-                || _maxAmmoInMagazine == _currentAmmoInMagazine
-                ||(!_infiniteAmmo && _currentAmmo == _currentAmmoInMagazine))
+                || _maxAmmoInMagazine == CurrentAmmoInMagazine
+                ||(!InfiniteAmmo && CurrentAmmo == CurrentAmmoInMagazine))
                 return;
 
             _isReloading = true;
@@ -73,16 +71,13 @@ namespace Project.Scripts.Gameplay.WeaponSystems
                 cancellationToken: this.GetCancellationTokenOnDestroy()
             );
 
-            _currentAmmoInMagazine = _infiniteAmmo ? 
+            CurrentAmmoInMagazine = InfiniteAmmo ? 
                 _maxAmmoInMagazine 
-                : Mathf.Min(_currentAmmo, _maxAmmoInMagazine);
+                : Mathf.Min(CurrentAmmo, _maxAmmoInMagazine);
             
             _isReloading = false;
             
-            // toDo: DEBUG_DELETE 
-            Debug.Log($"Weapon {WeaponType} reloaded. " +
-                      $"Ammo {_currentAmmoInMagazine}/" +
-                      $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
+            AmmoChanged?.Invoke(CurrentAmmoInMagazine, CurrentAmmo - CurrentAmmoInMagazine, InfiniteAmmo);
         }
 
         protected override bool CanAttack(AttackBehaviour attack)
@@ -91,7 +86,7 @@ namespace Project.Scripts.Gameplay.WeaponSystems
                 return false;
             
             int ammoRequired = attack == PrimaryAttack ? _ammoPerPrimaryShot : _ammoPerSecondaryShot;
-            return (_currentAmmoInMagazine >= ammoRequired && !_isReloading) || !IsReloadable;
+            return (CurrentAmmoInMagazine >= ammoRequired && !_isReloading) || !IsReloadable;
         }
 
         protected override void OnAttackPerformed(AttackBehaviour attack)
@@ -103,10 +98,7 @@ namespace Project.Scripts.Gameplay.WeaponSystems
 
             PerformEffects();
             
-            // toDo: DEBUG_DELETE 
-            Debug.Log($"Weapon {WeaponType} shoot. " +
-                      $"Ammo {_currentAmmoInMagazine}/" +
-                      $"{(_infiniteAmmo ? "infinity" : _currentAmmo - _currentAmmoInMagazine)}");
+            AmmoChanged?.Invoke(CurrentAmmoInMagazine, CurrentAmmo - CurrentAmmoInMagazine, InfiniteAmmo);
         }
 
         private void PerformEffects()
@@ -121,17 +113,17 @@ namespace Project.Scripts.Gameplay.WeaponSystems
         protected virtual void ConsumeAmmo(int amount)
         {
             if (IsReloadable)
-                _currentAmmoInMagazine -= amount;
+                CurrentAmmoInMagazine -= amount;
             
-            if (!_infiniteAmmo)
-                _currentAmmo -= amount;
+            if (!InfiniteAmmo)
+                CurrentAmmo -= amount;
         }
         
         protected override void OnAttackEnded(AttackBehaviour attack)
         {
             base.OnAttackEnded(attack);
             
-            if (IsReloadable && _currentAmmoInMagazine == 0)
+            if (IsReloadable && CurrentAmmoInMagazine == 0)
                 Reload().Forget();
         }
     }

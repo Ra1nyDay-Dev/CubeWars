@@ -21,7 +21,7 @@ namespace Project.Scripts.UI
         public virtual void Initialize() => 
             _windowFactory.AttachSceneUI(this);
 
-        public void Dispose() => 
+        public virtual void Dispose() => 
             _windowService.CloseAll();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
+﻿using System;
+using Project.Scripts.Gameplay.CharacterSystems.HealthSystems;
 using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.Data.Enums;
 using Project.Scripts.Gameplay.Services.Factories.WeaponFactory;
@@ -15,6 +16,9 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Inventory
         [SerializeField] private GameObject _selfHitbox;
 
         public IWeapon CurrentWeapon { get; private set; }
+
+        public event Action<IWeapon> WeaponChanged;
+        public event Action<int, int, bool> CurrentWeaponAmmoChanged;
 
         private GameObject _currentWeaponGameObject;
         private IWeaponFactory _weaponFactory;
@@ -53,17 +57,34 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Inventory
                 _owner);
             
             CurrentWeapon = _currentWeaponGameObject.GetComponent<IWeapon>();
+            WeaponChanged?.Invoke(CurrentWeapon);
+            
+            if (CurrentWeapon is RangeWeapon rangeWeapon)
+            {
+                rangeWeapon.AmmoChanged += OnCurrentWeaponAmmoChanged;
+                OnCurrentWeaponAmmoChanged(
+                    rangeWeapon.CurrentAmmoInMagazine,
+                    rangeWeapon.CurrentAmmo - rangeWeapon.CurrentAmmoInMagazine,
+                    rangeWeapon.InfiniteAmmo );
+            } 
         }
 
         private void UnequipWeapon()
         {
             if (_currentWeaponGameObject != null)
             {
+                if (CurrentWeapon is RangeWeapon rangeWeapon) 
+                    rangeWeapon.AmmoChanged -= OnCurrentWeaponAmmoChanged;
+                
                 Destroy(_currentWeaponGameObject);
                 _currentWeaponGameObject = null;
                 CurrentWeapon = null;
+                WeaponChanged?.Invoke(CurrentWeapon);
             }
         }
+
+        private void OnCurrentWeaponAmmoChanged(int currentAmmo, int reservedAmmo, bool infiniteAmmo) => 
+            CurrentWeaponAmmoChanged?.Invoke(currentAmmo, reservedAmmo, infiniteAmmo);
 
         private void OnDie(DamageData damageData) => 
             UnequipWeapon();

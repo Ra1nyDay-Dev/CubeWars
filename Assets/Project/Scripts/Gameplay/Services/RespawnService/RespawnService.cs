@@ -5,6 +5,8 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.Data;
+using Project.Scripts.Gameplay.Services.CameraProvider;
+using Project.Scripts.Gameplay.Services.Factories.BrainFactory;
 using Project.Scripts.Gameplay.Services.Factories.CharacterFactory;
 using Project.Scripts.Gameplay.Services.Factories.RespawnPointFactory;
 using Project.Scripts.Gameplay.SpawnSystems.RespawnPont;
@@ -15,23 +17,30 @@ namespace Project.Scripts.Gameplay.Services.RespawnService
 {
     public class RespawnService : IRespawnService, IDisposable
     {
+        public float RespawnTime { get; private set; }
+        
         private const double DELAY_BETWEEN_ZONE_CHECKS = 1f;
         
         private readonly IRespawnPointFactory _respawnPointFactory;
         private readonly ICharacterFactory _characterFactory;
-        
+        private readonly IBrainFactory _brainFactory;
+        private readonly ICameraProvider _cameraProvider;
+
         private List<Character> _characters;
         private readonly Dictionary<Character, Action<DamageData>> _eventHandlers;
         private readonly Dictionary<Character, CancellationTokenSource> _pendingRespawns;
-        private float _respawnTime;
 
         [Inject]
         public RespawnService(
             IRespawnPointFactory respawnPointFactory,
-            ICharacterFactory characterFactory)
+            ICharacterFactory characterFactory,
+            IBrainFactory brainFactory,
+            ICameraProvider cameraProvider)
         {
             _respawnPointFactory = respawnPointFactory;
             _characterFactory = characterFactory;
+            _brainFactory = brainFactory;
+            _cameraProvider = cameraProvider;
 
             _characters = new List<Character>();
             _eventHandlers = new Dictionary<Character, Action<DamageData>>();
@@ -49,7 +58,7 @@ namespace Project.Scripts.Gameplay.Services.RespawnService
 
         public void Initialize(float levelRespawnTime)
         {
-           _respawnTime = levelRespawnTime;
+           RespawnTime = levelRespawnTime;
            
            if (_respawnPointFactory.RepawnPoints.Count == 0)
                throw new InvalidOperationException("Respawn points is not created.");
@@ -79,12 +88,15 @@ namespace Project.Scripts.Gameplay.Services.RespawnService
 
         private void OnCharacterDied(Character character, DamageData damageData)
         {
+            if (character == _brainFactory.PlayerBrain.Character)
+                _cameraProvider.SetFollowTarget(null);
+            
             CancelRespawn(character);
 
             var cts = new CancellationTokenSource();
             _pendingRespawns[character] = cts;
             
-            WaitAndRespawn(character, _respawnTime, cts.Token).Forget();
+            WaitAndRespawn(character, RespawnTime, cts.Token).Forget();
         }
         
         private async UniTaskVoid WaitAndRespawn(Character character, float respawnTime, CancellationToken cancellationToken)
@@ -98,6 +110,9 @@ namespace Project.Scripts.Gameplay.Services.RespawnService
                 character.gameObject.transform.position = respawnPoint.gameObject.transform.position;
                 character.gameObject.transform.rotation = respawnPoint.gameObject.transform.rotation;
                 character.RespawnBehaviour.Respawn();
+                
+                if (character == _brainFactory.PlayerBrain.Character)
+                    _cameraProvider.SetFollowTarget(character.transform);
             }
             catch (OperationCanceledException) { }
             finally

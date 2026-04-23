@@ -6,5 +6,6 @@ namespace Project.Scripts.Gameplay.Services.RespawnService
     {
         bool TryGetAvailableRespawnPoint(out RespawnPoint respawnPoint);
         void Initialize(float levelRespawnTime);
+        float RespawnTime { get; }
     }
 }

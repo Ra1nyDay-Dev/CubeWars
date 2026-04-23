@@ -2,7 +2,6 @@ using Cysharp.Threading.Tasks;
 using Project.Scripts.Infrastructure.Data;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using Project.Scripts.Infrastructure.Services.SceneLoader;
-using Project.Scripts.UI;
 using Project.Scripts.UI.Services.LoadingScreen;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +11,7 @@ namespace Project.Scripts.Infrastructure
 {
     public class GameBootstrap
     {
-        private const string FIRST_SCENE = Scenes.MAIN_MENU;
+        private const string FIRST_SCENE = Scenes.MAP_POLYGON;
         
         private readonly ILoadingScreen _loadingScreen;
         private readonly IConfigProvider _configProvider;

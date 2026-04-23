@@ -8,8 +8,9 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
 {
     public class RespawnBehaviour : MonoBehaviour
     {
-        public event Action <DamageData> Dead;
         public event Action Respawned;
+        public event Action <DamageData> Dead;
+        public event Action Vanished;
         
         private const float VANISH_DELAY_AFTER_DEATH = 3;
         
@@ -22,8 +23,8 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
         public void Respawn()
         {
             Reset();
-            Respawned?.Invoke();
             gameObject.SetActive(true);
+            Respawned?.Invoke();
         }
 
         private void OnEnable() => 
@@ -50,6 +51,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
         {
             await UniTask.Delay(TimeSpan.FromSeconds(VANISH_DELAY_AFTER_DEATH), cancellationToken: cancellationToken);
             gameObject.SetActive(false);
+            Vanished?.Invoke();
         }
 
         private void Reset() => 

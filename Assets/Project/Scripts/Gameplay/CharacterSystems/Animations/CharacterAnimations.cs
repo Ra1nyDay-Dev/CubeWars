@@ -70,6 +70,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _characterMovement.VerticalVelocityChanged += OnVerticalVelocityChanged;
             _damageable.Damaged += OnDamaged;
             _respawnBehaviour.Dead += OnDie;
+            _respawnBehaviour.Vanished += OnVanish;
             _respawnBehaviour.Respawned += OnRespawn;
         }
 
@@ -82,6 +83,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _characterMovement.RotationChanged -= OnRotationChanged;
             _damageable.Damaged -= OnDamaged;
             _respawnBehaviour.Dead -= OnDie;
+            _respawnBehaviour.Vanished -= OnVanish;
             _respawnBehaviour.Respawned -= OnRespawn;
         }
 
@@ -92,17 +94,19 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _animator.SetTrigger(DeadHash);
         }
 
-        private void OnRespawn() => 
-            Reset();
-
-        private void Reset()
+        private void OnVanish()
         {
             _animator.Rebind();
-            
             _animatorMesh.transform.localRotation = Quaternion.identity;
             _animatorMesh.transform.localPosition = Vector3.zero;
             _tweensMesh.transform.localRotation = Quaternion.identity;
             _tweensMesh.transform.localPosition = Vector3.zero;
+        }
+
+        private void OnRespawn()
+        {
+            _animator.SetBool(IsDeadHash, false);
+            _animator.SetBool(IsGroundedHash, _characterMovement.IsGrounded);
         }
 
         private void OnVerticalVelocityChanged(float verticalVelocity) => 

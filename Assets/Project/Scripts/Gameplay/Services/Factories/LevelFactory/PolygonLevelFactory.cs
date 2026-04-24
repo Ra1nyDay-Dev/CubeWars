@@ -51,7 +51,11 @@ namespace Project.Scripts.Gameplay.Services.Factories.LevelFactory
                 InitialPointData initialPointData = initialPoints.Dequeue();
                 Material material = botsMaterials.Dequeue();
                 
-                Character emptyCharacter = _characterFactory.Create(initialPointData.Position, initialPointData.Rotation, material);
+                Character emptyCharacter = _characterFactory.Create(
+                    initialPointData.Position,
+                    initialPointData.Rotation,
+                    material,
+                    BrainType.Empty);
                 _brainFactory.Create(emptyCharacter, BrainType.Empty);
                 
                 botsMaterials.Enqueue(material);

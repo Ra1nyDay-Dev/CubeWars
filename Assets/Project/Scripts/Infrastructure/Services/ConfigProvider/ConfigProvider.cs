@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Project.Scripts.Gameplay.Data.Configs.AI;
 using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
 using Project.Scripts.Gameplay.Data.Configs.Health;
 using Project.Scripts.Gameplay.Data.Configs.LevelConfigs;
@@ -20,6 +21,7 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
         private const string HEALTH_CONFIG_PATH = "Configs/Characters/Health/DefaultHealthConfig";
         private const string CHARACTER_SKIN_MATERIALS_CONFIG_PATH = "Configs/Characters/Skins/CharacterSkinMaterialsConfig";
         private const string WINDOWS_CONFIG_PATH = "Configs/UI/Windows/WindowsConfig";
+        private const string AI_BOT_CONFIG_PATH = "Configs/AI/AiBotConfig";
 
         private Dictionary<string, LevelConfig> _levelConfigs;
         private Dictionary<WeaponType, WeaponConfig> _weaponConfigs;
@@ -27,6 +29,7 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
         private HealthConfig _healthConfig;
         private CharacterSkinMaterialsConfig _characterSkinMaterialsConfig;
         private Dictionary<WindowId, GameObject> _windowPrefabsById;
+        private AiBotConfig _botsConfig;
 
         // toDo: rewrite to async load with Addressables
         public void LoadAll()
@@ -35,11 +38,12 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
             LoadWeapons();
             LoadCharacterConfigs();
             LoadWindows();
+            LoadAIConfigs();
         }
 
         public LevelConfig GetLevelConfig(string sceneName) => 
             _levelConfigs.GetValueOrDefault(sceneName);
-        
+
         public List<LevelConfig> GetAllLevelsConfigs() => 
            new List<LevelConfig>(_levelConfigs.Values);
 
@@ -59,6 +63,9 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
             _windowPrefabsById.TryGetValue(id, out GameObject prefab)
                 ? prefab
                 : throw new Exception($"Prefab config for window {id} was not found");
+
+        public AiBotConfig GetAiBotConfig() =>
+            _botsConfig;
 
         private void LoadLevels() =>
             _levelConfigs = Resources
@@ -82,5 +89,8 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
                 .Load<WindowsConfig>(WINDOWS_CONFIG_PATH)
                 .WindowConfigs
                 .ToDictionary(x => x.Id, x => x.Prefab);
+
+        private void LoadAIConfigs() => 
+            _botsConfig = Resources.Load<AiBotConfig>(AI_BOT_CONFIG_PATH);
     }
 }

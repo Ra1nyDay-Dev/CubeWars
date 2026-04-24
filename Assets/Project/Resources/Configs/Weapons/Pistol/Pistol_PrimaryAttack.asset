@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74180eecd4a44cc3830fe80ca6d6d13c, type: 3}
   m_Name: Pistol_PrimaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.AttackConfigs.RaycastAttackConfig
-  Damage: 15
+  Damage: 20
   AttackDelay: 0
   HorizontalForceOnHit: 3
   VerticalForceOnHit: 0

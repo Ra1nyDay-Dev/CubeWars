@@ -85,7 +85,8 @@ namespace Project.Scripts.Gameplay.Services.Factories.LevelFactory
             Character playerCharacter = _characterFactory.Create(
                 initialPoint.Position, 
                 initialPoint.Rotation,
-                skinsConfig.PlayerSkinMaterial);
+                skinsConfig.PlayerSkinMaterial,
+                BrainType.Player);
             _brainFactory.Create(playerCharacter, BrainType.Player);
             _cameraProvider.SetFollowTarget(playerCharacter.transform);
         }
@@ -104,7 +105,11 @@ namespace Project.Scripts.Gameplay.Services.Factories.LevelFactory
                 InitialPointData initialPointData = initialPoints.Dequeue();
                 Material material = botsMaterials.Dequeue();
                 
-                Character emptyCharacter = _characterFactory.Create(initialPointData.Position, initialPointData.Rotation, material);
+                Character emptyCharacter = _characterFactory.Create(
+                    initialPointData.Position,
+                    initialPointData.Rotation,
+                    material,
+                    BrainType.Ai);
                 _brainFactory.Create(emptyCharacter, BrainType.Ai);
                 
                 botsMaterials.Enqueue(material);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Project.Scripts.Gameplay.Data.Configs.AI;
 using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
 using Project.Scripts.Gameplay.Data.Configs.Health;
 using Project.Scripts.Gameplay.Data.Configs.LevelConfigs;
@@ -19,5 +20,6 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
         CharacterSkinMaterialsConfig GetCharacterSkinMaterialsConfig();
         GameObject GetWindowPrefab(WindowId windowId);
         List<LevelConfig> GetAllLevelsConfigs();
+        AiBotConfig GetAiBotConfig();
     }
 }

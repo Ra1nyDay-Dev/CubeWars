@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Project.Scripts.Gameplay.CharacterSystems;
 using Project.Scripts.Gameplay.CharacterSystems.Brain;
+using Project.Scripts.Gameplay.CharacterSystems.Brain.AI;
 using Project.Scripts.Gameplay.Services.CameraProvider;
+using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using Project.Scripts.Infrastructure.Services.Input;
 using UnityEngine;
 using Zenject;
@@ -18,14 +20,17 @@ namespace Project.Scripts.Gameplay.Services.Factories.BrainFactory
         
         private readonly IInputService _inputService;
         private readonly ICameraProvider _cameraProvider;
+        private readonly IConfigProvider _configProvider;
 
         [Inject]
         public BrainFactory(
             IInputService inputService,
-            ICameraProvider cameraProvider)
+            ICameraProvider cameraProvider,
+            IConfigProvider configProvider)
         {
             _inputService = inputService;
             _cameraProvider = cameraProvider;
+            _configProvider = configProvider;
             
             _brains = new List<CharacterBrain>();
         }
@@ -40,7 +45,7 @@ namespace Project.Scripts.Gameplay.Services.Factories.BrainFactory
                         _cameraProvider.Camera,
                         _inputService),
                 BrainType.Ai => 
-                    new AiBrain(character),
+                    new AiBrain(character, _configProvider.GetAiBotConfig()),
                 _ => 
                     new EmptyCharacterBrain(character),
             };

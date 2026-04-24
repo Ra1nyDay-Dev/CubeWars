@@ -99,8 +99,10 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Animations
             _animator.Rebind();
             _animatorMesh.transform.localRotation = Quaternion.identity;
             _animatorMesh.transform.localPosition = Vector3.zero;
+            _animatorMesh.transform.localScale = Vector3.one;
             _tweensMesh.transform.localRotation = Quaternion.identity;
             _tweensMesh.transform.localPosition = Vector3.zero;
+            _tweensMesh.transform.localScale = Vector3.one;
         }
 
         private void OnRespawn()

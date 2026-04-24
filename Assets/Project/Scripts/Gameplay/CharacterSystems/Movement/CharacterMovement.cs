@@ -26,6 +26,9 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
         public bool IsMoving => 
             _directionalMovement.IsMoving;
         
+        public float MovementSpeed { get; private set; }
+        public float Acceleration { get; private set; }
+        
         public event Action<Vector2> MovementDirectionChanged;
         public event Action<Vector2> HorizontalVelocityChanged;
         public event Action<bool> MovingChanged;
@@ -35,9 +38,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
         public event Action<bool> GroundedChanged;
         public event Action<float> VerticalVelocityChanged;
         public event Action Jumped;
-        
-        private float _movementSpeed;
-        private float _acceleration;
+
         private float _groundDeceleration;
         private float _airDeceleration;
         private float _rotationSpeed;
@@ -52,10 +53,15 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
         private DirectionalRotation _rotation;
         private CharacterVerticalMovement _verticalMovement;
 
+        public CharacterMovement(float acceleration)
+        {
+            Acceleration = acceleration;
+        }
+
         public void Construct(CharacterMovementConfig config)
         {
-            _movementSpeed = config.MovementSpeed;
-            _acceleration =  config.Acceleration;
+            MovementSpeed = config.MovementSpeed;
+            Acceleration =  config.Acceleration;
             _groundDeceleration = config.GroundDeceleration;
             _airDeceleration = config.AirDeceleration;
             _rotationSpeed = config.RotationSpeed;
@@ -69,7 +75,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Movement
             _controller = GetComponent<CharacterController>();
             _respawnBehaviour = GetComponent<RespawnBehaviour>();
             
-            _directionalMovement = new CharacterDirectionalMovement(_controller, _movementSpeed, _acceleration,
+            _directionalMovement = new CharacterDirectionalMovement(_controller, MovementSpeed, Acceleration,
                 _groundDeceleration, _airDeceleration);
             _rotation = new DirectionalRotation(transform, _rotationSpeed);
             _verticalMovement = new CharacterVerticalMovement(_controller, _gravity, _groundDownForce, _jumpHeight);

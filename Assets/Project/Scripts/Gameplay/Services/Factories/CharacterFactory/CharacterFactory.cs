@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Project.Scripts.Gameplay.CharacterSystems;
+using Project.Scripts.Gameplay.CharacterSystems.Brain;
 using Project.Scripts.Gameplay.Data.Configs.CharacterConfigs;
 using Project.Scripts.Gameplay.Data.Configs.Health;
 using Project.Scripts.Infrastructure.Services.AssetManagement;
@@ -33,9 +34,11 @@ namespace Project.Scripts.Gameplay.Services.Factories.CharacterFactory
             _characters = new List<Character>();
         }
         
-        public Character Create(Vector3 position, Quaternion rotation, Material material)
+        public Character Create(Vector3 position, Quaternion rotation, Material material, BrainType brainType)
         {
-            GameObject prefab = _assetProvider.LoadAsset(AssetPath.CUBE_GUY_CHARACTER);
+            GameObject prefab = brainType == BrainType.Ai
+                ? _assetProvider.LoadAsset(AssetPath.CUBE_GUY_AI_CHARACTER)
+                : _assetProvider.LoadAsset(AssetPath.CUBE_GUY_CHARACTER);
             Character character = _instantiator.InstantiatePrefabForComponent<Character>(
                 prefab,
                 position: position,

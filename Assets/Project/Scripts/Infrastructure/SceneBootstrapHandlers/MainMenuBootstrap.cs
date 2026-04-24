@@ -57,7 +57,8 @@ namespace Project.Scripts.Infrastructure.SceneBootstrapHandlers
             Character playerCharacter = _characterFactory.Create(
                 _characterInitialPosition, 
                 _characterInitialRotation,
-                skinsConfig.PlayerSkinMaterial);
+                skinsConfig.PlayerSkinMaterial, 
+                BrainType.Empty);
             
             playerCharacter.CharacterUI.HideAll();
             

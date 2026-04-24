@@ -40,7 +40,7 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Interactions
 
         private void TriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out IInteractable interactable)) 
+            if (other.TryGetComponent(out IInteractable interactable) && !_interactables.ContainsKey(interactable)) 
                 _interactables.Add(interactable, other.transform);
         }
 

@@ -28,6 +28,6 @@ namespace Project.Scripts.Infrastructure.SceneBootstrapHandlers
             _levelFactory = levelFactory;
 
         public void PrepareGame() => 
-            _levelFactory.Create(playersCount: 8); // toDo: send players count as scene params
+            _levelFactory.Create(playersCount: 16); // toDo: send players count as scene params
     }
 }

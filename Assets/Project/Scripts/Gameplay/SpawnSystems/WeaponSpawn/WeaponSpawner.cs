@@ -14,17 +14,18 @@ namespace Project.Scripts.Gameplay.SpawnSystems.WeaponSpawn
     public class WeaponSpawner : MonoBehaviour, IInteractable
     {
         [SerializeField] private GameObject _weaponSlot;
+        
+        public bool IsWeaponAvailable { get; private set; }
+        public WeaponType WeaponType {get; private set;}
 
         private IWeaponFactory _weaponFactory;
-        
-        private WeaponType _weaponType;
+
         private float _spawnTime;
         private bool _spawnOnStart;
         private WeaponSpawnerAnimation _spawnerAnimation;
         
         private CancellationTokenSource _spawnCancellationTokenSource;
         private bool _isActive;
-        private bool _isWeaponAvailable;
 
         [Inject]
         public void Construct(IWeaponFactory weaponFactory) => 
@@ -32,12 +33,12 @@ namespace Project.Scripts.Gameplay.SpawnSystems.WeaponSpawn
 
         public void Initialize(WeaponSpawnerData data)
         {
-            _weaponType = data.WeaponType;
+            WeaponType = data.WeaponType;
             _spawnTime = data.SpawnTime;
             _spawnOnStart = data.SpawnOnStart;
             
             _spawnerAnimation = GetComponent<WeaponSpawnerAnimation>();
-            _weaponFactory.CreateWeaponAtSpawn(_weaponType, _weaponSlot.transform);
+            _weaponFactory.CreateWeaponAtSpawn(WeaponType, _weaponSlot.transform);
             _weaponSlot.SetActive(false);
             ActivateSpawn();
         }
@@ -48,9 +49,9 @@ namespace Project.Scripts.Gameplay.SpawnSystems.WeaponSpawn
 
         public void Interact(InteractorUnit interactor)
         {
-            if (!_isWeaponAvailable
+            if (!IsWeaponAvailable
                 || !interactor.TryGetComponent(out WeaponArsenal arsenal)
-                || arsenal.CurrentWeapon?.WeaponType == _weaponType)
+                || arsenal.CurrentWeapon?.WeaponType == WeaponType)
                 return;
 
             TakeWeapon(arsenal);
@@ -77,15 +78,15 @@ namespace Project.Scripts.Gameplay.SpawnSystems.WeaponSpawn
 
         private void ShowWeapon()
         {
-            _isWeaponAvailable = true;
+            IsWeaponAvailable = true;
             _weaponSlot.SetActive(true);
             _spawnerAnimation?.StartAnimation();
         }
 
         private void HideWeapon()
         {
+            IsWeaponAvailable = false;
             CancelSpawnTask();
-            _isWeaponAvailable = false;
             _weaponSlot.SetActive(false);
             _spawnerAnimation?.StopAnimation();
         }
@@ -93,7 +94,7 @@ namespace Project.Scripts.Gameplay.SpawnSystems.WeaponSpawn
         private void TakeWeapon(WeaponArsenal characterArsenal)
         {
             HideWeapon();
-            characterArsenal.ChangeWeapon(_weaponType);
+            characterArsenal.ChangeWeapon(WeaponType);
             WaitAndShowWeapon().Forget();
         }
 

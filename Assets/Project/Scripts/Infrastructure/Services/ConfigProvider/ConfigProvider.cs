@@ -22,6 +22,7 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
         private const string CHARACTER_SKIN_MATERIALS_CONFIG_PATH = "Configs/Characters/Skins/CharacterSkinMaterialsConfig";
         private const string WINDOWS_CONFIG_PATH = "Configs/UI/Windows/WindowsConfig";
         private const string AI_BOT_CONFIG_PATH = "Configs/AI/AiBotConfig";
+        private const string AI_WEAPON_PRIORITY_CONFIG_PATH = "Configs/AI/AiWeaponPriorityConfig";
 
         private Dictionary<string, LevelConfig> _levelConfigs;
         private Dictionary<WeaponType, WeaponConfig> _weaponConfigs;
@@ -29,7 +30,8 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
         private HealthConfig _healthConfig;
         private CharacterSkinMaterialsConfig _characterSkinMaterialsConfig;
         private Dictionary<WindowId, GameObject> _windowPrefabsById;
-        private AiBotConfig _botsConfig;
+        private BotConfig _botsConfig;
+        private AiWeaponPriorityConfig _weaponPriorityConfig;
 
         // toDo: rewrite to async load with Addressables
         public void LoadAll()
@@ -64,8 +66,11 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
                 ? prefab
                 : throw new Exception($"Prefab config for window {id} was not found");
 
-        public AiBotConfig GetAiBotConfig() =>
+        public BotConfig GetAiBotConfig() =>
             _botsConfig;
+        
+        public AiWeaponPriorityConfig GetAiWeaponPriorityConfig() =>
+            _weaponPriorityConfig;
 
         private void LoadLevels() =>
             _levelConfigs = Resources
@@ -90,7 +95,10 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
                 .WindowConfigs
                 .ToDictionary(x => x.Id, x => x.Prefab);
 
-        private void LoadAIConfigs() => 
-            _botsConfig = Resources.Load<AiBotConfig>(AI_BOT_CONFIG_PATH);
+        private void LoadAIConfigs()
+        {
+            _botsConfig = Resources.Load<BotConfig>(AI_BOT_CONFIG_PATH);
+            _weaponPriorityConfig = Resources.Load<AiWeaponPriorityConfig>(AI_WEAPON_PRIORITY_CONFIG_PATH);
+        }
     }
 }

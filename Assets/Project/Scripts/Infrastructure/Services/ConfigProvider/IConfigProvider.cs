@@ -20,6 +20,7 @@ namespace Project.Scripts.Infrastructure.Services.ConfigProvider
         CharacterSkinMaterialsConfig GetCharacterSkinMaterialsConfig();
         GameObject GetWindowPrefab(WindowId windowId);
         List<LevelConfig> GetAllLevelsConfigs();
-        AiBotConfig GetAiBotConfig();
+        BotConfig GetAiBotConfig();
+        AiWeaponPriorityConfig GetAiWeaponPriorityConfig();
     }
 }

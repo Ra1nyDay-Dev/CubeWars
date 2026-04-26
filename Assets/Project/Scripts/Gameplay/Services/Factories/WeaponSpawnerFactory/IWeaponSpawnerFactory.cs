@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Gameplay.Data;
+﻿using System.Collections.Generic;
+using Project.Scripts.Gameplay.Data;
 using Project.Scripts.Gameplay.SpawnSystems.WeaponSpawn;
 
 namespace Project.Scripts.Gameplay.Services.Factories.WeaponSpawnerFactory
@@ -6,5 +7,6 @@ namespace Project.Scripts.Gameplay.Services.Factories.WeaponSpawnerFactory
     public interface IWeaponSpawnerFactory
     {
         WeaponSpawner Create(WeaponSpawnerData weaponSpawnerData);
+        IReadOnlyList<WeaponSpawner> Spawners { get; }
     }
 }

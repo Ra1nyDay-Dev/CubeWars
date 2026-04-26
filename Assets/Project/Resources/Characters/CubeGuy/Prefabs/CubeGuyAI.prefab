@@ -82,6 +82,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1724456649089160340, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 5941434659821281247}
+    - targetCorrespondingSourceObject: {fileID: 1724456649089160340, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 7186258031187391904}
   m_SourcePrefab: {fileID: 100100000, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
 --- !u!1 &8684815554394401713 stripped
@@ -89,6 +92,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1724456649089160340, guid: 3e653136442ce4b42a73ea533d85feb7, type: 3}
   m_PrefabInstance: {fileID: 8027712051502792485}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5941434659821281247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8684815554394401713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb16ff86a164b7c84b5d45b7482e9a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.CharacterSystems.Brain.AI.Navigation.Movement.NavMeshAgentMovement
 --- !u!195 &7186258031187391904
 NavMeshAgent:
   m_ObjectHideFlags: 0

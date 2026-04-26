@@ -82,13 +82,13 @@ namespace Project.Scripts.Gameplay.CharacterSystems.Brain
                 reloadable.Reload().Forget();
         }
 
-        private void OnCharacterDead(DamageData damageData)
+        protected virtual void OnCharacterDead(DamageData damageData)
         {
             Disable();
             Move(Vector3.zero);
         }
 
-        private void OnCharacterRespawned() => 
+        protected virtual void OnCharacterRespawned() => 
             Enable();
     }
 }

@@ -13,7 +13,7 @@ namespace Project.Scripts.Gameplay.Services.Factories.CharacterFactory
 {
     public class CharacterFactory : ICharacterFactory, IDisposable
     {
-        public List<Character> Characters => new(_characters);
+        public IReadOnlyList<Character> Characters => _characters;
         
         private readonly IConfigProvider _configProvider;
         private readonly IAssetProvider _assetProvider;

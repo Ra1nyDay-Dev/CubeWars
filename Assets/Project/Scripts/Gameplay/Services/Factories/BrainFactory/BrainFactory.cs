@@ -6,6 +6,7 @@ using Project.Scripts.Gameplay.CharacterSystems.Brain.AI;
 using Project.Scripts.Gameplay.CharacterSystems.Brain.Empty;
 using Project.Scripts.Gameplay.CharacterSystems.Brain.Player;
 using Project.Scripts.Gameplay.Services.CameraProvider;
+using Project.Scripts.Gameplay.Services.Factories.CharacterFactory;
 using Project.Scripts.Gameplay.Services.Factories.WeaponSpawnerFactory;
 using Project.Scripts.Infrastructure.Services.ConfigProvider;
 using Project.Scripts.Infrastructure.Services.Input;
@@ -25,18 +26,21 @@ namespace Project.Scripts.Gameplay.Services.Factories.BrainFactory
         private readonly ICameraProvider _cameraProvider;
         private readonly IConfigProvider _configProvider;
         private readonly IWeaponSpawnerFactory _weaponSpawnerFactory;
+        private readonly ICharacterFactory _characterFactory;
 
         [Inject]
         public BrainFactory(
             IInputService inputService,
             ICameraProvider cameraProvider,
             IConfigProvider configProvider,
-            IWeaponSpawnerFactory weaponSpawnerFactory)
+            IWeaponSpawnerFactory weaponSpawnerFactory,
+            ICharacterFactory characterFactory)
         {
             _inputService = inputService;
             _cameraProvider = cameraProvider;
             _configProvider = configProvider;
             _weaponSpawnerFactory = weaponSpawnerFactory;
+            _characterFactory = characterFactory;
             
             _brains = new List<CharacterBrain>();
         }
@@ -55,7 +59,8 @@ namespace Project.Scripts.Gameplay.Services.Factories.BrainFactory
                         character,
                         _configProvider.GetAiBotConfig(),
                         _configProvider.GetAiWeaponPriorityConfig(),
-                        _weaponSpawnerFactory.Spawners),
+                        _weaponSpawnerFactory.Spawners,
+                        _characterFactory.Characters),
                 _ => 
                     new EmptyCharacterBrain(character),
             };

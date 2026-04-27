@@ -9,6 +9,6 @@ namespace Project.Scripts.Gameplay.Services.Factories.CharacterFactory
     public interface ICharacterFactory
     {
         Character Create(Vector3 position, Quaternion rotation, Material material, BrainType brainType);
-        List<Character> Characters { get; }
+        IReadOnlyList<Character> Characters { get; }
     }
 }

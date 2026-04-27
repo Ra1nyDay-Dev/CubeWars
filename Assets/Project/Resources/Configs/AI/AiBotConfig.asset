@@ -12,12 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb4990517c7e44d5821512913bd577a7, type: 3}
   m_Name: AiBotConfig
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Gameplay.Data.Configs.AI.AiBotConfig
-  AvoidancePriority: 50
-  AvoidanceQuality: 4
-  AgentMaxSpeed: 10
-  PatrolRadius: 30
+  PointSearchRadius: 30
   PatrolSampleDistance: 3
   PatrolArriveDistance: 0.8
-  PatrolIdleTime: 0.1
   StuckCheckInterval: 1
   StuckDistanceThreshold: 0.5
+  WeaponCheckRadius: 30
+  EnemyDetectionRadius: 30
+  MaxVerticalDelta: 2
+  AttackObstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 193
+  EyeHeight: 1
+  MeleeAttackRange: 3
+  MeleeApproachMinRadius: 2
+  MeleeApproachMaxRadius: 3
+  RangedAttackRange: 25
+  RangedApproachMinRadius: 8
+  RangedApproachMaxRadius: 15
+  CombatRepositionInterval: 2
+  CombatSampleDistance: 3

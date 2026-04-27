@@ -8,6 +8,8 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
 {
     public class RespawnBehaviour : MonoBehaviour
     {
+        public bool IsDead { get; private set; }
+        
         public event Action Respawned;
         public event Action <DamageData> Dead;
         public event Action Vanished;
@@ -15,7 +17,6 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
         private const float VANISH_DELAY_AFTER_DEATH = 3;
         
         private IDamageable _damageable;
-        private bool _isDead;
         
         private void Awake() => 
             _damageable = GetComponent<IDamageable>();
@@ -35,13 +36,13 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
 
         private void OnDestroyRequestReceived(DamageData damageData)
         {
-            if (!_isDead)
+            if (!IsDead)
                 Die(damageData);
         }
         
         private void Die(DamageData damageData)
         {
-            _isDead = true;
+            IsDead = true;
             _damageable.DestroyRequested -= OnDestroyRequestReceived;
             Dead?.Invoke(damageData);
             VanishTimer(this.GetCancellationTokenOnDestroy()).Forget();
@@ -55,6 +56,6 @@ namespace Project.Scripts.Gameplay.CharacterSystems.HealthSystems
         }
 
         private void Reset() => 
-            _isDead = false;
+            IsDead = false;
     }
 }

@@ -47,6 +47,17 @@ namespace Project.Scripts.Infrastructure.StateMachine
 
         public void AddAnyTransition(IState to, Func<bool> condition) =>
             _anyTransitions.Add(new Transition(to, condition));
+        
+        public void RestartState(IState state)
+        {
+            if (state == null)
+                return;
+ 
+            Current?.Exit();
+            Current = state;
+            _currentTransitions = _transitions.GetValueOrDefault(Current, EmptyTransitions);
+            Current.Enter();
+        }
 
         private Transition GetTriggeredTransition()
         {

@@ -51,6 +51,6 @@ namespace Project.Scripts.Gameplay.WeaponSystems.AttackSystems.DebugSystems
             Gizmos.color = color;
             Gizmos.DrawSphere(hitPosition, hitPointRadius);
         }
-    }
 #endif
+    }
 }

@@ -49,6 +49,6 @@ namespace Project.Scripts.Gameplay.WeaponSystems.AttackSystems.DebugSystems
             Gizmos.color = config.GizmosColor;
             Gizmos.DrawSphere(config.Offset, config.SphereRadius);
         }
-    }
 #endif
+    }
 }
